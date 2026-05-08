@@ -1,0 +1,41 @@
+[
+  {
+    "question": "Your question text here? (Be clear and specific)",
+    "options": [
+      {"id": "a", "text": "First option"},
+      {"id": "b", "text": "Second option (mark correct answer in correctAnswers array)"},
+      {"id": "c", "text": "Third option"},
+      {"id": "d", "text": "Fourth option"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Detailed explanation explaining why the correct answer is correct and why other options are incorrect. Reference official documentation when possible.",
+    "category": "Domain name from exam guide (e.g., 'Cloud Concepts', 'Security & Compliance', 'Cloud Technology', 'Billing & Pricing')",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Example: Which AWS service provides a fully managed NoSQL database?",
+    "options": [
+      {"id": "a", "text": "Amazon RDS"},
+      {"id": "b", "text": "Amazon DynamoDB"},
+      {"id": "c", "text": "Amazon Redshift"},
+      {"id": "d", "text": "Amazon Aurora"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. RDS and Aurora are relational databases (SQL), while Redshift is a data warehouse service.",
+    "category": "Cloud Technology",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Example: A company needs to implement a disaster recovery solution with an RTO of 1 hour and RPO of 15 minutes. Which AWS services combination would best meet these requirements?",
+    "options": [
+      {"id": "a", "text": "Amazon S3 with cross-region replication and AWS Backup"},
+      {"id": "b", "text": "AWS CloudFormation with Amazon RDS Multi-AZ"},
+      {"id": "c", "text": "AWS Elastic Disaster Recovery with continuous replication"},
+      {"id": "d", "text": "Amazon EBS snapshots with manual restoration"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "AWS Elastic Disaster Recovery (formerly CloudEndure) provides continuous replication and can meet aggressive RTO/RPO requirements. It continuously replicates your source servers to AWS and enables fast recovery. Option A doesn't meet the 1-hour RTO for full infrastructure. Option B is for high availability, not disaster recovery. Option D cannot meet the 15-minute RPO with manual snapshots.",
+    "category": "Resilient Architectures",
+    "difficulty": "HARD"
+  }
+]

@@ -1,0 +1,262 @@
+[
+  {
+    "question": "Which cloud deployment model allows an organization to use both on-premises infrastructure and cloud services?",
+    "options": [
+      {"id": "a", "text": "Public cloud"},
+      {"id": "b", "text": "Private cloud"},
+      {"id": "c", "text": "Hybrid cloud"},
+      {"id": "d", "text": "Community cloud"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "A hybrid cloud is a computing environment that combines a public cloud and a private cloud by allowing data and applications to be shared between them. This provides greater flexibility and more deployment options.",
+    "category": "Cloud Concepts",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the primary benefit of using Azure Resource Manager (ARM) templates?",
+    "options": [
+      {"id": "a", "text": "Reduced costs"},
+      {"id": "b", "text": "Infrastructure as Code deployment"},
+      {"id": "c", "text": "Faster network speeds"},
+      {"id": "d", "text": "Increased storage capacity"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "ARM templates enable Infrastructure as Code (IaC) by allowing you to define your infrastructure in a declarative JSON format. This ensures consistent, repeatable deployments and makes it easy to version control your infrastructure.",
+    "category": "Azure Management & Governance",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which Azure service provides a platform for hosting web applications?",
+    "options": [
+      {"id": "a", "text": "Azure Virtual Machines"},
+      {"id": "b", "text": "Azure App Service"},
+      {"id": "c", "text": "Azure Functions"},
+      {"id": "d", "text": "Azure Container Instances"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Azure App Service is a fully managed platform for building, deploying, and scaling web apps. It supports multiple programming languages and frameworks, and handles infrastructure management automatically.",
+    "category": "Azure Architecture & Services",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What does the term 'elasticity' mean in cloud computing?",
+    "options": [
+      {"id": "a", "text": "The ability to quickly expand or decrease resources"},
+      {"id": "b", "text": "The ability to recover from failures"},
+      {"id": "c", "text": "The ability to distribute workloads"},
+      {"id": "d", "text": "The ability to secure data"}
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Elasticity is the ability to quickly expand or decrease computer processing, memory, and storage resources to meet changing demands without worrying about capacity planning and engineering for peak usage.",
+    "category": "Cloud Concepts",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Which Azure service provides a NoSQL database?",
+    "options": [
+      {"id": "a", "text": "Azure SQL Database"},
+      {"id": "b", "text": "Azure Cosmos DB"},
+      {"id": "c", "text": "Azure Database for MySQL"},
+      {"id": "d", "text": "Azure Synapse Analytics"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Azure Cosmos DB is a globally distributed, multi-model NoSQL database service. It provides turnkey global distribution, elastic scaling of throughput and storage, and guarantees single-digit millisecond latencies at the 99th percentile.",
+    "category": "Azure Architecture & Services",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the purpose of Azure Active Directory (Azure AD)?",
+    "options": [
+      {"id": "a", "text": "Store files and documents"},
+      {"id": "b", "text": "Identity and access management"},
+      {"id": "c", "text": "Monitor application performance"},
+      {"id": "d", "text": "Manage virtual networks"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Azure Active Directory (Azure AD) is Microsoft's cloud-based identity and access management service. It helps employees sign in and access resources, including external resources like Microsoft 365, the Azure portal, and thousands of other SaaS applications.",
+    "category": "Azure Architecture & Services",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Which Azure service should you use to store unstructured data such as images and videos?",
+    "options": [
+      {"id": "a", "text": "Azure SQL Database"},
+      {"id": "b", "text": "Azure Blob Storage"},
+      {"id": "c", "text": "Azure Table Storage"},
+      {"id": "d", "text": "Azure Queue Storage"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Azure Blob Storage is optimized for storing massive amounts of unstructured data, such as text or binary data including images, videos, and documents. It's designed for serving images or documents directly to a browser, storing files for distributed access, and streaming video and audio.",
+    "category": "Azure Architecture & Services",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the Azure Service Level Agreement (SLA)?",
+    "options": [
+      {"id": "a", "text": "A pricing model"},
+      {"id": "b", "text": "A performance and uptime guarantee"},
+      {"id": "c", "text": "A security policy"},
+      {"id": "d", "text": "A deployment template"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "An Azure SLA is a formal commitment from Microsoft regarding the performance and uptime of Azure services. It specifies the service availability percentage and what happens if Microsoft fails to meet the SLA (typically service credits).",
+    "category": "Cloud Concepts",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which Azure service provides serverless compute capabilities?",
+    "options": [
+      {"id": "a", "text": "Azure Virtual Machines"},
+      {"id": "b", "text": "Azure Kubernetes Service"},
+      {"id": "c", "text": "Azure Functions"},
+      {"id": "d", "text": "Azure App Service"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "Azure Functions is a serverless compute service that lets you run event-triggered code without having to explicitly provision or manage infrastructure. You only pay for the compute time you consume, and Azure automatically scales your functions based on demand.",
+    "category": "Azure Architecture & Services",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the purpose of Azure Policy?",
+    "options": [
+      {"id": "a", "text": "Monitor application performance"},
+      {"id": "b", "text": "Enforce organizational standards and compliance"},
+      {"id": "c", "text": "Manage user identities"},
+      {"id": "d", "text": "Optimize costs"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Azure Policy helps enforce organizational standards and assess compliance at scale. It evaluates resources in Azure by comparing their properties to business rules defined as policy definitions, ensuring resources stay compliant with corporate standards.",
+    "category": "Azure Management & Governance",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which pricing model allows you to pay only for the resources you use?",
+    "options": [
+      {"id": "a", "text": "Capital Expenditure (CapEx)"},
+      {"id": "b", "text": "Operational Expenditure (OpEx)"},
+      {"id": "c", "text": "Fixed pricing"},
+      {"id": "d", "text": "Subscription-based"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Operational Expenditure (OpEx) is the pay-as-you-go model where you pay only for the resources you consume. This is the primary pricing model for cloud services, allowing you to avoid large upfront costs and pay for resources as you use them.",
+    "category": "Cloud Concepts",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is Azure Monitor used for?",
+    "options": [
+      {"id": "a", "text": "Deploying applications"},
+      {"id": "b", "text": "Collecting and analyzing telemetry data"},
+      {"id": "c", "text": "Managing user access"},
+      {"id": "d", "text": "Storing files"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Azure Monitor is a comprehensive solution for collecting, analyzing, and acting on telemetry from your cloud and on-premises environments. It helps you understand how your applications are performing and proactively identifies issues affecting them.",
+    "category": "Azure Management & Governance",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Which Azure service provides a content delivery network (CDN)?",
+    "options": [
+      {"id": "a", "text": "Azure Front Door"},
+      {"id": "b", "text": "Azure CDN"},
+      {"id": "c", "text": "Azure Traffic Manager"},
+      {"id": "d", "text": "Azure Load Balancer"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Azure CDN (Content Delivery Network) is a global CDN solution for delivering high-bandwidth content. It caches content at strategically placed physical nodes across the world to provide better performance and availability to users.",
+    "category": "Azure Architecture & Services",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the benefit of using Availability Zones in Azure?",
+    "options": [
+      {"id": "a", "text": "Lower costs"},
+      {"id": "b", "text": "High availability and fault tolerance"},
+      {"id": "c", "text": "Faster processing"},
+      {"id": "d", "text": "Increased storage"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Availability Zones are physically separate locations within an Azure region. Each zone is made up of one or more datacenters with independent power, cooling, and networking. Deploying resources across zones provides high availability and protects applications from datacenter failures.",
+    "category": "Azure Architecture & Services",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which Azure service helps you estimate the cost of Azure services?",
+    "options": [
+      {"id": "a", "text": "Azure Cost Management"},
+      {"id": "b", "text": "Azure Pricing Calculator"},
+      {"id": "c", "text": "Azure Advisor"},
+      {"id": "d", "text": "Azure Monitor"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The Azure Pricing Calculator helps you estimate the cost of Azure products and services. You can configure and estimate costs for Azure products based on your specific requirements before you deploy them.",
+    "category": "Azure Management & Governance",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the purpose of Azure Resource Groups?",
+    "options": [
+      {"id": "a", "text": "To organize and manage related Azure resources"},
+      {"id": "b", "text": "To increase performance"},
+      {"id": "c", "text": "To reduce costs"},
+      {"id": "d", "text": "To improve security"}
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "A resource group is a container that holds related resources for an Azure solution. It allows you to manage and organize resources as a single unit, apply policies, control access, and manage costs for related resources together.",
+    "category": "Azure Management & Governance",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Which Azure service provides managed Kubernetes orchestration?",
+    "options": [
+      {"id": "a", "text": "Azure Container Instances"},
+      {"id": "b", "text": "Azure Kubernetes Service (AKS)"},
+      {"id": "c", "text": "Azure App Service"},
+      {"id": "d", "text": "Azure Functions"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Azure Kubernetes Service (AKS) is a managed Kubernetes service that simplifies deploying and managing containerized applications. Azure handles critical tasks like health monitoring and maintenance, and you only pay for the agent nodes within your clusters.",
+    "category": "Azure Architecture & Services",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is the purpose of Azure Blueprints?",
+    "options": [
+      {"id": "a", "text": "To design network architectures"},
+      {"id": "b", "text": "To define a repeatable set of Azure resources and policies"},
+      {"id": "c", "text": "To monitor application performance"},
+      {"id": "d", "text": "To manage user identities"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Azure Blueprints enables cloud architects and IT groups to define a repeatable set of Azure resources that implements and adheres to an organization's standards, patterns, and requirements. It orchestrates the deployment of resource templates and other artifacts like role assignments and policy assignments.",
+    "category": "Azure Management & Governance",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which Azure service provides protection against Distributed Denial of Service (DDoS) attacks?",
+    "options": [
+      {"id": "a", "text": "Azure Firewall"},
+      {"id": "b", "text": "Azure DDoS Protection"},
+      {"id": "c", "text": "Azure Security Center"},
+      {"id": "d", "text": "Azure Sentinel"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Azure DDoS Protection provides enhanced DDoS mitigation features to defend against DDoS attacks. It's tuned specifically to Azure resources and integrated with Azure Monitor for analytics and insights. It provides always-on traffic monitoring and real-time mitigation of common network-level attacks.",
+    "category": "Azure Architecture & Services",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is the Azure Total Cost of Ownership (TCO) Calculator used for?",
+    "options": [
+      {"id": "a", "text": "To calculate current Azure spending"},
+      {"id": "b", "text": "To estimate cost savings by migrating to Azure"},
+      {"id": "c", "text": "To monitor resource usage"},
+      {"id": "d", "text": "To set spending limits"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The Azure TCO Calculator helps you estimate the cost savings you can realize by migrating your workloads to Azure. It compares the costs of running your current on-premises infrastructure versus running the same workloads on Azure, including factors like hardware, software, electricity, and labor costs.",
+    "category": "Azure Management & Governance",
+    "difficulty": "MEDIUM"
+  }
+]

@@ -1,0 +1,392 @@
+[
+  {
+    "question": "What is the primary benefit of cloud computing's scalability?",
+    "options": [
+      {"id": "a", "text": "Lower initial costs"},
+      {"id": "b", "text": "Ability to quickly adjust resources based on demand"},
+      {"id": "c", "text": "Improved security"},
+      {"id": "d", "text": "Faster processing speeds"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Scalability in cloud computing refers to the ability to quickly increase or decrease resources based on demand. This allows organizations to handle varying workloads efficiently without over-provisioning or under-provisioning resources.",
+    "category": "Digital Transformation with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Which Google Cloud service is best suited for storing unstructured data like images and videos?",
+    "options": [
+      {"id": "a", "text": "Cloud SQL"},
+      {"id": "b", "text": "Cloud Storage"},
+      {"id": "c", "text": "Cloud Spanner"},
+      {"id": "d", "text": "BigQuery"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Cloud Storage is Google Cloud's object storage service, designed for storing unstructured data such as images, videos, backups, and archives. It offers high durability, availability, and scalability for any amount of data.",
+    "category": "Exploring Data Transformation with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the difference between IaaS, PaaS, and SaaS?",
+    "options": [
+      {"id": "a", "text": "They are different pricing models"},
+      {"id": "b", "text": "They represent different levels of cloud service management and control"},
+      {"id": "c", "text": "They are different security protocols"},
+      {"id": "d", "text": "They are different deployment regions"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "IaaS (Infrastructure as a Service), PaaS (Platform as a Service), and SaaS (Software as a Service) represent different levels of cloud service models. IaaS provides infrastructure, PaaS provides a platform for development, and SaaS provides complete applications. Each offers different levels of management responsibility and control.",
+    "category": "Digital Transformation with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which Google Cloud service provides a fully managed relational database?",
+    "options": [
+      {"id": "a", "text": "Cloud Storage"},
+      {"id": "b", "text": "Cloud SQL"},
+      {"id": "c", "text": "Firestore"},
+      {"id": "d", "text": "Cloud Bigtable"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Cloud SQL is a fully managed relational database service that supports MySQL, PostgreSQL, and SQL Server. Google handles replication, patch management, and database management, allowing you to focus on your applications.",
+    "category": "Exploring Data Transformation with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is BigQuery primarily used for?",
+    "options": [
+      {"id": "a", "text": "Storing files and documents"},
+      {"id": "b", "text": "Running virtual machines"},
+      {"id": "c", "text": "Analyzing large datasets with SQL queries"},
+      {"id": "d", "text": "Managing user identities"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "BigQuery is Google Cloud's serverless, highly scalable data warehouse designed for analyzing large datasets using SQL queries. It can process petabytes of data quickly and is optimized for business intelligence and analytics workloads.",
+    "category": "Exploring Data Transformation with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the main advantage of using machine learning in business?",
+    "options": [
+      {"id": "a", "text": "Reduced hardware costs"},
+      {"id": "b", "text": "Ability to find patterns and make predictions from large datasets"},
+      {"id": "c", "text": "Faster internet speeds"},
+      {"id": "d", "text": "Improved physical security"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Machine learning enables businesses to analyze large amounts of data to find patterns, make predictions, and automate decision-making. This creates value by uncovering insights that would be impossible to find manually and scaling intelligent decisions across the organization.",
+    "category": "Innovating with Google Cloud Artificial Intelligence",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which Google Cloud AI service can be used to extract text from images?",
+    "options": [
+      {"id": "a", "text": "Natural Language API"},
+      {"id": "b", "text": "Vision API"},
+      {"id": "c", "text": "Speech-to-Text API"},
+      {"id": "d", "text": "Translation API"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The Vision API can detect and extract text from images using Optical Character Recognition (OCR). It can also identify objects, faces, and other content in images, making it useful for document processing and image analysis.",
+    "category": "Innovating with Google Cloud Artificial Intelligence",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the shared responsibility model in cloud computing?",
+    "options": [
+      {"id": "a", "text": "Cloud provider and customer share costs equally"},
+      {"id": "b", "text": "Cloud provider secures infrastructure, customer secures their data and applications"},
+      {"id": "c", "text": "All security is the cloud provider's responsibility"},
+      {"id": "d", "text": "All security is the customer's responsibility"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "In the shared responsibility model, the cloud provider is responsible for security OF the cloud (infrastructure, hardware, network), while customers are responsible for security IN the cloud (their data, applications, access management, and configurations).",
+    "category": "Trust and Security with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which Google Cloud service allows you to run containers without managing servers?",
+    "options": [
+      {"id": "a", "text": "Compute Engine"},
+      {"id": "b", "text": "Cloud Run"},
+      {"id": "c", "text": "App Engine"},
+      {"id": "d", "text": "Cloud Storage"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Cloud Run is a fully managed serverless platform that allows you to run containers without worrying about infrastructure management. It automatically scales your containers based on incoming requests and you only pay for the resources you use.",
+    "category": "Modernize Infrastructure and Applications with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the primary purpose of Google Kubernetes Engine (GKE)?",
+    "options": [
+      {"id": "a", "text": "Store and analyze data"},
+      {"id": "b", "text": "Manage and orchestrate containerized applications"},
+      {"id": "c", "text": "Provide DNS services"},
+      {"id": "d", "text": "Monitor application performance"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Google Kubernetes Engine (GKE) is a managed Kubernetes service that simplifies deploying, managing, and scaling containerized applications using Kubernetes. It automates many operational tasks like upgrades, node provisioning, and cluster management.",
+    "category": "Modernize Infrastructure and Applications with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the benefit of using Looker with BigQuery?",
+    "options": [
+      {"id": "a", "text": "Reduced storage costs"},
+      {"id": "b", "text": "Democratizing data access through self-service business intelligence"},
+      {"id": "c", "text": "Faster network speeds"},
+      {"id": "d", "text": "Improved physical security"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Looker democratizes access to data by empowering individuals to create their own reports and dashboards. When integrated with BigQuery, it allows users to analyze and visualize data in real-time, creating insights without requiring deep technical expertise.",
+    "category": "Exploring Data Transformation with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which storage class in Cloud Storage is most cost-effective for data accessed less than once a year?",
+    "options": [
+      {"id": "a", "text": "Standard"},
+      {"id": "b", "text": "Nearline"},
+      {"id": "c", "text": "Coldline"},
+      {"id": "d", "text": "Archive"}
+    ],
+    "correctAnswers": ["d"],
+    "explanation": "Archive storage is the most cost-effective option for data that is accessed less than once a year. It's designed for long-term data retention and archival purposes, offering the lowest storage cost but with higher access costs and retrieval times.",
+    "category": "Exploring Data Transformation with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is the purpose of Cloud Identity and Access Management (IAM)?",
+    "options": [
+      {"id": "a", "text": "Store files securely"},
+      {"id": "b", "text": "Control who has access to which resources"},
+      {"id": "c", "text": "Monitor application performance"},
+      {"id": "d", "text": "Analyze data"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Cloud IAM lets you manage access control by defining who (identity) has what access (role) to which resources. It provides fine-grained access control and follows the principle of least privilege to ensure users only have the permissions they need.",
+    "category": "Trust and Security with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the main benefit of using AutoML?",
+    "options": [
+      {"id": "a", "text": "Lower storage costs"},
+      {"id": "b", "text": "Creating custom ML models without extensive ML expertise"},
+      {"id": "c", "text": "Faster network speeds"},
+      {"id": "d", "text": "Improved database performance"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "AutoML enables organizations to create custom machine learning models using their own data without requiring extensive machine learning expertise. It automates the model training process, making ML accessible to a broader range of users.",
+    "category": "Innovating with Google Cloud Artificial Intelligence",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which Google Cloud service is best for real-time data streaming and processing?",
+    "options": [
+      {"id": "a", "text": "Cloud Storage"},
+      {"id": "b", "text": "Pub/Sub"},
+      {"id": "c", "text": "Cloud SQL"},
+      {"id": "d", "text": "Cloud Spanner"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Pub/Sub is a messaging service for real-time data streaming and event-driven systems. It enables asynchronous communication between applications and can handle millions of messages per second, making it ideal for streaming analytics and data pipelines.",
+    "category": "Exploring Data Transformation with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is the primary advantage of serverless computing?",
+    "options": [
+      {"id": "a", "text": "Complete control over infrastructure"},
+      {"id": "b", "text": "No need to manage servers, automatic scaling, pay only for usage"},
+      {"id": "c", "text": "Unlimited storage"},
+      {"id": "d", "text": "Faster processing speeds"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Serverless computing eliminates the need to manage servers, automatically scales based on demand, and charges only for actual usage. This allows developers to focus on code rather than infrastructure management, reducing operational overhead.",
+    "category": "Modernize Infrastructure and Applications with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is Anthos used for?",
+    "options": [
+      {"id": "a", "text": "Data analysis"},
+      {"id": "b", "text": "Managing hybrid and multi-cloud environments"},
+      {"id": "c", "text": "Storing files"},
+      {"id": "d", "text": "Running virtual machines"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Anthos is Google Cloud's platform for managing applications across hybrid and multi-cloud environments. It provides a single control plane for managing infrastructure and applications whether they run on Google Cloud, on-premises, or other cloud providers.",
+    "category": "Modernize Infrastructure and Applications with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is the difference between CapEx and OpEx in cloud computing?",
+    "options": [
+      {"id": "a", "text": "CapEx is upfront investment, OpEx is pay-as-you-go"},
+      {"id": "b", "text": "CapEx is monthly, OpEx is yearly"},
+      {"id": "c", "text": "They are the same thing"},
+      {"id": "d", "text": "CapEx is for software, OpEx is for hardware"}
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Capital Expenditure (CapEx) refers to upfront investments in physical infrastructure, while Operational Expenditure (OpEx) is the pay-as-you-go model where you pay for resources as you use them. Cloud computing shifts costs from CapEx to OpEx, reducing upfront investment.",
+    "category": "Digital Transformation with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which Google Cloud service provides DDoS protection?",
+    "options": [
+      {"id": "a", "text": "Cloud Storage"},
+      {"id": "b", "text": "Cloud Armor"},
+      {"id": "c", "text": "Cloud SQL"},
+      {"id": "d", "text": "BigQuery"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Cloud Armor provides DDoS (Distributed Denial of Service) protection and web application firewall (WAF) capabilities. It helps protect your applications from attacks by filtering malicious traffic at the edge of Google's network.",
+    "category": "Trust and Security with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is the purpose of Cloud Billing Reports?",
+    "options": [
+      {"id": "a", "text": "Monitor application performance"},
+      {"id": "b", "text": "Visualize and analyze cloud spending"},
+      {"id": "c", "text": "Store financial data"},
+      {"id": "d", "text": "Manage user access"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Cloud Billing Reports help you visualize and analyze your Google Cloud spending. They provide detailed breakdowns of costs by project, service, and other dimensions, helping you understand where money is being spent and identify optimization opportunities.",
+    "category": "Scaling with Google Cloud Operations",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the main benefit of using regions and zones in Google Cloud?",
+    "options": [
+      {"id": "a", "text": "Lower costs"},
+      {"id": "b", "text": "High availability and disaster recovery"},
+      {"id": "c", "text": "Faster processing"},
+      {"id": "d", "text": "More storage"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Regions and zones provide geographic distribution of resources for high availability and disaster recovery. By deploying resources across multiple zones or regions, you can protect your applications from failures and ensure business continuity.",
+    "category": "Digital Transformation with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which Google Cloud service is best for NoSQL document database needs?",
+    "options": [
+      {"id": "a", "text": "Cloud SQL"},
+      {"id": "b", "text": "Cloud Spanner"},
+      {"id": "c", "text": "Firestore"},
+      {"id": "d", "text": "BigQuery"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "Firestore is a flexible, scalable NoSQL document database for mobile, web, and server development. It offers real-time synchronization, offline support, and automatic scaling, making it ideal for applications that need to store and sync data across devices.",
+    "category": "Exploring Data Transformation with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the purpose of encryption in cloud security?",
+    "options": [
+      {"id": "a", "text": "Improve performance"},
+      {"id": "b", "text": "Protect data by converting it into unreadable format"},
+      {"id": "c", "text": "Reduce costs"},
+      {"id": "d", "text": "Increase storage capacity"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Encryption protects data by converting it into an unreadable format that can only be decrypted with the proper key. Google Cloud encrypts data at rest and in transit by default, protecting it from unauthorized access in different states.",
+    "category": "Trust and Security with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is Vertex AI used for?",
+    "options": [
+      {"id": "a", "text": "Storing data"},
+      {"id": "b", "text": "Building and deploying custom machine learning models"},
+      {"id": "c", "text": "Managing virtual machines"},
+      {"id": "d", "text": "Monitoring applications"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Vertex AI is Google Cloud's unified platform for building, deploying, and scaling machine learning models. It provides tools for the entire ML workflow, from data preparation to model training and deployment, enabling organizations to create custom AI solutions.",
+    "category": "Innovating with Google Cloud Artificial Intelligence",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is the main advantage of using microservices architecture?",
+    "options": [
+      {"id": "a", "text": "Lower costs"},
+      {"id": "b", "text": "Applications are broken into smaller, independent services that can be developed and scaled separately"},
+      {"id": "c", "text": "Faster network speeds"},
+      {"id": "d", "text": "More storage"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Microservices architecture breaks applications into smaller, independent services that can be developed, deployed, and scaled separately. This provides greater flexibility, easier maintenance, and the ability to use different technologies for different services.",
+    "category": "Modernize Infrastructure and Applications with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is data sovereignty?",
+    "options": [
+      {"id": "a", "text": "The speed of data transfer"},
+      {"id": "b", "text": "The requirement that data is subject to the laws of the country where it is stored"},
+      {"id": "c", "text": "The cost of storing data"},
+      {"id": "d", "text": "The format of data"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Data sovereignty refers to the concept that data is subject to the laws and regulations of the country where it is physically stored. Organizations may need to control where their data resides to comply with local regulations and data protection laws.",
+    "category": "Trust and Security with Google Cloud",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is the purpose of Cloud Functions?",
+    "options": [
+      {"id": "a", "text": "Store files"},
+      {"id": "b", "text": "Run event-driven code without managing servers"},
+      {"id": "c", "text": "Analyze data"},
+      {"id": "d", "text": "Manage databases"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Cloud Functions is a serverless execution environment for building and connecting cloud services. It allows you to run code in response to events without provisioning or managing servers, and you only pay for the compute time you consume.",
+    "category": "Modernize Infrastructure and Applications with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the main benefit of using APIs in modern applications?",
+    "options": [
+      {"id": "a", "text": "Lower storage costs"},
+      {"id": "b", "text": "Enable different applications and services to communicate and share data"},
+      {"id": "c", "text": "Faster processing speeds"},
+      {"id": "d", "text": "Improved physical security"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "APIs (Application Programming Interfaces) enable different applications and services to communicate and share data. They allow organizations to expose functionality, create new business opportunities, integrate with partners, and build ecosystems around their services.",
+    "category": "Modernize Infrastructure and Applications with Google Cloud",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is Google Cloud's commitment to sustainability?",
+    "options": [
+      {"id": "a", "text": "Using only renewable energy"},
+      {"id": "b", "text": "Operating carbon-neutral data centers and providing tools to help customers reduce environmental impact"},
+      {"id": "c", "text": "Reducing the number of data centers"},
+      {"id": "d", "text": "Limiting customer usage"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Google Cloud is committed to sustainability by operating carbon-neutral data centers, using renewable energy, and providing products and tools that help organizations meet their own sustainability goals and reduce their environmental impact.",
+    "category": "Scaling with Google Cloud Operations",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is the purpose of resource quotas in Google Cloud?",
+    "options": [
+      {"id": "a", "text": "Improve performance"},
+      {"id": "b", "text": "Control and limit resource consumption to prevent unexpected costs"},
+      {"id": "c", "text": "Increase storage capacity"},
+      {"id": "d", "text": "Speed up processing"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Resource quotas help control cloud consumption by setting limits on how many resources can be used. This prevents unexpected costs from runaway processes or misconfigurations and helps organizations maintain predictable spending.",
+    "category": "Scaling with Google Cloud Operations",
+    "difficulty": "MEDIUM"
+  }
+]

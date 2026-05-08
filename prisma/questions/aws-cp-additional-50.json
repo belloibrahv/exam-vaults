@@ -1,0 +1,262 @@
+[
+  {
+    "question": "A company wants to migrate its on-premises application to AWS. Which AWS service provides recommendations for cost optimization, security, and performance?",
+    "options": [
+      {"id": "a", "text": "AWS CloudTrail"},
+      {"id": "b", "text": "AWS Trusted Advisor"},
+      {"id": "c", "text": "AWS Config"},
+      {"id": "d", "text": "AWS Systems Manager"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "AWS Trusted Advisor provides real-time guidance to help provision resources following AWS best practices. It inspects your AWS environment and makes recommendations for cost optimization, security, fault tolerance, performance, and service limits.",
+    "category": "Cloud Concepts",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Which AWS service allows you to run code without provisioning or managing servers?",
+    "options": [
+      {"id": "a", "text": "Amazon EC2"},
+      {"id": "b", "text": "AWS Lambda"},
+      {"id": "c", "text": "Amazon ECS"},
+      {"id": "d", "text": "AWS Elastic Beanstalk"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "AWS Lambda is a serverless compute service that runs your code in response to events and automatically manages the underlying compute resources. You don't need to provision or manage servers.",
+    "category": "Cloud Technology",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the AWS shared responsibility model?",
+    "options": [
+      {"id": "a", "text": "AWS is responsible for everything in the cloud"},
+      {"id": "b", "text": "Customers are responsible for everything in the cloud"},
+      {"id": "c", "text": "AWS is responsible for security OF the cloud, customers are responsible for security IN the cloud"},
+      {"id": "d", "text": "AWS and customers share equal responsibility for all aspects"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "In the AWS shared responsibility model, AWS is responsible for security OF the cloud (infrastructure, hardware, software, networking, and facilities). Customers are responsible for security IN the cloud (customer data, platform applications, identity and access management, operating system, network and firewall configuration).",
+    "category": "Security & Compliance",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which AWS service provides a managed relational database?",
+    "options": [
+      {"id": "a", "text": "Amazon DynamoDB"},
+      {"id": "b", "text": "Amazon RDS"},
+      {"id": "c", "text": "Amazon Redshift"},
+      {"id": "d", "text": "Amazon ElastiCache"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Amazon RDS (Relational Database Service) is a managed service that makes it easy to set up, operate, and scale a relational database in the cloud. It supports multiple database engines including MySQL, PostgreSQL, Oracle, SQL Server, and MariaDB.",
+    "category": "Cloud Technology",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "A company needs to store data that is infrequently accessed but must be immediately available when needed. Which Amazon S3 storage class is most cost-effective?",
+    "options": [
+      {"id": "a", "text": "S3 Standard"},
+      {"id": "b", "text": "S3 Intelligent-Tiering"},
+      {"id": "c", "text": "S3 Standard-IA"},
+      {"id": "d", "text": "S3 Glacier"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "S3 Standard-IA (Infrequent Access) is designed for data that is accessed less frequently but requires rapid access when needed. It offers lower storage costs than S3 Standard while maintaining the same performance and availability.",
+    "category": "Cloud Technology",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which AWS service can be used to track user activity and API usage across AWS accounts?",
+    "options": [
+      {"id": "a", "text": "AWS CloudWatch"},
+      {"id": "b", "text": "AWS CloudTrail"},
+      {"id": "c", "text": "AWS Config"},
+      {"id": "d", "text": "AWS X-Ray"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "AWS CloudTrail is a service that enables governance, compliance, operational auditing, and risk auditing of your AWS account. It logs, continuously monitors, and retains account activity related to actions across your AWS infrastructure.",
+    "category": "Security & Compliance",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the primary benefit of using AWS Regions?",
+    "options": [
+      {"id": "a", "text": "Lower costs"},
+      {"id": "b", "text": "Geographic redundancy and compliance"},
+      {"id": "c", "text": "Faster processing"},
+      {"id": "d", "text": "Unlimited storage"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "AWS Regions are separate geographic areas that allow you to place resources and data in multiple locations. This provides geographic redundancy for disaster recovery and helps meet data residency and compliance requirements.",
+    "category": "Cloud Concepts",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Which AWS service provides a virtual network that you can define and control?",
+    "options": [
+      {"id": "a", "text": "Amazon VPC"},
+      {"id": "b", "text": "AWS Direct Connect"},
+      {"id": "c", "text": "Amazon Route 53"},
+      {"id": "d", "text": "AWS Transit Gateway"}
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Amazon VPC (Virtual Private Cloud) lets you provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment.",
+    "category": "Cloud Technology",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "A company wants to implement a disaster recovery solution with minimal cost. Which approach should they use?",
+    "options": [
+      {"id": "a", "text": "Multi-site active-active"},
+      {"id": "b", "text": "Warm standby"},
+      {"id": "c", "text": "Pilot light"},
+      {"id": "d", "text": "Backup and restore"}
+    ],
+    "correctAnswers": ["d"],
+    "explanation": "Backup and restore is the most cost-effective disaster recovery approach. Data is backed up to AWS and restored when needed. While it has the longest recovery time, it has the lowest cost since you only pay for storage and don't maintain running resources.",
+    "category": "Cloud Concepts",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which AWS service can automatically distribute incoming application traffic across multiple targets?",
+    "options": [
+      {"id": "a", "text": "Amazon CloudFront"},
+      {"id": "b", "text": "AWS Auto Scaling"},
+      {"id": "c", "text": "Elastic Load Balancing"},
+      {"id": "d", "text": "Amazon Route 53"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "Elastic Load Balancing (ELB) automatically distributes incoming application traffic across multiple targets, such as EC2 instances, containers, and IP addresses, in one or more Availability Zones. It increases the availability and fault tolerance of your applications.",
+    "category": "Cloud Technology",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the most cost-effective way to purchase Amazon EC2 instances for a workload that runs continuously for a year?",
+    "options": [
+      {"id": "a", "text": "On-Demand Instances"},
+      {"id": "b", "text": "Spot Instances"},
+      {"id": "c", "text": "Reserved Instances"},
+      {"id": "d", "text": "Dedicated Hosts"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "Reserved Instances provide a significant discount (up to 75%) compared to On-Demand pricing when you commit to using EC2 instances for a 1 or 3-year term. They are ideal for steady-state workloads with predictable usage.",
+    "category": "Billing & Pricing",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which AWS service provides a fully managed message queuing service?",
+    "options": [
+      {"id": "a", "text": "Amazon SNS"},
+      {"id": "b", "text": "Amazon SQS"},
+      {"id": "c", "text": "Amazon Kinesis"},
+      {"id": "d", "text": "AWS Step Functions"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Amazon SQS (Simple Queue Service) is a fully managed message queuing service that enables you to decouple and scale microservices, distributed systems, and serverless applications. It eliminates the complexity and overhead of managing message-oriented middleware.",
+    "category": "Cloud Technology",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What does the principle of least privilege mean in AWS IAM?",
+    "options": [
+      {"id": "a", "text": "Give all users administrator access"},
+      {"id": "b", "text": "Grant only the minimum permissions required to perform a task"},
+      {"id": "c", "text": "Remove all permissions from users"},
+      {"id": "d", "text": "Share passwords among team members"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The principle of least privilege is a security best practice that means granting users only the minimum permissions necessary to perform their job functions. This reduces security risks and potential damage from accidents or malicious actions.",
+    "category": "Security & Compliance",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Which AWS service provides DNS services?",
+    "options": [
+      {"id": "a", "text": "Amazon CloudFront"},
+      {"id": "b", "text": "AWS Direct Connect"},
+      {"id": "c", "text": "Amazon Route 53"},
+      {"id": "d", "text": "Amazon VPC"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service. It routes end users to Internet applications by translating domain names into IP addresses.",
+    "category": "Cloud Technology",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "A company needs to analyze large amounts of data stored in Amazon S3. Which AWS service should they use?",
+    "options": [
+      {"id": "a", "text": "Amazon RDS"},
+      {"id": "b", "text": "Amazon Athena"},
+      {"id": "c", "text": "Amazon DynamoDB"},
+      {"id": "d", "text": "Amazon ElastiCache"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Amazon Athena is an interactive query service that makes it easy to analyze data directly in Amazon S3 using standard SQL. You don't need to set up or manage any infrastructure, and you pay only for the queries you run.",
+    "category": "Cloud Technology",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which AWS service can help you optimize costs by identifying idle and underutilized resources?",
+    "options": [
+      {"id": "a", "text": "AWS Cost Explorer"},
+      {"id": "b", "text": "AWS Budgets"},
+      {"id": "c", "text": "AWS Trusted Advisor"},
+      {"id": "d", "text": "AWS Cost and Usage Report"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "AWS Trusted Advisor provides recommendations to help optimize your AWS infrastructure, including identifying idle and underutilized resources. It checks for cost optimization opportunities such as idle RDS instances, underutilized EBS volumes, and unassociated Elastic IP addresses.",
+    "category": "Billing & Pricing",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "What is Amazon CloudWatch used for?",
+    "options": [
+      {"id": "a", "text": "Monitoring and observability"},
+      {"id": "b", "text": "Content delivery"},
+      {"id": "c", "text": "Database management"},
+      {"id": "d", "text": "Identity and access management"}
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Amazon CloudWatch is a monitoring and observability service that provides data and actionable insights for AWS resources and applications. It collects monitoring and operational data in the form of logs, metrics, and events.",
+    "category": "Cloud Technology",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "Which AWS service provides a scalable data warehouse solution?",
+    "options": [
+      {"id": "a", "text": "Amazon RDS"},
+      {"id": "b", "text": "Amazon DynamoDB"},
+      {"id": "c", "text": "Amazon Redshift"},
+      {"id": "d", "text": "Amazon Aurora"}
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "Amazon Redshift is a fast, fully managed data warehouse that makes it simple and cost-effective to analyze all your data using standard SQL and existing Business Intelligence tools. It's optimized for datasets ranging from a few hundred gigabytes to a petabyte or more.",
+    "category": "Cloud Technology",
+    "difficulty": "EASY"
+  },
+  {
+    "question": "What is the benefit of using AWS Organizations?",
+    "options": [
+      {"id": "a", "text": "Centrally manage multiple AWS accounts"},
+      {"id": "b", "text": "Increase compute capacity"},
+      {"id": "c", "text": "Improve network performance"},
+      {"id": "d", "text": "Reduce storage costs"}
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "AWS Organizations helps you centrally manage and govern your environment as you grow and scale your AWS resources. You can create groups of accounts, apply policies for governance, and consolidate billing across multiple accounts.",
+    "category": "Cloud Concepts",
+    "difficulty": "MEDIUM"
+  },
+  {
+    "question": "Which AWS service provides temporary security credentials for users?",
+    "options": [
+      {"id": "a", "text": "AWS IAM"},
+      {"id": "b", "text": "AWS STS"},
+      {"id": "c", "text": "AWS KMS"},
+      {"id": "d", "text": "AWS Secrets Manager"}
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "AWS Security Token Service (STS) enables you to request temporary, limited-privilege credentials for IAM users or federated users. These credentials consist of an access key ID, a secret access key, and a security token that expires after a specified period.",
+    "category": "Security & Compliance",
+    "difficulty": "MEDIUM"
+  }
+]

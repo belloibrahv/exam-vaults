@@ -148,8 +148,8 @@ model Question {
   certificationId String
   certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
   
-  domainId        String
-  domain          Domain   @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  domainId        String?
+  domain          Domain?   @relation(fields: [domainId], references: [id], onDelete: Cascade)
   
   difficulty      Difficulty @default(MEDIUM)
   questionType    QuestionType @default(SINGLE_CHOICE)
@@ -158,7 +158,7 @@ model Question {
   references      Json?    // Array of documentation links
   
   // Legacy category field for backward compatibility (will be deprecated)
-  category        Category?
+  category        String?
   
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
