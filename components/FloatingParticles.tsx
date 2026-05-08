@@ -30,31 +30,30 @@ export default function FloatingParticles() {
       speedY: number;
       opacity: number;
 
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+      constructor(canvasWidth: number, canvasHeight: number) {
+        this.x = Math.random() * canvasWidth;
+        this.y = Math.random() * canvasHeight;
         this.size = Math.random() * 3 + 1;
         this.speedX = Math.random() * 0.5 - 0.25;
         this.speedY = Math.random() * 0.5 - 0.25;
         this.opacity = Math.random() * 0.5 + 0.2;
       }
 
-      update() {
+      update(canvasWidth: number, canvasHeight: number) {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        if (this.x > canvas.width) this.x = 0;
-        if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        if (this.y < 0) this.y = canvas.height;
+        if (this.x > canvasWidth) this.x = 0;
+        if (this.x < 0) this.x = canvasWidth;
+        if (this.y > canvasHeight) this.y = 0;
+        if (this.y < 0) this.y = canvasHeight;
       }
 
-      draw() {
-        if (!ctx) return;
-        ctx.fillStyle = `rgba(188, 0, 4, ${this.opacity})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+      draw(context: CanvasRenderingContext2D) {
+        context.fillStyle = `rgba(188, 0, 4, ${this.opacity})`;
+        context.beginPath();
+        context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        context.fill();
       }
     }
 
@@ -63,7 +62,7 @@ export default function FloatingParticles() {
     const particleCount = 50;
 
     for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
+      particles.push(new Particle(canvas.width, canvas.height));
     }
 
     // Animation loop
@@ -72,8 +71,8 @@ export default function FloatingParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((particle) => {
-        particle.update();
-        particle.draw();
+        particle.update(canvas.width, canvas.height);
+        particle.draw(ctx);
       });
 
       requestAnimationFrame(animate);
