@@ -16,28 +16,44 @@ function isQuestionOption(value: unknown): value is { id: string; text: string }
   );
 }
 
-function getCertificationId(value: unknown): string | null {
-  if (
-    typeof value === 'object' &&
-    value !== null &&
-    'certificationId' in value &&
-    typeof value.certificationId === 'string'
-  ) {
-    return value.certificationId;
-  }
-
-  return null;
-}
-
-export default async function StartExamPage() {
+export default async function StartExamPage({
+  searchParams,
+}: {
+  searchParams: { certificationId?: string };
+}) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
     redirect('/auth/signin');
   }
 
-  // Normalize Prisma JSON fields into the UI shape expected by the client component.
-  const allQuestions = (await prisma.question.findMany()).map((q) => ({
+  const certificationId = searchParams.certificationId;
+
+  if (!certificationId) {
+    redirect('/dashboard');
+  }
+
+  // Fetch the certification details
+  const certification = await prisma.certification.findUnique({
+    where: { id: certificationId },
+    include: {
+      provider: true,
+      level: true,
+    },
+  });
+
+  if (!certification) {
+    redirect('/dashboard');
+  }
+
+  // Fetch questions for this certification
+  const allQuestions = (
+    await prisma.question.findMany({
+      where: {
+        certificationId: certificationId,
+      },
+    })
+  ).map((q) => ({
     id: q.id,
     question: q.question,
     options: shuffleArray(Array.isArray(q.options) ? q.options.filter(isQuestionOption) : []),
@@ -47,21 +63,19 @@ export default async function StartExamPage() {
     explanation: q.explanation,
     category: typeof q.category === 'string' ? q.category : 'UNCATEGORIZED',
     difficulty: String(q.difficulty),
-    certificationId: getCertificationId(q),
+    certificationId: q.certificationId,
   }));
 
   if (allQuestions.length === 0) {
-    throw new Error('No questions are available for this exam.');
+    throw new Error(`No questions are available for ${certification.name}. Questions are being added soon.`);
   }
 
-  // Check if user can take exam
+  // Check if user can take exam (2-hour cooldown after failed attempt)
   const lastAttempt = await prisma.examAttempt.findFirst({
     where: {
       userId: session.user.id,
-      ...(allQuestions[0].certificationId
-        ? { certificationId: allQuestions[0].certificationId }
-        : {}),
-    } as Record<string, string>,
+      certificationId: certificationId,
+    },
     orderBy: {
       startedAt: 'desc',
     },
@@ -76,26 +90,27 @@ export default async function StartExamPage() {
     }
   }
 
-  // Randomly select 55 questions (typical GCDL exam size)
-  const questionsWithShuffledOptions = shuffleArray(allQuestions).slice(0, 55);
+  // Determine exam size based on certification level
+  const examSize = certification.level.name === 'Foundational' ? 50 : 
+                   certification.level.name === 'Associate' ? 60 :
+                   certification.level.name === 'Professional' ? 75 : 90;
+
+  // Randomly select questions (or all if less than exam size)
+  const selectedQuestions = shuffleArray(allQuestions).slice(0, Math.min(examSize, allQuestions.length));
 
   // Create exam attempt
-  const examAttemptData = {
-    userId: session.user.id,
-    totalQuestions: questionsWithShuffledOptions.length,
-    ...(allQuestions[0].certificationId
-      ? { certificationId: allQuestions[0].certificationId }
-      : {}),
-  };
-
   const examAttempt = await prisma.examAttempt.create({
-    data: examAttemptData as never,
+    data: {
+      userId: session.user.id,
+      certificationId: certificationId,
+      totalQuestions: selectedQuestions.length,
+    },
   });
 
   return (
     <ExamInterface
       examAttemptId={examAttempt.id}
-      questions={questionsWithShuffledOptions}
+      questions={selectedQuestions}
       userId={session.user.id}
     />
   );

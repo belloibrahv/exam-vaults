@@ -11,10 +11,57 @@ export default async function DashboardPage() {
     redirect('/auth/signin');
   }
 
-  // Fetch user's exam attempts
+  // Fetch all providers with their certifications
+  const providers = await prisma.provider.findMany({
+    include: {
+      certifications: {
+        include: {
+          level: true,
+          _count: {
+            select: {
+              questions: true,
+            },
+          },
+        },
+        orderBy: {
+          level: {
+            order: 'asc',
+          },
+        },
+      },
+    },
+    orderBy: {
+      name: 'asc',
+    },
+  });
+
+  // Fetch user's progress for all certifications
+  const userProgress = await prisma.userProgress.findMany({
+    where: {
+      userId: session.user.id,
+    },
+    include: {
+      certification: {
+        include: {
+          level: true,
+          provider: true,
+        },
+      },
+    },
+  });
+
+  // Fetch user's recent exam attempts across all certifications
   const examAttempts = await prisma.examAttempt.findMany({
     where: {
       userId: session.user.id,
+    },
+    include: {
+      certification: {
+        include: {
+          level: true,
+          provider: true,
+        },
+      },
     },
     orderBy: {
       startedAt: 'desc',
@@ -22,10 +69,7 @@ export default async function DashboardPage() {
     take: 10,
   });
 
-  // Get total questions count
-  const totalQuestions = await prisma.question.count();
-
-  // Calculate statistics
+  // Calculate overall statistics
   const completedAttempts = examAttempts.filter((a) => a.completedAt);
   const passedAttempts = completedAttempts.filter((a) => a.passed);
   const averageScore =
@@ -33,29 +77,14 @@ export default async function DashboardPage() {
       ? completedAttempts.reduce((sum, a) => sum + (a.score || 0), 0) / completedAttempts.length
       : 0;
 
-  // Check if user can take exam
-  const lastAttempt = examAttempts[0];
-  let canTakeExam = true;
-  let retakeMessage = '';
-  let timeRemaining = '';
-
-  if (lastAttempt && lastAttempt.completedAt && !lastAttempt.passed) {
-    const now = new Date();
-    const twoHoursLater = new Date(lastAttempt.completedAt.getTime() + 2 * 60 * 60 * 1000);
-
-    if (now < twoHoursLater) {
-      canTakeExam = false;
-      const diff = twoHoursLater.getTime() - now.getTime();
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      timeRemaining = `${hours}h ${minutes}m`;
-      retakeMessage = 'You must wait 2 hours before retaking the exam after a failed attempt.';
-    }
-  }
+  // Get total questions count across all certifications
+  const totalQuestions = await prisma.question.count();
 
   return (
     <DashboardClient
       user={session.user}
+      providers={providers}
+      userProgress={userProgress}
       examAttempts={examAttempts}
       stats={{
         totalAttempts: examAttempts.length,
@@ -63,10 +92,8 @@ export default async function DashboardPage() {
         passedAttempts: passedAttempts.length,
         averageScore: Math.round(averageScore),
         totalQuestions,
+        totalCertifications: providers.reduce((sum, p) => sum + p.certifications.length, 0),
       }}
-      canTakeExam={canTakeExam}
-      retakeMessage={retakeMessage}
-      timeRemaining={timeRemaining}
     />
   );
 }
