@@ -141,19 +141,9 @@ export default function SignInPage() {
             .to(formRef.current, { x: 0, duration: 0.1 });
         }
       } else {
-        // Success animation
-        if (formRef.current) {
-          gsap.to(formRef.current, {
-            scale: 0.95,
-            opacity: 0,
-            duration: 0.3,
-            ease: 'power2.in',
-            onComplete: () => {
-              router.push('/dashboard');
-              router.refresh();
-            },
-          });
-        }
+        // Success - redirect immediately without fade animation
+        router.push('/dashboard');
+        router.refresh();
       }
     } catch (error) {
       setError('Something went wrong. Please try again.');
