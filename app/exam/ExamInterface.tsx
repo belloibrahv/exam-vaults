@@ -137,29 +137,29 @@ export default function ExamInterface({
     <div className="min-h-screen bg-techvaults-gray-50 flex flex-col">
       {/* Header */}
       <header className="bg-white border-b border-techvaults-gray-200 sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4 py-3">
+        <div className="container mx-auto px-3 md:px-4 py-2 md:py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <TechvaultsLogo size={32} />
-              <div>
-                <h1 className="text-lg font-bold text-techvaults-black">
+            <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
+              <TechvaultsLogo size={28} className="flex-shrink-0 md:w-8 md:h-8" />
+              <div className="min-w-0">
+                <h1 className="text-sm md:text-lg font-bold text-techvaults-black truncate">
                   GCDL Practice Exam
                 </h1>
                 <p className="text-xs text-techvaults-gray-600">
-                  Question {currentQuestionIndex + 1} of {questions.length}
+                  {currentQuestionIndex + 1}/{questions.length}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 md:gap-6 flex-shrink-0">
+              <div className="flex items-center gap-1 md:gap-2">
                 <Clock
-                  className={`w-5 h-5 ${
+                  className={`w-4 h-4 md:w-5 md:h-5 ${
                     timeRemaining < 600 ? 'text-techvaults-red' : 'text-techvaults-gray-600'
                   }`}
                 />
                 <span
-                  className={`text-lg font-bold ${
+                  className={`text-sm md:text-lg font-bold ${
                     timeRemaining < 600 ? 'text-techvaults-red' : 'text-techvaults-black'
                   }`}
                 >
@@ -169,42 +169,43 @@ export default function ExamInterface({
 
               <button
                 onClick={() => setShowSubmitConfirm(true)}
-                className="px-6 py-2 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-all"
+                className="px-3 py-1.5 md:px-6 md:py-2 bg-techvaults-red text-white rounded-lg text-sm md:text-base font-semibold hover:bg-red-700 transition-all active:scale-95"
               >
-                Submit Exam
+                <span className="hidden sm:inline">Submit Exam</span>
+                <span className="sm:hidden">Submit</span>
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="flex-1 container mx-auto px-4 py-6 flex gap-6">
+      <div className="flex-1 container mx-auto px-3 md:px-4 py-3 md:py-6 flex flex-col lg:flex-row gap-4 md:gap-6">
         {/* Main Question Area */}
-        <div className="flex-1 bg-white rounded-xl shadow-lg p-8 border border-techvaults-gray-200">
+        <div className="flex-1 bg-white rounded-xl shadow-lg p-4 md:p-6 lg:p-8 border border-techvaults-gray-200">
           {/* Question */}
-          <div className="mb-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="px-3 py-1 bg-techvaults-red/10 text-techvaults-red text-xs font-semibold rounded-full">
+          <div className="mb-4 md:mb-6">
+            <div className="flex items-start justify-between mb-3 md:mb-4">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <span className="px-2 md:px-3 py-1 bg-techvaults-red/10 text-techvaults-red text-xs font-semibold rounded-full">
                     {currentQuestion.category.replace(/_/g, ' ')}
                   </span>
                   {isMultipleSelect && (
-                    <span className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full">
+                    <span className="px-2 md:px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full">
                       Multiple Select
                     </span>
                   )}
                 </div>
-                <h2 className="text-xl font-semibold text-techvaults-black leading-relaxed">
+                <h2 className="text-base md:text-xl font-semibold text-techvaults-black leading-relaxed">
                   {currentQuestion.question}
                 </h2>
               </div>
               <button
                 onClick={toggleFlag}
-                className={`ml-4 p-2 rounded-lg transition-all ${
+                className={`ml-2 md:ml-4 p-2 rounded-lg transition-all flex-shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center ${
                   flagged.has(currentQuestionIndex)
                     ? 'bg-yellow-50 text-yellow-600'
-                    : 'text-techvaults-gray-400 hover:bg-techvaults-gray-100'
+                    : 'text-techvaults-gray-400 hover:bg-techvaults-gray-100 active:bg-techvaults-gray-200'
                 }`}
                 title="Flag for review"
               >
@@ -213,27 +214,27 @@ export default function ExamInterface({
             </div>
 
             {isMultipleSelect && (
-              <p className="text-sm text-techvaults-gray-600 mb-4">
+              <p className="text-sm text-techvaults-gray-600 mb-3 md:mb-4">
                 Select all that apply
               </p>
             )}
           </div>
 
           {/* Options */}
-          <div className="space-y-3 mb-8">
+          <div className="space-y-2 md:space-y-3 mb-6 md:mb-8">
             {currentQuestion.options.map((option) => {
               const isSelected = (answers[currentQuestionIndex] || []).includes(option.id);
               return (
                 <button
                   key={option.id}
                   onClick={() => handleAnswerSelect(option.id)}
-                  className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
+                  className={`w-full text-left p-3 md:p-4 rounded-lg border-2 transition-all min-h-[56px] active:scale-[0.98] ${
                     isSelected
                       ? 'border-techvaults-red bg-techvaults-red/5'
-                      : 'border-techvaults-gray-200 hover:border-techvaults-gray-300 bg-white'
+                      : 'border-techvaults-gray-200 hover:border-techvaults-gray-300 active:border-techvaults-gray-400 bg-white'
                   }`}
                 >
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-start gap-2 md:gap-3">
                     <div
                       className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center mt-0.5 ${
                         isSelected
@@ -243,11 +244,11 @@ export default function ExamInterface({
                     >
                       {isSelected && <CheckCircle className="w-4 h-4 text-white" />}
                     </div>
-                    <div className="flex-1">
-                      <span className="font-semibold text-techvaults-gray-700 mr-2">
+                    <div className="flex-1 min-w-0">
+                      <span className="font-semibold text-techvaults-gray-700 mr-2 text-sm md:text-base">
                         {option.id.toUpperCase()}.
                       </span>
-                      <span className="text-techvaults-gray-900">{option.text}</span>
+                      <span className="text-techvaults-gray-900 text-sm md:text-base">{option.text}</span>
                     </div>
                   </div>
                 </button>
@@ -256,29 +257,30 @@ export default function ExamInterface({
           </div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-between pt-6 border-t border-techvaults-gray-200">
+          <div className="flex items-center justify-between pt-4 md:pt-6 border-t border-techvaults-gray-200 gap-2">
             <button
               onClick={() => goToQuestion(currentQuestionIndex - 1)}
               disabled={currentQuestionIndex === 0}
-              className="flex items-center gap-2 px-4 py-2 border-2 border-techvaults-gray-300 text-techvaults-gray-700 rounded-lg font-semibold hover:border-techvaults-gray-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2.5 md:py-2 border-2 border-techvaults-gray-300 text-techvaults-gray-700 rounded-lg text-sm md:text-base font-semibold hover:border-techvaults-gray-400 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
             >
-              <ChevronLeft className="w-5 h-5" />
-              Previous
+              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="hidden sm:inline">Previous</span>
+              <span className="sm:hidden">Prev</span>
             </button>
 
             <button
               onClick={() => goToQuestion(currentQuestionIndex + 1)}
               disabled={currentQuestionIndex === questions.length - 1}
-              className="flex items-center gap-2 px-4 py-2 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2.5 md:py-2 bg-techvaults-red text-white rounded-lg text-sm md:text-base font-semibold hover:bg-red-700 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
             >
-              Next
-              <ChevronRight className="w-5 h-5" />
+              <span>Next</span>
+              <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
             </button>
           </div>
         </div>
 
-        {/* Question Navigator Sidebar */}
-        <div className="w-80 bg-white rounded-xl shadow-lg p-6 border border-techvaults-gray-200 h-fit sticky top-24">
+        {/* Question Navigator Sidebar - Hidden on mobile, shown on large screens */}
+        <div className="hidden lg:block w-80 bg-white rounded-xl shadow-lg p-6 border border-techvaults-gray-200 h-fit sticky top-24">
           <h3 className="text-lg font-bold text-techvaults-black mb-4">Question Navigator</h3>
 
           <div className="space-y-4 mb-6">
@@ -326,16 +328,39 @@ export default function ExamInterface({
             })}
           </div>
         </div>
+
+        {/* Mobile Question Navigator - Bottom Sheet */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-techvaults-gray-200 p-3 shadow-lg z-40">
+          <div className="flex items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 bg-green-50 border-2 border-green-200 rounded"></div>
+                <span className="text-techvaults-gray-600">{answeredCount}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 bg-techvaults-gray-100 border-2 border-techvaults-gray-200 rounded"></div>
+                <span className="text-techvaults-gray-600">{unansweredCount}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Flag className="w-3 h-3 text-yellow-500" fill="currentColor" />
+                <span className="text-techvaults-gray-600">{flagged.size}</span>
+              </div>
+            </div>
+            <div className="text-techvaults-gray-600 font-semibold">
+              {currentQuestionIndex + 1} / {questions.length}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Submit Confirmation Modal */}
       {showSubmitConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
-            <h3 className="text-2xl font-bold text-techvaults-black mb-4">Submit Exam?</h3>
+          <div className="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full shadow-2xl">
+            <h3 className="text-xl md:text-2xl font-bold text-techvaults-black mb-4">Submit Exam?</h3>
             
             {unansweredCount > 0 && (
-              <div className="flex items-start gap-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg mb-4">
+              <div className="flex items-start gap-3 p-3 md:p-4 bg-yellow-50 border border-yellow-200 rounded-lg mb-4">
                 <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-semibold text-yellow-800">
@@ -348,23 +373,23 @@ export default function ExamInterface({
               </div>
             )}
 
-            <p className="text-techvaults-gray-600 mb-6">
+            <p className="text-sm md:text-base text-techvaults-gray-600 mb-6">
               Are you sure you want to submit your exam? You won't be able to change your answers
               after submission.
             </p>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <button
                 onClick={() => setShowSubmitConfirm(false)}
                 disabled={submitting}
-                className="flex-1 px-6 py-3 border-2 border-techvaults-gray-300 text-techvaults-gray-700 rounded-lg font-semibold hover:border-techvaults-gray-400 transition-all disabled:opacity-50"
+                className="flex-1 px-4 md:px-6 py-3 border-2 border-techvaults-gray-300 text-techvaults-gray-700 rounded-lg font-semibold hover:border-techvaults-gray-400 active:scale-95 transition-all disabled:opacity-50 min-h-[48px]"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="flex-1 px-6 py-3 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-all disabled:opacity-50"
+                className="flex-1 px-4 md:px-6 py-3 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 active:scale-95 transition-all disabled:opacity-50 min-h-[48px]"
               >
                 {submitting ? 'Submitting...' : 'Submit'}
               </button>

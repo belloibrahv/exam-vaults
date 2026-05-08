@@ -42,11 +42,11 @@ export default async function HomePage() {
 
         {/* Header */}
         <header className="border-b border-techvaults-gray-200/50 bg-white/80 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
-          <div className="container mx-auto px-4 lg:px-8 py-4 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <TechvaultsLogo size={45} variant="full" />
+          <div className="container mx-auto px-3 md:px-4 lg:px-8 py-3 md:py-4 flex items-center justify-between gap-2">
+            <Link href="/" className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity">
+              <TechvaultsLogo size={36} className="md:w-11 md:h-11" variant="full" />
             </Link>
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden md:flex items-center gap-6 lg:gap-8">
               <Link href="/providers" className="text-sm font-medium text-techvaults-gray-700 hover:text-techvaults-red transition-colors">
                 Certifications
               </Link>
@@ -57,80 +57,82 @@ export default async function HomePage() {
                 Providers
               </Link>
             </nav>
-            <div className="flex gap-3">
+            <div className="flex gap-2 md:gap-3">
               <Link
                 href="/auth/signin"
-                className="px-5 py-2.5 text-sm font-semibold text-techvaults-gray-700 hover:text-techvaults-red transition-colors"
+                className="px-3 md:px-5 py-2 md:py-2.5 text-sm font-semibold text-techvaults-gray-700 hover:text-techvaults-red transition-colors"
               >
-                Sign In
+                <span className="hidden sm:inline">Sign In</span>
+                <span className="sm:hidden">Login</span>
               </Link>
               <Link
                 href="/auth/signup"
-                className="px-5 py-2.5 text-sm font-semibold bg-techvaults-red text-white rounded-xl hover:bg-red-700 transition-all hover:shadow-lg hover:shadow-techvaults-red/20 hover:-translate-y-0.5"
+                className="px-3 md:px-5 py-2 md:py-2.5 text-sm font-semibold bg-techvaults-red text-white rounded-xl hover:bg-red-700 transition-all hover:shadow-lg hover:shadow-techvaults-red/20 hover:-translate-y-0.5 active:scale-95"
               >
-                Get Started
+                <span className="hidden sm:inline">Get Started</span>
+                <span className="sm:hidden">Start</span>
               </Link>
             </div>
           </div>
         </header>
 
         {/* Hero Section */}
-        <section className="relative container mx-auto px-4 lg:px-8 py-20 lg:py-32">
+        <section className="relative container mx-auto px-3 md:px-4 lg:px-8 py-12 md:py-20 lg:py-32">
           <AnimatedHero>
             <div className="max-w-5xl mx-auto text-center relative z-10">
-              <div className="hero-title inline-flex items-center gap-2 px-4 py-2 bg-techvaults-red/10 border border-techvaults-red/20 rounded-full mb-8 backdrop-blur-sm">
-                <Cloud className="w-4 h-4 text-techvaults-red" />
-                <span className="text-sm font-semibold text-techvaults-red">
+              <div className="hero-title inline-flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-techvaults-red/10 border border-techvaults-red/20 rounded-full mb-6 md:mb-8 backdrop-blur-sm">
+                <Cloud className="w-3 h-3 md:w-4 md:h-4 text-techvaults-red" />
+                <span className="text-xs md:text-sm font-semibold text-techvaults-red">
                   AWS • Azure • Google Cloud
                 </span>
               </div>
               
-              <h1 className="hero-title text-6xl md:text-7xl lg:text-8xl font-bold text-techvaults-black mb-6 leading-tight tracking-tight">
+              <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-techvaults-black mb-4 md:mb-6 leading-tight tracking-tight">
                 Master
                 <span className="text-techvaults-red"> Multi-Cloud</span>
                 <br />
                 Certifications
               </h1>
               
-              <p className="hero-subtitle text-xl md:text-2xl text-techvaults-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+              <p className="hero-subtitle text-base sm:text-lg md:text-xl lg:text-2xl text-techvaults-gray-600 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
                 Prepare for {totalCertifications} cloud certifications with our award-winning,
                 exam-realistic practice platform designed for Techvaults engineers.
               </p>
 
               {/* Animated Logo Banner */}
-              <div className="mb-12">
+              <div className="mb-8 md:mb-12">
                 <AnimatedLogoBanner />
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-12 md:mb-16 px-4">
                 <Link
                   href="/auth/signup"
-                  className="hero-cta group inline-flex items-center justify-center gap-2 px-8 py-4 bg-techvaults-red text-white rounded-xl font-semibold hover:bg-red-700 transition-all hover:shadow-2xl hover:shadow-techvaults-red/30 hover:-translate-y-1 text-lg"
+                  className="hero-cta group inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-techvaults-red text-white rounded-xl font-semibold hover:bg-red-700 transition-all hover:shadow-2xl hover:shadow-techvaults-red/30 hover:-translate-y-1 active:scale-95 text-base md:text-lg min-h-[48px]"
                 >
                   Start Practicing
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   href="/providers"
-                  className="hero-cta inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-techvaults-black border-2 border-techvaults-gray-300 rounded-xl font-semibold hover:border-techvaults-red hover:shadow-xl transition-all text-lg"
+                  className="hero-cta inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-white text-techvaults-black border-2 border-techvaults-gray-300 rounded-xl font-semibold hover:border-techvaults-red hover:shadow-xl transition-all active:scale-95 text-base md:text-lg min-h-[48px]"
                 >
                   Browse Certifications
                 </Link>
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto">
-                <div className="hero-stats text-center p-6 rounded-2xl bg-white/50 backdrop-blur-sm border border-techvaults-gray-200/50 hover:border-techvaults-red/30 transition-all">
-                  <div className="text-4xl font-bold text-techvaults-red mb-2">{totalCertifications}</div>
-                  <div className="text-sm font-medium text-techvaults-gray-600">Certifications</div>
+              <div className="grid grid-cols-3 gap-3 md:gap-6 lg:gap-8 max-w-3xl mx-auto px-4">
+                <div className="hero-stats text-center p-3 md:p-4 lg:p-6 rounded-2xl bg-white/50 backdrop-blur-sm border border-techvaults-gray-200/50 hover:border-techvaults-red/30 transition-all">
+                  <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-techvaults-red mb-1 md:mb-2">{totalCertifications}</div>
+                  <div className="text-xs md:text-sm font-medium text-techvaults-gray-600">Certifications</div>
                 </div>
-                <div className="hero-stats text-center p-6 rounded-2xl bg-white/50 backdrop-blur-sm border border-techvaults-gray-200/50 hover:border-techvaults-red/30 transition-all">
-                  <div className="text-4xl font-bold text-techvaults-red mb-2">3</div>
-                  <div className="text-sm font-medium text-techvaults-gray-600">Cloud Providers</div>
+                <div className="hero-stats text-center p-3 md:p-4 lg:p-6 rounded-2xl bg-white/50 backdrop-blur-sm border border-techvaults-gray-200/50 hover:border-techvaults-red/30 transition-all">
+                  <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-techvaults-red mb-1 md:mb-2">3</div>
+                  <div className="text-xs md:text-sm font-medium text-techvaults-gray-600">Cloud Providers</div>
                 </div>
-                <div className="hero-stats text-center p-6 rounded-2xl bg-white/50 backdrop-blur-sm border border-techvaults-gray-200/50 hover:border-techvaults-red/30 transition-all">
-                  <div className="text-4xl font-bold text-techvaults-red mb-2">10K+</div>
-                  <div className="text-sm font-medium text-techvaults-gray-600">Questions</div>
+                <div className="hero-stats text-center p-3 md:p-4 lg:p-6 rounded-2xl bg-white/50 backdrop-blur-sm border border-techvaults-gray-200/50 hover:border-techvaults-red/30 transition-all">
+                  <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-techvaults-red mb-1 md:mb-2">10K+</div>
+                  <div className="text-xs md:text-sm font-medium text-techvaults-gray-600">Questions</div>
                 </div>
               </div>
             </div>
@@ -186,19 +188,19 @@ export default async function HomePage() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="relative container mx-auto px-4 lg:px-8 py-20 lg:py-32">
+        <section id="features" className="relative container mx-auto px-3 md:px-4 lg:px-8 py-12 md:py-20 lg:py-32">
           <RevealSection>
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-techvaults-black mb-4">
+            <div className="text-center mb-12 md:mb-16 px-4">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-techvaults-black mb-3 md:mb-4">
                 Why Choose Techvaults?
               </h2>
-              <p className="text-xl text-techvaults-gray-600 max-w-2xl mx-auto">
+              <p className="text-base md:text-xl text-techvaults-gray-600 max-w-2xl mx-auto">
                 Award-winning platform designed for serious cloud engineers
               </p>
             </div>
           </RevealSection>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 relative z-10">
             {[
               {
                 icon: <Award className="w-8 h-8 text-techvaults-red" />,

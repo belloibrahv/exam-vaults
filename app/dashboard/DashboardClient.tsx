@@ -59,22 +59,22 @@ export default function DashboardClient({
     <div className="min-h-screen bg-gradient-to-br from-techvaults-gray-50 via-white to-techvaults-gray-100">
       {/* Header */}
       <header className="border-b border-techvaults-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <TechvaultsLogo size={40} />
-            <div>
-              <h1 className="text-xl font-bold text-techvaults-black">Techvaults</h1>
-              <p className="text-xs text-techvaults-gray-600">Multi-Cloud Certification Prep</p>
+        <div className="container mx-auto px-3 md:px-4 py-3 md:py-4 flex items-center justify-between gap-2">
+          <Link href="/" className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity min-w-0">
+            <TechvaultsLogo size={32} className="flex-shrink-0 md:w-10 md:h-10" />
+            <div className="hidden sm:block min-w-0">
+              <h1 className="text-base md:text-xl font-bold text-techvaults-black truncate">Techvaults</h1>
+              <p className="text-xs text-techvaults-gray-600 truncate">Multi-Cloud Certification Prep</p>
             </div>
           </Link>
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <p className="text-sm font-semibold text-techvaults-black">{user.name}</p>
-              <p className="text-xs text-techvaults-gray-600">{user.email}</p>
+          <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+            <div className="text-right hidden md:block">
+              <p className="text-sm font-semibold text-techvaults-black truncate max-w-[200px]">{user.name}</p>
+              <p className="text-xs text-techvaults-gray-600 truncate max-w-[200px]">{user.email}</p>
             </div>
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
-              className="p-2 text-techvaults-gray-600 hover:text-techvaults-red transition-colors"
+              className="p-2 text-techvaults-gray-600 hover:text-techvaults-red active:scale-95 transition-all min-w-[44px] min-h-[44px] flex items-center justify-center"
               title="Sign out"
             >
               <LogOut className="w-5 h-5" />
@@ -83,19 +83,19 @@ export default function DashboardClient({
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-3 md:px-4 py-6 md:py-8">
         {/* Welcome Section */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-techvaults-black mb-2">
+        <div className="mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-techvaults-black mb-2">
             Welcome back, {user.name.split(' ')[0]}!
           </h2>
-          <p className="text-techvaults-gray-600">
+          <p className="text-sm md:text-base text-techvaults-gray-600">
             Choose a certification to start your exam preparation journey
           </p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
           <StatCard
             icon={<Cloud className="w-6 h-6 text-blue-600" />}
             label="Certifications"
@@ -123,10 +123,10 @@ export default function DashboardClient({
         </div>
 
         {/* Provider Filter */}
-        <div className="mb-6 flex flex-wrap gap-3">
+        <div className="mb-4 md:mb-6 flex flex-wrap gap-2 md:gap-3">
           <button
             onClick={() => setSelectedProvider(null)}
-            className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+            className={`px-3 md:px-4 py-2 rounded-lg text-sm md:text-base font-semibold transition-all active:scale-95 ${
               selectedProvider === null
                 ? 'bg-techvaults-red text-white'
                 : 'bg-white text-techvaults-gray-700 border border-techvaults-gray-300 hover:border-techvaults-red'
@@ -138,30 +138,30 @@ export default function DashboardClient({
             <button
               key={provider.id}
               onClick={() => setSelectedProvider(provider.id)}
-              className={`px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2 ${
+              className={`px-3 md:px-4 py-2 rounded-lg text-sm md:text-base font-semibold transition-all flex items-center gap-2 active:scale-95 ${
                 selectedProvider === provider.id
                   ? 'bg-techvaults-red text-white'
                   : 'bg-white text-techvaults-gray-700 border border-techvaults-gray-300 hover:border-techvaults-red'
               }`}
             >
-              <CloudProviderLogo provider={provider.slug} size={20} />
-              {provider.name}
+              <CloudProviderLogo provider={provider.slug} size={16} className="md:w-5 md:h-5" />
+              <span className="hidden sm:inline">{provider.name}</span>
             </button>
           ))}
         </div>
 
         {/* Certifications by Provider */}
         {displayedProviders.map((provider) => (
-          <div key={provider.id} className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <CloudProviderLogo provider={provider.slug} size={32} />
-              <h3 className="text-2xl font-bold text-techvaults-black">{provider.name}</h3>
-              <span className="text-sm text-techvaults-gray-600">
+          <div key={provider.id} className="mb-6 md:mb-8">
+            <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4 flex-wrap">
+              <CloudProviderLogo provider={provider.slug} size={24} className="md:w-8 md:h-8" />
+              <h3 className="text-xl md:text-2xl font-bold text-techvaults-black">{provider.name}</h3>
+              <span className="text-xs md:text-sm text-techvaults-gray-600">
                 ({provider.certifications.length} certifications)
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {provider.certifications.map((cert: any) => {
                 const progress = userProgress.find((p) => p.certificationId === cert.id);
                 const attempts = examAttempts.filter((a) => a.certificationId === cert.id);
@@ -186,13 +186,13 @@ export default function DashboardClient({
 
         {/* Recent Attempts */}
         {examAttempts.length > 0 && (
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-techvaults-gray-200 mt-8">
-            <h3 className="text-2xl font-bold text-techvaults-black mb-6 flex items-center gap-2">
-              <BarChart3 className="w-6 h-6 text-techvaults-red" />
+          <div className="bg-white rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 border border-techvaults-gray-200 mt-6 md:mt-8">
+            <h3 className="text-xl md:text-2xl font-bold text-techvaults-black mb-4 md:mb-6 flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 md:w-6 md:h-6 text-techvaults-red" />
               Recent Exam Attempts
             </h3>
 
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               {examAttempts.map((attempt) => (
                 <AttemptCard key={attempt.id} attempt={attempt} />
               ))}
@@ -216,12 +216,12 @@ function StatCard({
   bgColor: string;
 }) {
   return (
-    <div className="bg-white rounded-xl p-6 border border-techvaults-gray-200 hover:shadow-lg transition-all">
-      <div className={`w-12 h-12 ${bgColor} rounded-lg flex items-center justify-center mb-4`}>
+    <div className="bg-white rounded-xl p-4 md:p-6 border border-techvaults-gray-200 hover:shadow-lg transition-all">
+      <div className={`w-10 h-10 md:w-12 md:h-12 ${bgColor} rounded-lg flex items-center justify-center mb-3 md:mb-4`}>
         {icon}
       </div>
-      <p className="text-sm text-techvaults-gray-600 mb-1">{label}</p>
-      <p className="text-3xl font-bold text-techvaults-black">{value}</p>
+      <p className="text-xs md:text-sm text-techvaults-gray-600 mb-1">{label}</p>
+      <p className="text-2xl md:text-3xl font-bold text-techvaults-black">{value}</p>
     </div>
   );
 }
@@ -252,45 +252,45 @@ function CertificationCard({
 
   return (
     <div className="bg-white rounded-xl border-2 border-techvaults-gray-200 hover:border-techvaults-red transition-all overflow-hidden group">
-      <div className="p-6">
+      <div className="p-4 md:p-6">
         {/* Header */}
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex-1">
-            <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold border mb-3 ${levelColor}`}>
+        <div className="flex items-start justify-between mb-3 md:mb-4 gap-2">
+          <div className="flex-1 min-w-0">
+            <div className={`inline-flex items-center gap-1 px-2 md:px-3 py-1 rounded-full text-xs font-semibold border mb-2 md:mb-3 ${levelColor}`}>
               <Target className="w-3 h-3" />
               {certification.level.name}
             </div>
-            <h4 className="text-lg font-bold text-techvaults-black mb-2 group-hover:text-techvaults-red transition-colors">
+            <h4 className="text-base md:text-lg font-bold text-techvaults-black mb-2 group-hover:text-techvaults-red transition-colors line-clamp-2">
               {certification.name}
             </h4>
-            <p className="text-sm text-techvaults-gray-600 line-clamp-2">
+            <p className="text-xs md:text-sm text-techvaults-gray-600 line-clamp-2">
               {certification.description}
             </p>
           </div>
           {passed && (
             <div className="flex-shrink-0 ml-2">
-              <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-green-600" />
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-green-100 rounded-full flex items-center justify-center">
+                <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-green-600" />
               </div>
             </div>
           )}
         </div>
 
         {/* Stats */}
-        <div className="flex items-center gap-4 text-sm text-techvaults-gray-600 mb-4">
+        <div className="flex items-center gap-3 md:gap-4 text-xs md:text-sm text-techvaults-gray-600 mb-3 md:mb-4">
           <div className="flex items-center gap-1">
-            <BookOpen className="w-4 h-4" />
+            <BookOpen className="w-3 h-3 md:w-4 md:h-4" />
             <span>{questionsCount} questions</span>
           </div>
           <div className="flex items-center gap-1">
-            <Zap className="w-4 h-4" />
+            <Zap className="w-3 h-3 md:w-4 md:h-4" />
             <span>{attempts} attempts</span>
           </div>
         </div>
 
         {/* Progress Bar */}
         {progress && (
-          <div className="mb-4">
+          <div className="mb-3 md:mb-4">
             <div className="flex items-center justify-between text-xs text-techvaults-gray-600 mb-1">
               <span>Progress</span>
               <span>{progress.questionsAttempted} / {questionsCount}</span>
@@ -309,7 +309,7 @@ function CertificationCard({
         {/* Action Button */}
         <Link
           href={`/exam/start?certificationId=${certification.id}`}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-all group-hover:scale-105"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 md:py-3 bg-techvaults-red text-white rounded-lg text-sm md:text-base font-semibold hover:bg-red-700 transition-all group-hover:scale-105 active:scale-95 min-h-[44px]"
         >
           <Play className="w-4 h-4" />
           {questionsCount > 0 ? 'Start Practice' : 'Coming Soon'}
@@ -325,10 +325,10 @@ function AttemptCard({ attempt }: { attempt: any }) {
   const passed = attempt.passed;
 
   return (
-    <div className="flex items-center justify-between p-4 border border-techvaults-gray-200 rounded-lg hover:border-techvaults-red transition-all">
-      <div className="flex items-center gap-4">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 md:p-4 border border-techvaults-gray-200 rounded-lg hover:border-techvaults-red transition-all gap-3">
+      <div className="flex items-center gap-3 md:gap-4 min-w-0 flex-1">
         <div
-          className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+          className={`w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
             passed
               ? 'bg-green-50 text-green-600'
               : isCompleted
@@ -337,28 +337,28 @@ function AttemptCard({ attempt }: { attempt: any }) {
           }`}
         >
           {passed ? (
-            <CheckCircle className="w-6 h-6" />
+            <CheckCircle className="w-5 h-5 md:w-6 md:h-6" />
           ) : isCompleted ? (
-            <XCircle className="w-6 h-6" />
+            <XCircle className="w-5 h-5 md:w-6 md:h-6" />
           ) : (
-            <Clock className="w-6 h-6" />
+            <Clock className="w-5 h-5 md:w-6 md:h-6" />
           )}
         </div>
-        <div>
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 mb-1">
             {attempt.certification && (
               <>
-                <CloudProviderLogo provider={attempt.certification.provider.slug} size={16} />
-                <span className="text-xs text-techvaults-gray-500">
+                <CloudProviderLogo provider={attempt.certification.provider.slug} size={14} className="md:w-4 md:h-4 flex-shrink-0" />
+                <span className="text-xs text-techvaults-gray-500 truncate">
                   {attempt.certification.provider.name}
                 </span>
               </>
             )}
           </div>
-          <p className="font-semibold text-techvaults-black">
+          <p className="text-sm md:text-base font-semibold text-techvaults-black truncate">
             {attempt.certification?.name || 'Unknown Certification'}
           </p>
-          <p className="text-sm text-techvaults-gray-600">
+          <p className="text-xs md:text-sm text-techvaults-gray-600">
             {format(new Date(attempt.startedAt), 'MMM dd, yyyy')} •{' '}
             {isCompleted
               ? `${attempt.correctAnswers}/${attempt.totalQuestions} correct`
@@ -366,10 +366,10 @@ function AttemptCard({ attempt }: { attempt: any }) {
           </p>
         </div>
       </div>
-      <div className="text-right">
+      <div className="text-right flex-shrink-0 self-end sm:self-auto">
         {isCompleted && (
           <>
-            <p className={`text-2xl font-bold ${getScoreColor(score)}`}>{Math.round(score)}%</p>
+            <p className={`text-xl md:text-2xl font-bold ${getScoreColor(score)}`}>{Math.round(score)}%</p>
             <p className="text-xs text-techvaults-gray-600">
               {formatTime(attempt.timeSpent || 0)}
             </p>
