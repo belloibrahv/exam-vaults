@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, Cloud, Award, TrendingUp, Users, Zap, Shield, Target } from 'lucide-react';
+import Image from 'next/image';
 import TechvaultsLogo from '@/components/TechvaultsLogo';
 import AnimatedHero from '@/components/AnimatedHero';
 import AnimatedCard from '@/components/AnimatedCard';
@@ -7,7 +8,15 @@ import RevealSection from '@/components/RevealSection';
 import GradientMesh from '@/components/GradientMesh';
 import FloatingParticles from '@/components/FloatingParticles';
 import SmoothScroll from '@/components/SmoothScroll';
+import AnimatedLogoBanner from '@/components/AnimatedLogoBanner';
 import { prisma } from '@/lib/prisma';
+
+// Official cloud provider logos
+const PROVIDER_LOGOS = {
+  AWS: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',
+  AZURE: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg',
+  GCP: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg',
+};
 
 export default async function HomePage() {
   // Fetch providers with certification counts
@@ -87,6 +96,11 @@ export default async function HomePage() {
                 Prepare for {totalCertifications} cloud certifications with our award-winning,
                 exam-realistic practice platform designed for Techvaults engineers.
               </p>
+
+              {/* Animated Logo Banner */}
+              <div className="mb-12">
+                <AnimatedLogoBanner />
+              </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
                 <Link
@@ -143,12 +157,14 @@ export default async function HomePage() {
                   href={`/providers/${provider.slug}`}
                   className="group block p-8 rounded-3xl bg-white border-2 border-techvaults-gray-200 hover:border-techvaults-red transition-all duration-300 hover:shadow-2xl"
                 >
-                  <div className="flex items-center justify-center mb-6">
-                    <div
-                      className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl font-bold text-white shadow-lg group-hover:scale-110 transition-transform duration-300"
-                      style={{ backgroundColor: provider.color }}
-                    >
-                      {provider.displayName.charAt(0)}
+                  <div className="flex items-center justify-center mb-6 h-20">
+                    <div className="relative w-full h-full group-hover:scale-110 transition-transform duration-300">
+                      <Image
+                        src={PROVIDER_LOGOS[provider.name as keyof typeof PROVIDER_LOGOS]}
+                        alt={provider.displayName}
+                        fill
+                        className="object-contain"
+                      />
                     </div>
                   </div>
                   <h3 className="text-2xl font-bold text-techvaults-black mb-3 text-center group-hover:text-techvaults-red transition-colors">

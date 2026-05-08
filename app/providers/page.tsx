@@ -1,7 +1,15 @@
 import Link from 'next/link';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
+import Image from 'next/image';
 import TechvaultsLogo from '@/components/TechvaultsLogo';
 import { getCatalogProviders } from '@/lib/provider-catalog';
+
+// Official cloud provider logos
+const PROVIDER_LOGOS: Record<string, string> = {
+  'aws': 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',
+  'azure': 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg',
+  'gcp': 'https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg',
+};
 
 export default async function ProvidersPage() {
   const providers = await getCatalogProviders();
@@ -71,11 +79,13 @@ export default async function ProvidersPage() {
             <div key={provider.id} className="bg-white rounded-2xl shadow-lg p-8 border border-techvaults-gray-200">
               {/* Provider Header */}
               <div className="flex items-center gap-4 mb-6 pb-6 border-b border-techvaults-gray-200">
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold text-white"
-                  style={{ backgroundColor: provider.color }}
-                >
-                  {provider.displayName.charAt(0)}
+                <div className="relative w-32 h-16">
+                  <Image
+                    src={PROVIDER_LOGOS[provider.slug] || ''}
+                    alt={provider.displayName}
+                    fill
+                    className="object-contain"
+                  />
                 </div>
                 <div className="flex-1">
                   <h2 className="text-2xl font-bold text-techvaults-black">{provider.displayName}</h2>

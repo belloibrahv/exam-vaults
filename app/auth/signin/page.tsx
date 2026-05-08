@@ -124,17 +124,6 @@ export default function SignInPage() {
               </Link>
             </p>
           </div>
-
-          {/* Demo Credentials */}
-          <div className="mt-6 p-4 bg-techvaults-gray-50 rounded-lg border border-techvaults-gray-200">
-            <p className="text-xs font-semibold text-techvaults-gray-700 mb-2">Demo Credentials:</p>
-            <p className="text-xs text-techvaults-gray-600">
-              Student: student@techvaults.com / student123
-            </p>
-            <p className="text-xs text-techvaults-gray-600">
-              Admin: admin@techvaults.com / admin123
-            </p>
-          </div>
         </div>
 
         <div className="mt-6 text-center">
