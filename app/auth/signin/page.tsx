@@ -161,59 +161,59 @@ export default function SignInPage() {
       <GradientMesh />
       <FloatingParticles />
 
-      <div ref={containerRef} className="w-full max-w-md relative z-10">
+      <div ref={containerRef} className="w-full max-w-md relative z-10 my-8">
         {/* Logo */}
-        <div ref={logoRef} className="flex justify-center mb-6">
-          <TechvaultsLogo size={70} variant="full" />
+        <div ref={logoRef} className="flex justify-center mb-4">
+          <TechvaultsLogo size={60} variant="full" />
         </div>
 
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-techvaults-black mb-2">Welcome Back</h1>
-          <p className="text-lg text-techvaults-gray-600">Sign in to continue your exam preparation</p>
+        <div ref={headerRef} className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-techvaults-black mb-1">Welcome Back</h1>
+          <p className="text-base text-techvaults-gray-600">Sign in to continue your exam preparation</p>
         </div>
 
         {/* Sign In Form */}
-        <div ref={formRef} className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-techvaults-gray-200/50">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div ref={formRef} className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-6 border border-techvaults-gray-200/50">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm animate-shake">
-                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm animate-shake">
+                <AlertCircle className="w-4 h-4 flex-shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
             <div className="form-field">
-              <label htmlFor="email" className="block text-sm font-semibold text-techvaults-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
                 Email Address
               </label>
               <div className="relative group">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-techvaults-gray-400 group-focus-within:text-techvaults-red transition-colors" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-techvaults-gray-400 group-focus-within:text-techvaults-red transition-colors" />
                 <input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full pl-12 pr-4 py-3.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all bg-white"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all bg-white text-sm"
                   placeholder="you@techvaults.com"
                 />
               </div>
             </div>
 
             <div className="form-field">
-              <label htmlFor="password" className="block text-sm font-semibold text-techvaults-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
                 Password
               </label>
               <div className="relative group">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-techvaults-gray-400 group-focus-within:text-techvaults-red transition-colors" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-techvaults-gray-400 group-focus-within:text-techvaults-red transition-colors" />
                 <input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full pl-12 pr-4 py-3.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all bg-white"
+                  className="w-full pl-10 pr-4 py-3 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all bg-white text-sm"
                   placeholder="••••••••"
                 />
               </div>
@@ -222,7 +222,7 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={loading}
-              className="submit-button w-full flex items-center justify-center gap-2 py-4 bg-gradient-to-r from-techvaults-red to-red-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-techvaults-red/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] text-lg"
+              className="submit-button w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-r from-techvaults-red to-red-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-techvaults-red/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] text-base mt-6"
             >
               {loading ? (
                 <>
@@ -238,7 +238,7 @@ export default function SignInPage() {
             </button>
           </form>
 
-          <div className="mt-6 text-center">
+          <div className="mt-5 text-center">
             <p className="text-sm text-techvaults-gray-600">
               Don't have an account?{' '}
               <Link href="/auth/signup" className="text-techvaults-red font-bold hover:underline transition-colors">
@@ -248,7 +248,7 @@ export default function SignInPage() {
           </div>
         </div>
 
-        <div ref={footerRef} className="mt-6 text-center">
+        <div ref={footerRef} className="mt-5 text-center">
           <Link href="/" className="text-sm text-techvaults-gray-600 hover:text-techvaults-red transition-colors font-medium">
             ← Back to home
           </Link>
