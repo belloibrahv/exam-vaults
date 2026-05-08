@@ -75,16 +75,22 @@ export default function SignUpPage() {
           });
         }
 
-        // Button animation
+        // Button animation - ensure it animates
         const submitButton = formRef.current.querySelector('.submit-button');
         if (submitButton) {
-          gsap.from(submitButton, {
-            scale: 0.8,
-            opacity: 0,
-            duration: 0.6,
-            delay: 1.3,
-            ease: 'back.out(1.7)',
-          });
+          gsap.fromTo(submitButton,
+            {
+              scale: 0.8,
+              opacity: 0,
+            },
+            {
+              scale: 1,
+              opacity: 1,
+              duration: 0.6,
+              delay: 1.1,
+              ease: 'back.out(1.7)',
+            }
+          );
         }
       }
 
@@ -94,7 +100,7 @@ export default function SignUpPage() {
           y: 20,
           opacity: 0,
           duration: 0.5,
-          delay: 1.5,
+          delay: 1.3,
           ease: 'power2.out',
         });
       }
@@ -107,6 +113,7 @@ export default function SignUpPage() {
           repeat: -1,
           yoyo: true,
           ease: 'sine.inOut',
+          delay: 1.5,
         });
       }
     }, containerRef);
@@ -281,23 +288,26 @@ export default function SignUpPage() {
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="submit-button w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-r from-techvaults-red to-red-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-techvaults-red/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] text-base mt-5"
-            >
-              {loading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Creating account...
-                </>
-              ) : (
-                <>
-                  <UserPlus className="w-5 h-5" />
-                  Create Account
-                </>
-              )}
-            </button>
+            <div className="mt-5">
+              <button
+                type="submit"
+                disabled={loading}
+                className="submit-button w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-r from-[#BC0004] to-[#dc2626] text-white rounded-xl font-bold hover:shadow-lg hover:shadow-red-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] text-base"
+                style={{ backgroundColor: loading ? undefined : '#BC0004' }}
+              >
+                {loading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Creating account...
+                  </>
+                ) : (
+                  <>
+                    <UserPlus className="w-5 h-5" />
+                    Create Account
+                  </>
+                )}
+              </button>
+            </div>
           </form>
 
           <div className="mt-5 text-center">

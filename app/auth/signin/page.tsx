@@ -71,16 +71,22 @@ export default function SignInPage() {
           });
         }
 
-        // Button animation
+        // Button animation - ensure it animates
         const submitButton = formRef.current.querySelector('.submit-button');
         if (submitButton) {
-          gsap.from(submitButton, {
-            scale: 0.8,
-            opacity: 0,
-            duration: 0.5,
-            delay: 1.2,
-            ease: 'back.out(1.7)',
-          });
+          gsap.fromTo(submitButton, 
+            {
+              scale: 0.8,
+              opacity: 0,
+            },
+            {
+              scale: 1,
+              opacity: 1,
+              duration: 0.5,
+              delay: 1.0,
+              ease: 'back.out(1.7)',
+            }
+          );
         }
       }
 
@@ -90,7 +96,7 @@ export default function SignInPage() {
           y: 20,
           opacity: 0,
           duration: 0.5,
-          delay: 1.4,
+          delay: 1.2,
           ease: 'power2.out',
         });
       }
@@ -103,6 +109,7 @@ export default function SignInPage() {
           repeat: -1,
           yoyo: true,
           ease: 'sine.inOut',
+          delay: 1.5,
         });
       }
     }, containerRef);
@@ -219,23 +226,26 @@ export default function SignInPage() {
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="submit-button w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-r from-techvaults-red to-red-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-techvaults-red/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] text-base mt-6"
-            >
-              {loading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Signing in...
-                </>
-              ) : (
-                <>
-                  <LogIn className="w-5 h-5" />
-                  Sign In
-                </>
-              )}
-            </button>
+            <div className="mt-6">
+              <button
+                type="submit"
+                disabled={loading}
+                className="submit-button w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-r from-[#BC0004] to-[#dc2626] text-white rounded-xl font-bold hover:shadow-lg hover:shadow-red-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] text-base"
+                style={{ backgroundColor: loading ? undefined : '#BC0004' }}
+              >
+                {loading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="w-5 h-5" />
+                    Sign In
+                  </>
+                )}
+              </button>
+            </div>
           </form>
 
           <div className="mt-5 text-center">
