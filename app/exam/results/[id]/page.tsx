@@ -34,7 +34,7 @@ export default async function ResultsPage({ params }: { params: { id: string } }
   const categoryStats: Record<string, { correct: number; total: number }> = {};
 
   examAttempt.answers.forEach((answer) => {
-    const category = answer.question.category;
+    const category = answer.question.category ?? 'UNCATEGORIZED';
     if (!categoryStats[category]) {
       categoryStats[category] = { correct: 0, total: 0 };
     }
@@ -65,7 +65,7 @@ export default async function ResultsPage({ params }: { params: { id: string } }
           options: a.question.options as any[],
           correctAnswers: a.question.correctAnswers as string[],
           explanation: a.question.explanation,
-          category: a.question.category,
+          category: a.question.category ?? 'UNCATEGORIZED',
         },
       }))}
       categoryStats={categoryStats}
