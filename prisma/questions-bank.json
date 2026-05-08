@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "total_questions": 500,
+    "source": "Based on official GCDL exam guide and practice resources",
+    "categories": {
+      "DIGITAL_TRANSFORMATION": 125,
+      "DATA_AND_AI": 125,
+      "INFRASTRUCTURE_MODERNIZATION": 125,
+      "SECURITY_AND_OPERATIONS": 125
+    },
+    "difficulty_levels": {
+      "EASY": 200,
+      "MEDIUM": 200,
+      "HARD": 100
+    }
+  },
+  "note": "This is a comprehensive question bank. Import into seed.ts to populate the database."
+}

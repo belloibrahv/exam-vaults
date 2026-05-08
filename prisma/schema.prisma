@@ -1,0 +1,99 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  password      String
+  role          Role      @default(STUDENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  examAttempts  ExamAttempt[]
+  
+  @@map("users")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+model Question {
+  id              String   @id @default(cuid())
+  question        String   @db.Text
+  options         Json     // Array of option objects: [{id: string, text: string}]
+  correctAnswers  Json     // Array of correct option IDs
+  explanation     String   @db.Text
+  category        Category
+  difficulty      Difficulty @default(MEDIUM)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  answers         Answer[]
+  
+  @@map("questions")
+}
+
+enum Category {
+  DIGITAL_TRANSFORMATION
+  DATA_AND_AI
+  INFRASTRUCTURE_MODERNIZATION
+  SECURITY_AND_OPERATIONS
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+model ExamAttempt {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startedAt       DateTime @default(now())
+  completedAt     DateTime?
+  timeSpent       Int?     // in seconds
+  
+  score           Float?   // percentage
+  totalQuestions  Int
+  correctAnswers  Int?
+  
+  passed          Boolean  @default(false)
+  canRetakeAt     DateTime? // If failed, when they can retake
+  
+  answers         Answer[]
+  
+  @@map("exam_attempts")
+  @@index([userId])
+}
+
+model Answer {
+  id              String   @id @default(cuid())
+  examAttemptId   String
+  examAttempt     ExamAttempt @relation(fields: [examAttemptId], references: [id], onDelete: Cascade)
+  
+  questionId      String
+  question        Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  
+  selectedAnswers Json     // Array of selected option IDs
+  isCorrect       Boolean
+  timeSpent       Int?     // in seconds
+  
+  createdAt       DateTime @default(now())
+  
+  @@map("answers")
+  @@index([examAttemptId])
+  @@index([questionId])
+}
