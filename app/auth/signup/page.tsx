@@ -1,10 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { UserPlus, Mail, Lock, User, AlertCircle, CheckCircle } from 'lucide-react';
+import { UserPlus, Mail, Lock, User, AlertCircle } from 'lucide-react';
+import { gsap } from 'gsap';
 import TechvaultsLogo from '@/components/TechvaultsLogo';
+import FloatingParticles from '@/components/FloatingParticles';
+import GradientMesh from '@/components/GradientMesh';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -16,6 +19,84 @@ export default function SignUpPage() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Logo animation with rotation
+      gsap.from(logoRef.current, {
+        scale: 0,
+        rotation: 360,
+        opacity: 0,
+        duration: 1,
+        ease: 'back.out(1.7)',
+      });
+
+      // Header text animation
+      gsap.from(headerRef.current?.children || [], {
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        delay: 0.4,
+        ease: 'power3.out',
+      });
+
+      // Form container animation
+      gsap.from(formRef.current, {
+        y: 50,
+        opacity: 0,
+        scale: 0.95,
+        duration: 0.8,
+        delay: 0.6,
+        ease: 'power3.out',
+      });
+
+      // Form fields stagger animation
+      gsap.from(formRef.current?.querySelectorAll('.form-field') || [], {
+        x: -30,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.08,
+        delay: 0.9,
+        ease: 'power2.out',
+      });
+
+      // Button animation
+      gsap.from(formRef.current?.querySelector('.submit-button'), {
+        scale: 0.8,
+        opacity: 0,
+        duration: 0.6,
+        delay: 1.3,
+        ease: 'back.out(1.7)',
+      });
+
+      // Footer animation
+      gsap.from(footerRef.current, {
+        y: 20,
+        opacity: 0,
+        duration: 0.5,
+        delay: 1.5,
+        ease: 'power2.out',
+      });
+
+      // Floating animation for container
+      gsap.to(containerRef.current, {
+        y: -10,
+        duration: 2.5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +104,12 @@ export default function SignUpPage() {
 
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
+      // Shake animation on error
+      gsap.to(formRef.current, {
+        x: [-10, 10, -10, 10, 0],
+        duration: 0.4,
+        ease: 'power2.inOut',
+      });
       return;
     }
 
@@ -43,11 +130,25 @@ export default function SignUpPage() {
 
       if (!response.ok) {
         setError(data.error || 'Something went wrong');
+        // Shake animation on error
+        gsap.to(formRef.current, {
+          x: [-10, 10, -10, 10, 0],
+          duration: 0.4,
+          ease: 'power2.inOut',
+        });
         return;
       }
 
-      // Redirect to sign in page
-      router.push('/auth/signin?registered=true');
+      // Success animation
+      gsap.to(formRef.current, {
+        scale: 0.95,
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          router.push('/auth/signin?registered=true');
+        },
+      });
     } catch (error) {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -56,69 +157,75 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-techvaults-gray-50 via-white to-techvaults-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Logo and Header */}
-        <div className="text-center mb-8 animate-fade-in">
-          <div className="flex justify-center mb-4">
-            <TechvaultsLogo size={60} />
-          </div>
-          <h1 className="text-3xl font-bold text-techvaults-black mb-2">Create Account</h1>
-          <p className="text-techvaults-gray-600">Join Techvaults exam preparation system</p>
+    <div className="min-h-screen bg-white relative overflow-hidden flex items-center justify-center p-4">
+      {/* Background Effects */}
+      <GradientMesh />
+      <FloatingParticles />
+
+      <div ref={containerRef} className="w-full max-w-md relative z-10">
+        {/* Logo */}
+        <div ref={logoRef} className="flex justify-center mb-6">
+          <TechvaultsLogo size={70} variant="full" />
+        </div>
+
+        {/* Header */}
+        <div ref={headerRef} className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-techvaults-black mb-2">Create Account</h1>
+          <p className="text-lg text-techvaults-gray-600">Join Techvaults exam preparation system</p>
         </div>
 
         {/* Sign Up Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-techvaults-gray-200 animate-slide-up">
+        <div ref={formRef} className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-techvaults-gray-200/50">
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-              <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+              <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm animate-shake">
                 <AlertCircle className="w-5 h-5 flex-shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-techvaults-gray-700 mb-2">
+            <div className="form-field">
+              <label htmlFor="name" className="block text-sm font-semibold text-techvaults-gray-700 mb-2">
                 Full Name
               </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-techvaults-gray-400" />
+              <div className="relative group">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-techvaults-gray-400 group-focus-within:text-techvaults-red transition-colors" />
                 <input
                   id="name"
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-techvaults-gray-300 rounded-lg focus:ring-2 focus:ring-techvaults-red focus:border-transparent outline-none transition-all"
+                  className="w-full pl-12 pr-4 py-3.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all bg-white"
                   placeholder="John Doe"
                 />
               </div>
             </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-techvaults-gray-700 mb-2">
+            <div className="form-field">
+              <label htmlFor="email" className="block text-sm font-semibold text-techvaults-gray-700 mb-2">
                 Email Address
               </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-techvaults-gray-400" />
+              <div className="relative group">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-techvaults-gray-400 group-focus-within:text-techvaults-red transition-colors" />
                 <input
                   id="email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-techvaults-gray-300 rounded-lg focus:ring-2 focus:ring-techvaults-red focus:border-transparent outline-none transition-all"
+                  className="w-full pl-12 pr-4 py-3.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all bg-white"
                   placeholder="you@techvaults.com"
                 />
               </div>
             </div>
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-techvaults-gray-700 mb-2">
+            <div className="form-field">
+              <label htmlFor="password" className="block text-sm font-semibold text-techvaults-gray-700 mb-2">
                 Password
               </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-techvaults-gray-400" />
+              <div className="relative group">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-techvaults-gray-400 group-focus-within:text-techvaults-red transition-colors" />
                 <input
                   id="password"
                   type="password"
@@ -126,25 +233,25 @@ export default function SignUpPage() {
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
                   minLength={6}
-                  className="w-full pl-10 pr-4 py-3 border border-techvaults-gray-300 rounded-lg focus:ring-2 focus:ring-techvaults-red focus:border-transparent outline-none transition-all"
+                  className="w-full pl-12 pr-4 py-3.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all bg-white"
                   placeholder="••••••••"
                 />
               </div>
             </div>
 
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-techvaults-gray-700 mb-2">
+            <div className="form-field">
+              <label htmlFor="confirmPassword" className="block text-sm font-semibold text-techvaults-gray-700 mb-2">
                 Confirm Password
               </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-techvaults-gray-400" />
+              <div className="relative group">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-techvaults-gray-400 group-focus-within:text-techvaults-red transition-colors" />
                 <input
                   id="confirmPassword"
                   type="password"
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   required
-                  className="w-full pl-10 pr-4 py-3 border border-techvaults-gray-300 rounded-lg focus:ring-2 focus:ring-techvaults-red focus:border-transparent outline-none transition-all"
+                  className="w-full pl-12 pr-4 py-3.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all bg-white"
                   placeholder="••••••••"
                 />
               </div>
@@ -153,7 +260,7 @@ export default function SignUpPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 py-3 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
+              className="submit-button w-full flex items-center justify-center gap-2 py-4 bg-gradient-to-r from-techvaults-red to-red-600 text-white rounded-xl font-bold hover:shadow-lg hover:shadow-techvaults-red/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98] text-lg"
             >
               {loading ? (
                 <>
@@ -172,15 +279,15 @@ export default function SignUpPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-techvaults-gray-600">
               Already have an account?{' '}
-              <Link href="/auth/signin" className="text-techvaults-red font-semibold hover:underline">
+              <Link href="/auth/signin" className="text-techvaults-red font-bold hover:underline transition-colors">
                 Sign in
               </Link>
             </p>
           </div>
         </div>
 
-        <div className="mt-6 text-center">
-          <Link href="/" className="text-sm text-techvaults-gray-600 hover:text-techvaults-red transition-colors">
+        <div ref={footerRef} className="mt-6 text-center">
+          <Link href="/" className="text-sm text-techvaults-gray-600 hover:text-techvaults-red transition-colors font-medium">
             ← Back to home
           </Link>
         </div>
