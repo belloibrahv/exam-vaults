@@ -1,0 +1,35 @@
+AWS Cloud Practitioner Questions - Part 1 (Domain: Cloud Concepts)
+
+These are original questions based on AWS official documentation and exam guide.
+Format: Question | Options (A,B,C,D) | Correct Answer | Explanation | Category | Difficulty
+
+Q1: What is the primary benefit of using cloud computing over traditional on-premises infrastructure?
+A) Complete elimination of all IT costs
+B) Pay-as-you-go pricing and ability to scale resources on demand
+C) Guaranteed 100% uptime for all applications
+D) No need for security measures
+Answer: B
+Explanation: Cloud computing's main benefit is the pay-as-you-go model and elastic scalability, allowing organizations to pay only for resources they use and scale up or down based on demand.
+Category: Cloud Concepts
+Difficulty: EASY
+
+Q2: Which of the following are characteristics of cloud computing? (Select TWO)
+A) On-demand self-service
+B) Requires long-term contracts
+C) Broad network access
+D) Limited scalability
+E) Manual resource provisioning
+Answer: A, C
+Explanation: The five characteristics of cloud computing include on-demand self-service, broad network access, resource pooling, rapid elasticity, and measured service.
+Category: Cloud Concepts
+Difficulty: MEDIUM
+
+Q3: What does the AWS shared responsibility model define?
+A) AWS is responsible for everything
+B) Customer is responsible for everything
+C) Security responsibilities are divided between AWS and the customer
+D) Only AWS is responsible for security
+Answer: C
+Explanation: The shared responsibility model divides security responsibilities: AWS manages security OF the cloud (infrastructure), while customers manage security IN the cloud (data, applications, access).
+Category: Security & Compliance
+Difficulty: EASY
