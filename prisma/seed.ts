@@ -4,7 +4,7 @@ import { hash } from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Seeding database...');
+  console.log('🌱 Seeding database with users and GCDL questions...');
 
   // Create admin user
   const adminPassword = await hash('admin123', 12);
@@ -33,6 +33,27 @@ async function main() {
     },
   });
   console.log('✅ Student user created:', student.email);
+
+  // Get GCDL certification and domains
+  const gcdlCert = await prisma.certification.findUnique({
+    where: { code: 'CLOUD-DIGITAL-LEADER' },
+    include: { domains: true },
+  });
+
+  if (!gcdlCert) {
+    console.error('❌ GCDL certification not found. Run seed-migration.ts first!');
+    return;
+  }
+
+  // Map domains by name for easy access
+  const domainMap = {
+    DIGITAL_TRANSFORMATION: gcdlCert.domains.find(d => d.name.includes('Digital Transformation'))?.id,
+    DATA_AND_AI: gcdlCert.domains.find(d => d.name.includes('Data'))?.id,
+    INFRASTRUCTURE_MODERNIZATION: gcdlCert.domains.find(d => d.name.includes('Infrastructure'))?.id,
+    SECURITY_AND_OPERATIONS: gcdlCert.domains.find(d => d.name.includes('Security'))?.id,
+  };
+
+  console.log('📚 Found GCDL certification with domains');
 
   // Comprehensive GCDL Questions - 100+ Questions covering all exam topics
   // Based on official GCDL exam guide research
@@ -784,12 +805,33 @@ async function main() {
     },
   ];
 
-  console.log('📝 Creating questions...');
+  console.log('📝 Creating GCDL questions...');
+  let createdCount = 0;
   for (const q of questions) {
+    const domainId = domainMap[q.category as keyof typeof domainMap];
+    if (!domainId) {
+      console.warn(`⚠️ Skipping question - domain not found for category: ${q.category}`);
+      continue;
+    }
+
     await prisma.question.create({
-      data: q,
+      data: {
+        question: q.question,
+        options: q.options,
+        correctAnswers: q.correctAnswers,
+        explanation: q.explanation,
+        difficulty: q.difficulty,
+        questionType: q.correctAnswers.length > 1 ? 'MULTIPLE_CHOICE' : 'SINGLE_CHOICE',
+        certificationId: gcdlCert.id,
+        domainId: domainId,
+        category: q.category, // Keep for backward compatibility
+        tags: [], // Can be enhanced later
+      },
     });
+    createdCount++;
   }
+  
+  console.log(`✅ Created ${createdCount} GCDL questions`);
   console.log(`✅ Created ${questions.length} questions`);
 
   console.log('🎉 Seeding completed successfully!');

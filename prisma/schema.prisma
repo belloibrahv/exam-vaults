@@ -9,6 +9,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ============================================
+// USER MANAGEMENT
+// ============================================
+
 model User {
   id            String    @id @default(cuid())
   email         String    @unique
@@ -19,6 +23,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   
   examAttempts  ExamAttempt[]
+  userProgress  UserProgress[]
   
   @@map("users")
 }
@@ -28,20 +33,148 @@ enum Role {
   ADMIN
 }
 
+// ============================================
+// MULTI-CLOUD PROVIDER SYSTEM
+// ============================================
+
+model Provider {
+  id            String   @id @default(cuid())
+  name          String   @unique // AWS, AZURE, GCP
+  displayName   String   // Amazon Web Services, Microsoft Azure, Google Cloud Platform
+  slug          String   @unique // aws, azure, gcp
+  logo          String?  // Logo URL or path
+  color         String   // Brand color hex code
+  description   String   @db.Text
+  website       String
+  isActive      Boolean  @default(true)
+  order         Int      @default(0) // Display order
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  certifications Certification[]
+  
+  @@map("providers")
+}
+
+model CertificationLevel {
+  id            String   @id @default(cuid())
+  name          String   @unique // FOUNDATIONAL, ASSOCIATE, PROFESSIONAL, SPECIALTY, EXPERT
+  displayName   String   // Foundational, Associate, Professional, etc.
+  slug          String   @unique // foundational, associate, professional
+  order         Int      // 1, 2, 3, 4 for sorting
+  description   String   @db.Text
+  color         String   // Color for UI badges
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  certifications Certification[]
+  
+  @@map("certification_levels")
+}
+
+model Certification {
+  id              String   @id @default(cuid())
+  code            String   @unique // SAA-C03, AZ-104, Cloud-Digital-Leader
+  name            String   // Solutions Architect Associate
+  fullName        String   // AWS Certified Solutions Architect - Associate
+  slug            String   @unique // aws-solutions-architect-associate
+  
+  providerId      String
+  provider        Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  
+  levelId         String
+  level           CertificationLevel @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  
+  description     String   @db.Text
+  examDuration    Int      // in minutes
+  questionCount   Int      // number of questions in actual exam
+  passingScore    Int      // percentage (e.g., 70, 72, 75)
+  examCost        Int?     // in USD
+  
+  prerequisites   Json?    // Array of prerequisite cert codes
+  recommendedExp  String?  // "6-12 months", "1-2 years"
+  difficulty      Int      @default(3) // 1-5 stars
+  
+  isActive        Boolean  @default(true)
+  isFeatured      Boolean  @default(false)
+  order           Int      @default(0)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  domains         Domain[]
+  questions       Question[]
+  examAttempts    ExamAttempt[]
+  userProgress    UserProgress[]
+  
+  @@map("certifications")
+  @@index([providerId])
+  @@index([levelId])
+  @@index([slug])
+}
+
+model Domain {
+  id              String   @id @default(cuid())
+  name            String   // Compute, Storage, Networking, Security, etc.
+  description     String   @db.Text
+  weight          Int      // percentage weight in exam (e.g., 25, 30)
+  order           Int      @default(0)
+  
+  certificationId String
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  
+  questions       Question[]
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("domains")
+  @@index([certificationId])
+}
+
+// ============================================
+// QUESTIONS & EXAMS
+// ============================================
+
 model Question {
   id              String   @id @default(cuid())
   question        String   @db.Text
   options         Json     // Array of option objects: [{id: string, text: string}]
   correctAnswers  Json     // Array of correct option IDs
   explanation     String   @db.Text
-  category        Category
+  
+  certificationId String
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  
+  domainId        String
+  domain          Domain   @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  
   difficulty      Difficulty @default(MEDIUM)
+  questionType    QuestionType @default(SINGLE_CHOICE)
+  
+  tags            Json?    // Array of tags for filtering (e.g., ["EC2", "VPC", "Networking"])
+  references      Json?    // Array of documentation links
+  
+  // Legacy category field for backward compatibility (will be deprecated)
+  category        Category?
+  
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   
   answers         Answer[]
   
   @@map("questions")
+  @@index([certificationId])
+  @@index([domainId])
+  @@index([difficulty])
+}
+
+enum QuestionType {
+  SINGLE_CHOICE
+  MULTIPLE_CHOICE
+  SCENARIO_BASED
 }
 
 enum Category {
@@ -62,6 +195,9 @@ model ExamAttempt {
   userId          String
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
+  certificationId String
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  
   startedAt       DateTime @default(now())
   completedAt     DateTime?
   timeSpent       Int?     // in seconds
@@ -77,6 +213,8 @@ model ExamAttempt {
   
   @@map("exam_attempts")
   @@index([userId])
+  @@index([certificationId])
+  @@index([startedAt])
 }
 
 model Answer {
@@ -90,10 +228,49 @@ model Answer {
   selectedAnswers Json     // Array of selected option IDs
   isCorrect       Boolean
   timeSpent       Int?     // in seconds
+  isFlagged       Boolean  @default(false)
   
   createdAt       DateTime @default(now())
   
   @@map("answers")
   @@index([examAttemptId])
   @@index([questionId])
+}
+
+// ============================================
+// USER PROGRESS TRACKING
+// ============================================
+
+model UserProgress {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  certificationId String
+  certification   Certification @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  
+  status          ProgressStatus @default(NOT_STARTED)
+  attemptCount    Int      @default(0)
+  bestScore       Float?   // Best percentage score
+  lastAttemptDate DateTime?
+  totalTimeSpent  Int      @default(0) // Total time in seconds
+  
+  // Domain-wise performance tracking
+  weakDomains     Json?    // Array of domain IDs with low scores
+  strongDomains   Json?    // Array of domain IDs with high scores
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@unique([userId, certificationId])
+  @@map("user_progress")
+  @@index([userId])
+  @@index([certificationId])
+}
+
+enum ProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  PASSED
+  FAILED
 }
