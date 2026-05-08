@@ -26,69 +26,85 @@ export default function SignInPage() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Logo animation
-      gsap.from(logoRef.current, {
-        scale: 0,
-        rotation: -180,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'back.out(1.7)',
-      });
+      if (logoRef.current) {
+        gsap.from(logoRef.current, {
+          scale: 0,
+          rotation: -180,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'back.out(1.7)',
+        });
+      }
 
       // Header text animation
-      gsap.from(headerRef.current?.children || [], {
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        delay: 0.3,
-        ease: 'power3.out',
-      });
+      if (headerRef.current) {
+        gsap.from(Array.from(headerRef.current.children), {
+          y: 30,
+          opacity: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          delay: 0.3,
+          ease: 'power3.out',
+        });
+      }
 
       // Form animation
-      gsap.from(formRef.current, {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.5,
-        ease: 'power3.out',
-      });
+      if (formRef.current) {
+        gsap.from(formRef.current, {
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          delay: 0.5,
+          ease: 'power3.out',
+        });
 
-      // Form fields stagger
-      gsap.from(formRef.current?.querySelectorAll('.form-field') || [], {
-        x: -30,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        delay: 0.8,
-        ease: 'power2.out',
-      });
+        // Form fields stagger
+        const formFields = formRef.current.querySelectorAll('.form-field');
+        if (formFields.length > 0) {
+          gsap.from(Array.from(formFields), {
+            x: -30,
+            opacity: 0,
+            duration: 0.5,
+            stagger: 0.1,
+            delay: 0.8,
+            ease: 'power2.out',
+          });
+        }
 
-      // Button animation
-      gsap.from(formRef.current?.querySelector('.submit-button'), {
-        scale: 0.8,
-        opacity: 0,
-        duration: 0.5,
-        delay: 1.2,
-        ease: 'back.out(1.7)',
-      });
+        // Button animation
+        const submitButton = formRef.current.querySelector('.submit-button');
+        if (submitButton) {
+          gsap.from(submitButton, {
+            scale: 0.8,
+            opacity: 0,
+            duration: 0.5,
+            delay: 1.2,
+            ease: 'back.out(1.7)',
+          });
+        }
+      }
 
       // Footer animation
-      gsap.from(footerRef.current, {
-        y: 20,
-        opacity: 0,
-        duration: 0.5,
-        delay: 1.4,
-        ease: 'power2.out',
-      });
+      if (footerRef.current) {
+        gsap.from(footerRef.current, {
+          y: 20,
+          opacity: 0,
+          duration: 0.5,
+          delay: 1.4,
+          ease: 'power2.out',
+        });
+      }
 
       // Floating animation for container
-      gsap.to(containerRef.current, {
-        y: -10,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
+      if (containerRef.current) {
+        gsap.to(containerRef.current, {
+          y: -10,
+          duration: 2,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+        });
+      }
     }, containerRef);
 
     return () => ctx.revert();
@@ -109,23 +125,28 @@ export default function SignInPage() {
       if (result?.error) {
         setError('Invalid email or password');
         // Shake animation on error
-        gsap.to(formRef.current, {
-          x: [-10, 10, -10, 10, 0],
-          duration: 0.4,
-          ease: 'power2.inOut',
-        });
+        if (formRef.current) {
+          gsap.timeline()
+            .to(formRef.current, { x: -10, duration: 0.1 })
+            .to(formRef.current, { x: 10, duration: 0.1 })
+            .to(formRef.current, { x: -10, duration: 0.1 })
+            .to(formRef.current, { x: 10, duration: 0.1 })
+            .to(formRef.current, { x: 0, duration: 0.1 });
+        }
       } else {
         // Success animation
-        gsap.to(formRef.current, {
-          scale: 0.95,
-          opacity: 0,
-          duration: 0.3,
-          ease: 'power2.in',
-          onComplete: () => {
-            router.push('/dashboard');
-            router.refresh();
-          },
-        });
+        if (formRef.current) {
+          gsap.to(formRef.current, {
+            scale: 0.95,
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.in',
+            onComplete: () => {
+              router.push('/dashboard');
+              router.refresh();
+            },
+          });
+        }
       }
     } catch (error) {
       setError('Something went wrong. Please try again.');
