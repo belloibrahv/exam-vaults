@@ -1,25 +1,10 @@
 import Link from 'next/link';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
-import { prisma } from '@/lib/prisma';
 import TechvaultsLogo from '@/components/TechvaultsLogo';
+import { getCatalogProviders } from '@/lib/provider-catalog';
 
 export default async function ProvidersPage() {
-  const providers = await prisma.provider.findMany({
-    where: { isActive: true },
-    include: {
-      certifications: {
-        where: { isActive: true },
-        include: {
-          level: true,
-        },
-        orderBy: [
-          { level: { order: 'asc' } },
-          { order: 'asc' },
-        ],
-      },
-    },
-    orderBy: { order: 'asc' },
-  });
+  const providers = await getCatalogProviders();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-techvaults-gray-50 via-white to-techvaults-gray-100">
@@ -27,11 +12,7 @@ export default async function ProvidersPage() {
       <header className="border-b border-techvaults-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <TechvaultsLogo size={40} />
-            <div>
-              <h1 className="text-xl font-bold text-techvaults-black">Techvaults</h1>
-              <p className="text-xs text-techvaults-gray-600">Multi-Cloud Certification Prep</p>
-            </div>
+            <TechvaultsLogo size={45} variant="full" />
           </Link>
           <div className="flex gap-3">
             <Link
@@ -67,7 +48,25 @@ export default async function ProvidersPage() {
           Choose a cloud provider to explore available certifications and start your preparation journey.
         </p>
 
-        <div className="space-y-12">
+        {providers.length === 0 ? (
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-techvaults-gray-200">
+            <h2 className="text-2xl font-bold text-techvaults-black mb-3">
+              Certification Catalog Unavailable
+            </h2>
+            <p className="text-techvaults-gray-600 mb-6">
+              The multi-cloud provider catalog is not ready in this environment yet. Apply the Prisma schema changes,
+              regenerate the Prisma client, and seed the provider data before using this section.
+            </p>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-colors"
+            >
+              Return Home
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-12">
           {providers.map((provider) => (
             <div key={provider.id} className="bg-white rounded-2xl shadow-lg p-8 border border-techvaults-gray-200">
               {/* Provider Header */}
@@ -140,7 +139,8 @@ export default async function ProvidersPage() {
               </div>
             </div>
           ))}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Footer */}

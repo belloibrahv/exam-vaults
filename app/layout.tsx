@@ -3,8 +3,12 @@ import './globals.css';
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
-  title: 'Techvaults GCDL Exam System',
-  description: 'Internal Google Cloud Digital Leader Certification Exam Preparation System',
+  title: 'Techvaults | Multi-Cloud Certification Prep',
+  description: 'Master AWS, Azure, and GCP certifications with our comprehensive exam preparation platform designed for Techvaults engineers',
+  icons: {
+    icon: '/images/logo-icon.png',
+    apple: '/images/logo-icon.png',
+  },
 };
 
 export default function RootLayout({

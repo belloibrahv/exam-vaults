@@ -1,28 +1,11 @@
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Clock, FileText, Award } from 'lucide-react';
 import { notFound } from 'next/navigation';
-import { prisma } from '@/lib/prisma';
 import TechvaultsLogo from '@/components/TechvaultsLogo';
+import { getProviderBySlug } from '@/lib/provider-catalog';
 
 export default async function ProviderPage({ params }: { params: { slug: string } }) {
-  const provider = await prisma.provider.findUnique({
-    where: { slug: params.slug, isActive: true },
-    include: {
-      certifications: {
-        where: { isActive: true },
-        include: {
-          level: true,
-          _count: {
-            select: { questions: true },
-          },
-        },
-        orderBy: [
-          { level: { order: 'asc' } },
-          { order: 'asc' },
-        ],
-      },
-    },
-  });
+  const provider = await getProviderBySlug(params.slug);
 
   if (!provider) {
     notFound();
@@ -51,11 +34,7 @@ export default async function ProviderPage({ params }: { params: { slug: string 
       <header className="border-b border-techvaults-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <TechvaultsLogo size={40} />
-            <div>
-              <h1 className="text-xl font-bold text-techvaults-black">Techvaults</h1>
-              <p className="text-xs text-techvaults-gray-600">Multi-Cloud Certification Prep</p>
-            </div>
+            <TechvaultsLogo size={45} variant="full" />
           </Link>
           <div className="flex gap-3">
             <Link
