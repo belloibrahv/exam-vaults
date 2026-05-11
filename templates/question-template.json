@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "certification": "AWS-SAA-C03",
+    "domain": "Design Resilient Architectures",
+    "submittedBy": "your.email@techvaults.com",
+    "createdAt": "2026-05-11",
+    "source": "AWS Documentation",
+    "version": "1.0"
+  },
+  "questions": [
+    {
+      "question": "A company is designing a web application that must be highly available across multiple AWS regions. The application uses a MySQL database that needs to be replicated with minimal latency. Which solution meets these requirements?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Use Amazon RDS with Multi-AZ deployment in a single region"
+        },
+        {
+          "id": "b",
+          "text": "Use Amazon Aurora Global Database with read replicas in multiple regions"
+        },
+        {
+          "id": "c",
+          "text": "Use Amazon DynamoDB with global tables"
+        },
+        {
+          "id": "d",
+          "text": "Use Amazon RDS with manual snapshots copied to other regions"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "Amazon Aurora Global Database is designed for globally distributed applications, allowing a single Aurora database to span multiple AWS regions. It provides fast replication with typical latency of less than 1 second, and enables low-latency global reads. Multi-AZ is only within a single region (A is incorrect). DynamoDB Global Tables would work but the question specifically mentions MySQL (C is incorrect). Manual snapshots don't provide real-time replication (D is incorrect). Reference: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html",
+      "category": "Database",
+      "difficulty": "MEDIUM",
+      "tags": ["Aurora", "Global Database", "High Availability", "Multi-Region"],
+      "reference": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html",
+      "estimatedTime": 90,
+      "notes": "This question tests understanding of multi-region database replication options"
+    },
+    {
+      "question": "TEMPLATE: Replace this with your question text. Make it clear, specific, and scenario-based. Minimum 20 words.",
+      "options": [
+        {
+          "id": "a",
+          "text": "First option - make it plausible but incorrect"
+        },
+        {
+          "id": "b",
+          "text": "Second option - this could be the correct answer"
+        },
+        {
+          "id": "c",
+          "text": "Third option - another plausible but incorrect option"
+        },
+        {
+          "id": "d",
+          "text": "Fourth option - clearly incorrect but tests understanding"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "TEMPLATE: Explain why option B is correct. Then explain why each other option is incorrect. Include a reference link to official documentation. Minimum 50 words. Example: Option B is correct because [reason]. Option A is incorrect because [reason]. Option C is incorrect because [reason]. Option D is incorrect because [reason]. Reference: [documentation URL]",
+      "category": "TEMPLATE: Choose from: Compute, Storage, Database, Networking, Security, Monitoring, etc.",
+      "difficulty": "EASY",
+      "tags": ["tag1", "tag2", "tag3"],
+      "reference": "https://docs.aws.amazon.com/...",
+      "estimatedTime": 60,
+      "notes": "TEMPLATE: Add any notes about this question"
+    }
+  ]
+}

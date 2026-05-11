@@ -5,6 +5,17 @@ import { prisma } from '@/lib/prisma';
 import ExamInterface from '../ExamInterface';
 import { shuffleArray } from '@/lib/utils';
 
+type ExamQuestion = {
+  id: string;
+  question: string;
+  options: Array<{ id: string; text: string }>;
+  correctAnswers: string[];
+  explanation: string;
+  category: string;
+  difficulty: string;
+  certificationId: string;
+};
+
 function isQuestionOption(value: unknown): value is { id: string; text: string } {
   return (
     typeof value === 'object' &&
@@ -14,6 +25,49 @@ function isQuestionOption(value: unknown): value is { id: string; text: string }
     typeof value.id === 'string' &&
     typeof value.text === 'string'
   );
+}
+
+function selectQuestionsForExam(
+  questions: ExamQuestion[],
+  targetCount: number
+): ExamQuestion[] {
+  if (questions.length <= targetCount) {
+    return shuffleArray(questions);
+  }
+
+  // Harder exam profile: emphasize MEDIUM/HARD, cap EASY.
+  const hardPool = shuffleArray(questions.filter((q) => q.difficulty === 'HARD'));
+  const mediumPool = shuffleArray(questions.filter((q) => q.difficulty === 'MEDIUM'));
+  const easyPool = shuffleArray(questions.filter((q) => q.difficulty === 'EASY'));
+  const otherPool = shuffleArray(
+    questions.filter(
+      (q) =>
+        q.difficulty !== 'HARD' && q.difficulty !== 'MEDIUM' && q.difficulty !== 'EASY'
+    )
+  );
+
+  const hardTarget = Math.round(targetCount * 0.4);
+  const mediumTarget = Math.round(targetCount * 0.45);
+  const easyTarget = Math.max(0, targetCount - hardTarget - mediumTarget);
+
+  const selected: ExamQuestion[] = [];
+  selected.push(...hardPool.splice(0, hardTarget));
+  selected.push(...mediumPool.splice(0, mediumTarget));
+  selected.push(...easyPool.splice(0, easyTarget));
+
+  // Backfill any shortfall from remaining pools (hard -> medium -> easy -> other).
+  const remainingNeeded = targetCount - selected.length;
+  if (remainingNeeded > 0) {
+    const backfillPool = shuffleArray([
+      ...hardPool,
+      ...mediumPool,
+      ...easyPool,
+      ...otherPool,
+    ]);
+    selected.push(...backfillPool.slice(0, remainingNeeded));
+  }
+
+  return shuffleArray(selected);
 }
 
 export default async function StartExamPage({
@@ -95,8 +149,11 @@ export default async function StartExamPage({
                    certification.level.name === 'Associate' ? 60 :
                    certification.level.name === 'Professional' ? 75 : 90;
 
-  // Randomly select questions (or all if less than exam size)
-  const selectedQuestions = shuffleArray(allQuestions).slice(0, Math.min(examSize, allQuestions.length));
+  // Select a harder balanced mix, then reshuffle final order per attempt.
+  const selectedQuestions = selectQuestionsForExam(
+    allQuestions,
+    Math.min(examSize, allQuestions.length)
+  );
 
   // Create exam attempt
   const examAttempt = await prisma.examAttempt.create({

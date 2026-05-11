@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   BookOpen,
   Clock,
@@ -16,8 +17,8 @@ import {
   Cloud,
   Target,
   Zap,
+  Shield,
 } from 'lucide-react';
-import TechvaultsLogo from '@/components/TechvaultsLogo';
 import CloudProviderLogo from '@/components/CloudProviderLogo';
 import { formatTime, getScoreColor } from '@/lib/utils';
 import { format } from 'date-fns';
@@ -60,11 +61,21 @@ export default function DashboardClient({
       {/* Header */}
       <header className="border-b border-techvaults-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-3 md:px-4 py-3 md:py-4 flex items-center justify-between gap-2">
-          <Link href="/" className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity min-w-0">
-            <TechvaultsLogo size={32} className="flex-shrink-0 md:w-10 md:h-10" />
-            <div className="hidden sm:block min-w-0">
-              <h1 className="text-base md:text-xl font-bold text-techvaults-black truncate">Techvaults</h1>
-              <p className="text-xs text-techvaults-gray-600 truncate">Multi-Cloud Certification Prep</p>
+          <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity min-w-0">
+            <div className="rounded-xl border border-techvaults-gray-200 bg-white shadow-sm px-3 py-2 flex-shrink-0">
+              <Image
+                src="/images/logo.png"
+                alt="Techvaults"
+                width={150}
+                height={40}
+                priority
+                className="h-7 w-auto md:h-8"
+              />
+            </div>
+            <div className="hidden md:block min-w-0">
+              <p className="text-xs font-medium text-techvaults-gray-600 truncate">
+                Multi-Cloud Certification Prep
+              </p>
             </div>
           </Link>
           <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
@@ -72,6 +83,16 @@ export default function DashboardClient({
               <p className="text-sm font-semibold text-techvaults-black truncate max-w-[200px]">{user.name}</p>
               <p className="text-xs text-techvaults-gray-600 truncate max-w-[200px]">{user.email}</p>
             </div>
+            {user.role === 'ADMIN' && (
+              <Link
+                href="/admin"
+                className="px-3 py-2 bg-techvaults-red text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition-all flex items-center gap-2"
+                title="Admin Panel"
+              >
+                <Shield className="w-4 h-4" />
+                <span className="hidden sm:inline">Admin</span>
+              </Link>
+            )}
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
               className="p-2 text-techvaults-gray-600 hover:text-techvaults-red active:scale-95 transition-all min-w-[44px] min-h-[44px] flex items-center justify-center"

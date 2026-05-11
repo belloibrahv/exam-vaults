@@ -2,13 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Cloud, Award, TrendingUp, Users, Zap, Shield, Target } from 'lucide-react';
 import Image from 'next/image';
 import TechvaultsLogo from '@/components/TechvaultsLogo';
-import AnimatedHero from '@/components/AnimatedHero';
-import AnimatedCard from '@/components/AnimatedCard';
-import RevealSection from '@/components/RevealSection';
-import GradientMesh from '@/components/GradientMesh';
-import FloatingParticles from '@/components/FloatingParticles';
 import SmoothScroll from '@/components/SmoothScroll';
-import AnimatedLogoBanner from '@/components/AnimatedLogoBanner';
 import { prisma } from '@/lib/prisma';
 
 // Official cloud provider logos
@@ -36,15 +30,20 @@ export default async function HomePage() {
   return (
     <SmoothScroll>
       <div className="min-h-screen bg-white relative overflow-hidden">
-        {/* Background Effects */}
-        <GradientMesh />
-        <FloatingParticles />
-
         {/* Header */}
         <header className="border-b border-techvaults-gray-200/50 bg-white/80 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
           <div className="container mx-auto px-3 md:px-4 lg:px-8 py-3 md:py-4 flex items-center justify-between gap-2">
-            <Link href="/" className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity">
-              <TechvaultsLogo size={36} className="md:w-11 md:h-11" variant="full" />
+            <Link href="/" className="flex items-center gap-2 md:gap-3 hover:opacity-90 transition-opacity">
+              <div className="rounded-xl border border-techvaults-gray-200 bg-white shadow-sm px-3 py-2">
+                <Image
+                  src="/images/logo.png"
+                  alt="Techvaults"
+                  width={165}
+                  height={42}
+                  priority
+                  className="h-8 w-auto md:h-9"
+                />
+              </div>
             </Link>
             <nav className="hidden md:flex items-center gap-6 lg:gap-8">
               <Link href="/providers" className="text-sm font-medium text-techvaults-gray-700 hover:text-techvaults-red transition-colors">
@@ -77,8 +76,7 @@ export default async function HomePage() {
         </header>
 
         {/* Hero Section */}
-        <section className="relative container mx-auto px-3 md:px-4 lg:px-8 py-12 md:py-20 lg:py-32">
-          <AnimatedHero>
+        <section className="relative container mx-auto px-3 md:px-4 lg:px-8 py-10 md:py-14 lg:py-16">
             <div className="max-w-5xl mx-auto text-center relative z-10">
               <div className="hero-title inline-flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-techvaults-red/10 border border-techvaults-red/20 rounded-full mb-6 md:mb-8 backdrop-blur-sm">
                 <Cloud className="w-3 h-3 md:w-4 md:h-4 text-techvaults-red" />
@@ -99,9 +97,32 @@ export default async function HomePage() {
                 exam-realistic practice platform designed for Techvaults engineers.
               </p>
 
-              {/* Animated Logo Banner */}
-              <div className="mb-8 md:mb-12">
-                <AnimatedLogoBanner />
+              {/* Provider logos */}
+              <div className="mb-6 md:mb-8 flex items-center justify-center gap-6 md:gap-10 opacity-85">
+                <div className="relative h-10 w-24 md:h-12 md:w-28">
+                  <Image
+                    src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
+                    alt="AWS"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <div className="relative h-10 w-24 md:h-12 md:w-28">
+                  <Image
+                    src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg"
+                    alt="Microsoft Azure"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <div className="relative h-10 w-24 md:h-12 md:w-28">
+                  <Image
+                    src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg"
+                    alt="Google Cloud"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-12 md:mb-16 px-4">
@@ -136,13 +157,11 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
-          </AnimatedHero>
         </section>
 
         {/* Cloud Providers Section */}
-        <section id="providers" className="relative container mx-auto px-4 lg:px-8 py-20 lg:py-32">
-          <RevealSection>
-            <div className="text-center mb-16">
+        <section id="providers" className="relative container mx-auto px-4 lg:px-8 py-10 md:py-14 lg:py-16">
+            <div className="text-center mb-8 md:mb-10">
               <h2 className="text-4xl md:text-5xl font-bold text-techvaults-black mb-4">
                 Choose Your Cloud Path
               </h2>
@@ -150,14 +169,13 @@ export default async function HomePage() {
                 Practice for certifications across the big 3 cloud providers
               </p>
             </div>
-          </RevealSection>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto relative z-10">
-            {providers.map((provider, index) => (
-              <AnimatedCard key={provider.id} delay={index * 0.1}>
+          <div className="grid md:grid-cols-3 gap-5 md:gap-6 max-w-6xl mx-auto relative z-10">
+            {providers.map((provider) => (
+              <div key={provider.id}>
                 <Link
                   href={`/providers/${provider.slug}`}
-                  className="group block p-8 rounded-3xl bg-white border-2 border-techvaults-gray-200 hover:border-techvaults-red transition-all duration-300 hover:shadow-2xl"
+                  className="group block p-6 md:p-7 rounded-3xl bg-white border-2 border-techvaults-gray-200 hover:border-techvaults-red transition-all duration-200 hover:shadow-lg"
                 >
                   <div className="flex items-center justify-center mb-6 h-20">
                     <div className="relative w-full h-full group-hover:scale-110 transition-transform duration-300">
@@ -182,15 +200,14 @@ export default async function HomePage() {
                     </span>
                   </div>
                 </Link>
-              </AnimatedCard>
+              </div>
             ))}
           </div>
         </section>
 
         {/* Features Section */}
-        <section id="features" className="relative container mx-auto px-3 md:px-4 lg:px-8 py-12 md:py-20 lg:py-32">
-          <RevealSection>
-            <div className="text-center mb-12 md:mb-16 px-4">
+        <section id="features" className="relative container mx-auto px-3 md:px-4 lg:px-8 py-10 md:py-14 lg:py-16">
+            <div className="text-center mb-8 md:mb-10 px-4">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-techvaults-black mb-3 md:mb-4">
                 Why Choose Techvaults?
               </h2>
@@ -198,7 +215,6 @@ export default async function HomePage() {
                 Award-winning platform designed for serious cloud engineers
               </p>
             </div>
-          </RevealSection>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 relative z-10">
             {[
@@ -243,7 +259,7 @@ export default async function HomePage() {
                 description: 'Follow guided learning paths from foundational to professional levels.',
               },
             ].map((feature, index) => (
-              <AnimatedCard key={index} delay={index * 0.05}>
+              <div key={index}>
                 <div className="p-6 rounded-2xl bg-white border border-techvaults-gray-200 hover:border-techvaults-red transition-all hover:shadow-xl group h-full">
                   <div className="mb-4 group-hover:scale-110 transition-transform duration-300">
                     {feature.icon}
@@ -251,14 +267,13 @@ export default async function HomePage() {
                   <h3 className="text-lg font-bold text-techvaults-black mb-2">{feature.title}</h3>
                   <p className="text-sm text-techvaults-gray-600 leading-relaxed">{feature.description}</p>
                 </div>
-              </AnimatedCard>
+              </div>
             ))}
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="relative container mx-auto px-4 lg:px-8 py-20 lg:py-32">
-          <RevealSection>
+        <section className="relative container mx-auto px-4 lg:px-8 py-10 md:py-14 lg:py-16">
             <div className="max-w-4xl mx-auto bg-gradient-to-br from-techvaults-red via-red-600 to-red-700 rounded-3xl p-12 lg:p-16 text-white shadow-2xl relative overflow-hidden">
               <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
               <div className="relative z-10">
@@ -280,7 +295,6 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
-          </RevealSection>
         </section>
 
         {/* Footer */}

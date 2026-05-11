@@ -68,7 +68,14 @@ export function canRetakeExam(lastAttemptDate: Date | null, passed: boolean): {
 export function shuffleArray<T>(array: T[]): T[] {
   const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    let j: number;
+    if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+      const randomBuffer = new Uint32Array(1);
+      crypto.getRandomValues(randomBuffer);
+      j = randomBuffer[0] % (i + 1);
+    } else {
+      j = Math.floor(Math.random() * (i + 1));
+    }
     [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
   }
   return newArray;

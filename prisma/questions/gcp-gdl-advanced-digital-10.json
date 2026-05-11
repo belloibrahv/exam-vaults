@@ -1,0 +1,152 @@
+[
+  {
+    "question": "A traditional enterprise wants to shorten product release cycles from quarterly to weekly. Which cloud-driven change most directly supports that goal?",
+    "options": [
+      { "id": "a", "text": "Adopt managed platforms and automation to reduce infrastructure bottlenecks" },
+      { "id": "b", "text": "Increase manual approval gates and fixed server procurement steps" },
+      { "id": "c", "text": "Consolidate all teams into one shared admin account" },
+      { "id": "d", "text": "Delay observability until after production launch" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Managed services and automation remove operational friction and accelerate delivery velocity for product teams.",
+    "category": "DIGITAL_TRANSFORMATION",
+    "difficulty": "HARD",
+    "tags": ["Agility", "Managed Services", "Automation"],
+    "references": ["https://cloud.google.com/adoption-framework"]
+  },
+  {
+    "question": "A board asks why cloud is considered strategic rather than purely technical. Which answer is strongest?",
+    "options": [
+      { "id": "a", "text": "Cloud can enable new business models, faster experimentation, and improved customer outcomes" },
+      { "id": "b", "text": "Cloud only changes data center hardware ownership" },
+      { "id": "c", "text": "Cloud value is limited to lower internet bandwidth costs" },
+      { "id": "d", "text": "Cloud removes all need for governance and policy" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Digital transformation value includes speed, innovation, and new revenue opportunities, not just infrastructure migration.",
+    "category": "DIGITAL_TRANSFORMATION",
+    "difficulty": "MEDIUM",
+    "tags": ["Strategy", "Business Value"],
+    "references": ["https://cloud.google.com/learn/certification/guides/cloud-digital-leader"]
+  },
+  {
+    "question": "A company with unpredictable growth wants to avoid over-provisioning while maintaining performance. Which cloud attribute is most relevant?",
+    "options": [
+      { "id": "a", "text": "Elastic scaling of resources based on demand" },
+      { "id": "b", "text": "Static capacity planning for three years" },
+      { "id": "c", "text": "Single-server architecture with manual failover" },
+      { "id": "d", "text": "Procurement-led quarterly hardware expansion" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Elasticity allows resources to grow and shrink with demand, reducing waste and improving responsiveness.",
+    "category": "DIGITAL_TRANSFORMATION",
+    "difficulty": "MEDIUM",
+    "tags": ["Elasticity", "Scalability"],
+    "references": ["https://cloud.google.com/learn/certification/guides/cloud-digital-leader"]
+  },
+  {
+    "question": "An organization wants to modernize while reducing dependence on proprietary lock-in patterns. Which approach helps most?",
+    "options": [
+      { "id": "a", "text": "Favor open standards and portable architecture where practical" },
+      { "id": "b", "text": "Hardcode every integration to one proprietary interface" },
+      { "id": "c", "text": "Avoid API contracts and documentation" },
+      { "id": "d", "text": "Disable interoperability between platforms" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Open standards and portability reduce switching friction and improve long-term flexibility.",
+    "category": "DIGITAL_TRANSFORMATION",
+    "difficulty": "HARD",
+    "tags": ["Open Standards", "Portability", "Architecture"],
+    "references": ["https://cloud.google.com/anthos"]
+  },
+  {
+    "question": "A leadership team asks what often blocks successful digital transformation. Which is the best response?",
+    "options": [
+      { "id": "a", "text": "People/process resistance and unclear operating model changes" },
+      { "id": "b", "text": "Using managed services too early" },
+      { "id": "c", "text": "Applying governance controls at all" },
+      { "id": "d", "text": "Collecting metrics and outcomes data" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Transformation is organizational as well as technical; change management and operating model updates are critical.",
+    "category": "DIGITAL_TRANSFORMATION",
+    "difficulty": "HARD",
+    "tags": ["Change Management", "Operating Model"],
+    "references": ["https://cloud.google.com/adoption-framework"]
+  },
+  {
+    "question": "A company wants teams to innovate without waiting on centralized infrastructure tickets. Which cloud capability enables this most directly?",
+    "options": [
+      { "id": "a", "text": "On-demand self-service provisioning with guardrails" },
+      { "id": "b", "text": "Manual server requests with long approval chains" },
+      { "id": "c", "text": "Fixed annual capacity allocations only" },
+      { "id": "d", "text": "No access to shared platform services" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Self-service provisioning improves team autonomy and speed while policy guardrails maintain control.",
+    "category": "DIGITAL_TRANSFORMATION",
+    "difficulty": "MEDIUM",
+    "tags": ["Self-Service", "Platform Engineering"],
+    "references": ["https://cloud.google.com/architecture/framework"]
+  },
+  {
+    "question": "A CIO needs to explain TCO improvements from cloud adoption. Which point is most accurate?",
+    "options": [
+      { "id": "a", "text": "TCO can improve by reducing idle capacity, maintenance overhead, and operational friction" },
+      { "id": "b", "text": "TCO is always higher in cloud regardless of workload profile" },
+      { "id": "c", "text": "TCO excludes operations and staffing costs" },
+      { "id": "d", "text": "TCO is only hardware purchase price" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Cloud economics are evaluated holistically, including utilization, operations, and delivery speed impacts.",
+    "category": "DIGITAL_TRANSFORMATION",
+    "difficulty": "HARD",
+    "tags": ["TCO", "Cloud Economics"],
+    "references": ["https://cloud.google.com/learn/certification/guides/cloud-digital-leader"]
+  },
+  {
+    "question": "A global product plans launch in multiple geographies. Which cloud advantage is most relevant to the launch strategy?",
+    "options": [
+      { "id": "a", "text": "Global region and network footprint for low-latency user access" },
+      { "id": "b", "text": "Single local server with no redundancy" },
+      { "id": "c", "text": "Manual data transfer between regions by operators" },
+      { "id": "d", "text": "No monitoring or performance targets" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Global infrastructure helps place workloads near users and improve response times.",
+    "category": "DIGITAL_TRANSFORMATION",
+    "difficulty": "MEDIUM",
+    "tags": ["Global Infrastructure", "Latency"],
+    "references": ["https://cloud.google.com/about/locations"]
+  },
+  {
+    "question": "A business unit asks why cloud-native design often improves adaptability. What is the best explanation?",
+    "options": [
+      { "id": "a", "text": "Smaller independent services can evolve and scale without redeploying an entire monolith" },
+      { "id": "b", "text": "Cloud-native design removes all integration requirements" },
+      { "id": "c", "text": "Cloud-native systems cannot support compliance needs" },
+      { "id": "d", "text": "Cloud-native means using only virtual machines" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Cloud-native and microservice patterns typically improve modularity, release speed, and scalability.",
+    "category": "DIGITAL_TRANSFORMATION",
+    "difficulty": "HARD",
+    "tags": ["Cloud Native", "Microservices"],
+    "references": ["https://cloud.google.com/architecture/microservices-architecture-introduction"]
+  },
+  {
+    "question": "An executive sponsor asks what success metric best indicates digital transformation progress in cloud programs. Which is most meaningful?",
+    "options": [
+      { "id": "a", "text": "Improved business outcomes such as faster delivery, reliability, and customer impact" },
+      { "id": "b", "text": "Number of virtual machines created per month" },
+      { "id": "c", "text": "Total count of internal meetings on cloud topics" },
+      { "id": "d", "text": "Amount of untagged resources in the environment" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Transformation should be measured by business outcomes, not infrastructure activity alone.",
+    "category": "DIGITAL_TRANSFORMATION",
+    "difficulty": "MEDIUM",
+    "tags": ["KPIs", "Business Outcomes"],
+    "references": ["https://cloud.google.com/adoption-framework"]
+  }
+]

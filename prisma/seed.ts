@@ -1,7 +1,74 @@
 import { PrismaClient } from '@prisma/client';
 import { hash } from 'bcryptjs';
+import { readFileSync, readdirSync } from 'fs';
+import { join } from 'path';
 
 const prisma = new PrismaClient();
+
+type SeedQuestion = {
+  question: string;
+  options: Array<{ id: string; text: string }>;
+  correctAnswers: string[];
+  explanation: string;
+  category:
+    | 'DIGITAL_TRANSFORMATION'
+    | 'DATA_AND_AI'
+    | 'INFRASTRUCTURE_MODERNIZATION'
+    | 'SECURITY_AND_OPERATIONS'
+    | 'SCALING_AND_OPERATIONS';
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+  tags?: string[];
+  references?: string[];
+};
+
+function loadAdvancedQuestions(): SeedQuestion[] {
+  try {
+    const questionDir = join(process.cwd(), 'prisma/questions');
+    const advancedFiles = readdirSync(questionDir)
+      .filter(
+        (name) =>
+          name.startsWith('gcp-gdl-advanced-') && name.endsWith('.json')
+      )
+      .sort();
+
+    const merged: SeedQuestion[] = [];
+
+    for (const file of advancedFiles) {
+      const path = join(questionDir, file);
+      const raw = readFileSync(path, 'utf-8');
+      const parsed = JSON.parse(raw) as SeedQuestion[];
+
+      if (!Array.isArray(parsed)) {
+        console.warn(`⚠️ Advanced GDL file ${file} is not an array. Skipping.`);
+        continue;
+      }
+
+      merged.push(...parsed);
+    }
+
+    return merged;
+  } catch (error) {
+    console.warn('⚠️ Could not load advanced GDL question files. Skipping.', error);
+    return [];
+  }
+}
+
+function getGdlSubdomainTag(category: SeedQuestion['category']): string {
+  switch (category) {
+    case 'DIGITAL_TRANSFORMATION':
+      return 'GDL_1_DIGITAL_TRANSFORMATION';
+    case 'DATA_AND_AI':
+      return 'GDL_2_3_DATA_AND_AI';
+    case 'INFRASTRUCTURE_MODERNIZATION':
+      return 'GDL_4_INFRA_MODERNIZATION';
+    case 'SECURITY_AND_OPERATIONS':
+      return 'GDL_5_TRUST_SECURITY';
+    case 'SCALING_AND_OPERATIONS':
+      return 'GDL_6_SCALING_OPERATIONS';
+    default:
+      return 'GDL_MISC';
+  }
+}
 
 async function main() {
   console.log('🌱 Seeding database with users and GCDL questions...');
@@ -20,6 +87,20 @@ async function main() {
   });
   console.log('✅ Admin user created:', admin.email);
 
+  // Create test admin user
+  const testAdminPassword = await hash('testadmin123', 12);
+  const testAdmin = await prisma.user.upsert({
+    where: { email: 'testadmin@techvaults.com' },
+    update: {},
+    create: {
+      email: 'testadmin@techvaults.com',
+      name: 'Test Admin',
+      password: testAdminPassword,
+      role: 'ADMIN',
+    },
+  });
+  console.log('✅ Test admin user created:', testAdmin.email);
+
   // Create sample student
   const studentPassword = await hash('student123', 12);
   const student = await prisma.user.upsert({
@@ -33,6 +114,29 @@ async function main() {
     },
   });
   console.log('✅ Student user created:', student.email);
+
+  // Create additional test students
+  const testStudents = [
+    { email: 'john.doe@techvaults.com', name: 'John Doe' },
+    { email: 'jane.smith@techvaults.com', name: 'Jane Smith' },
+    { email: 'mike.johnson@techvaults.com', name: 'Mike Johnson' },
+    { email: 'sarah.williams@techvaults.com', name: 'Sarah Williams' },
+    { email: 'david.brown@techvaults.com', name: 'David Brown' },
+  ];
+
+  for (const studentData of testStudents) {
+    await prisma.user.upsert({
+      where: { email: studentData.email },
+      update: {},
+      create: {
+        email: studentData.email,
+        name: studentData.name,
+        password: studentPassword, // Same password for all test students
+        role: 'STUDENT',
+      },
+    });
+    console.log('✅ Test student created:', studentData.email);
+  }
 
   // Get GCDL certification and domains
   const gcdlCert = await prisma.certification.findUnique({
@@ -51,13 +155,14 @@ async function main() {
     DATA_AND_AI: gcdlCert.domains.find(d => d.name.includes('Data'))?.id,
     INFRASTRUCTURE_MODERNIZATION: gcdlCert.domains.find(d => d.name.includes('Infrastructure'))?.id,
     SECURITY_AND_OPERATIONS: gcdlCert.domains.find(d => d.name.includes('Security'))?.id,
+    SCALING_AND_OPERATIONS: gcdlCert.domains.find(d => d.name.includes('Scaling'))?.id,
   };
 
   console.log('📚 Found GCDL certification with domains');
 
-  // Comprehensive GCDL Questions - 100+ Questions covering all exam topics
+  // Comprehensive GCDL Questions - baseline questions covering all exam topics
   // Based on official GCDL exam guide research
-  const questions = [
+  const baselineQuestions: SeedQuestion[] = [
     // Digital Transformation
     {
       question: 'What is the primary benefit of cloud computing for digital transformation?',
@@ -805,6 +910,10 @@ async function main() {
     },
   ];
 
+  const advancedQuestions = loadAdvancedQuestions();
+  const questions = [...baselineQuestions, ...advancedQuestions];
+
+  console.log(`🧠 Loaded ${advancedQuestions.length} advanced GCDL questions`);
   console.log('📝 Creating GCDL questions...');
   let createdCount = 0;
   for (const q of questions) {
@@ -813,6 +922,21 @@ async function main() {
       console.warn(`⚠️ Skipping question - domain not found for category: ${q.category}`);
       continue;
     }
+
+    const existing = await prisma.question.findFirst({
+      where: {
+        certificationId: gcdlCert.id,
+        question: q.question,
+      },
+      select: { id: true },
+    });
+
+    if (existing) {
+      continue;
+    }
+
+    const subdomainTag = getGdlSubdomainTag(q.category);
+    const combinedTags = Array.from(new Set([...(q.tags ?? []), subdomainTag]));
 
     await prisma.question.create({
       data: {
@@ -825,7 +949,8 @@ async function main() {
         certificationId: gcdlCert.id,
         domainId: domainId,
         category: q.category, // Keep for backward compatibility
-        tags: [], // Can be enhanced later
+        tags: combinedTags,
+        references: q.references ?? [],
       },
     });
     createdCount++;

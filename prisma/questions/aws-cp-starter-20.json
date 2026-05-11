@@ -1,0 +1,573 @@
+{
+  "metadata": {
+    "certification": "AWS-CP",
+    "provider": "AWS",
+    "submittedBy": "kiro-ai",
+    "createdAt": "2026-05-11",
+    "source": "AWS Documentation",
+    "version": "1.0",
+    "description": "Starter set of 20 AWS Cloud Practitioner questions based on official AWS documentation"
+  },
+  "questions": [
+    {
+      "question": "A company wants to migrate their on-premises application to AWS and needs to ensure the application can automatically scale based on demand. Which AWS service should they use?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Amazon EC2 with manual scaling"
+        },
+        {
+          "id": "b",
+          "text": "Amazon EC2 Auto Scaling"
+        },
+        {
+          "id": "c",
+          "text": "AWS Lambda"
+        },
+        {
+          "id": "d",
+          "text": "Amazon S3"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "Amazon EC2 Auto Scaling automatically adjusts the number of EC2 instances based on demand, ensuring the application can handle varying workloads. Option A (manual scaling) requires human intervention and doesn't automatically scale. Option C (Lambda) is serverless and auto-scales but is for different use cases (event-driven, short-duration functions). Option D (S3) is object storage, not a compute service. Reference: https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html",
+      "category": "Compute",
+      "difficulty": "EASY",
+      "tags": ["EC2", "Auto Scaling", "Scalability"],
+      "source": "AWS EC2 Auto Scaling Documentation",
+      "reference": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html"
+    },
+    {
+      "question": "Which AWS service provides a fully managed NoSQL database that automatically scales throughput capacity?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Amazon RDS"
+        },
+        {
+          "id": "b",
+          "text": "Amazon Redshift"
+        },
+        {
+          "id": "c",
+          "text": "Amazon DynamoDB"
+        },
+        {
+          "id": "d",
+          "text": "Amazon Aurora"
+        }
+      ],
+      "correctAnswers": ["c"],
+      "explanation": "Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. It automatically scales throughput capacity up or down based on actual traffic patterns. Option A (RDS) is for relational databases. Option B (Redshift) is a data warehouse service. Option D (Aurora) is a relational database, not NoSQL. Reference: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html",
+      "category": "Database",
+      "difficulty": "EASY",
+      "tags": ["DynamoDB", "NoSQL", "Database"],
+      "source": "AWS DynamoDB Documentation",
+      "reference": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html"
+    },
+    {
+      "question": "A company needs to store backup files that will be accessed once a year for compliance purposes. Which S3 storage class offers the lowest cost for this use case?",
+      "options": [
+        {
+          "id": "a",
+          "text": "S3 Standard"
+        },
+        {
+          "id": "b",
+          "text": "S3 Standard-IA"
+        },
+        {
+          "id": "c",
+          "text": "S3 Glacier Deep Archive"
+        },
+        {
+          "id": "d",
+          "text": "S3 One Zone-IA"
+        }
+      ],
+      "correctAnswers": ["c"],
+      "explanation": "S3 Glacier Deep Archive is the lowest-cost storage class designed for long-term retention of data that is accessed once or twice per year. It offers the lowest storage cost among all S3 storage classes. Option A (Standard) is for frequently accessed data and is more expensive. Option B (Standard-IA) is for infrequently accessed data but costs more than Glacier Deep Archive. Option D (One Zone-IA) stores data in a single AZ and is not the lowest cost option. Reference: https://aws.amazon.com/s3/storage-classes/",
+      "category": "Storage",
+      "difficulty": "MEDIUM",
+      "tags": ["S3", "Storage Classes", "Cost Optimization"],
+      "source": "AWS S3 Storage Classes Documentation",
+      "reference": "https://aws.amazon.com/s3/storage-classes/"
+    },
+    {
+      "question": "Which AWS service allows you to run code without provisioning or managing servers?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Amazon EC2"
+        },
+        {
+          "id": "b",
+          "text": "AWS Lambda"
+        },
+        {
+          "id": "c",
+          "text": "Amazon ECS"
+        },
+        {
+          "id": "d",
+          "text": "AWS Elastic Beanstalk"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "AWS Lambda is a serverless compute service that lets you run code without provisioning or managing servers. You pay only for the compute time you consume. Option A (EC2) requires you to provision and manage virtual servers. Option C (ECS) is a container orchestration service that still requires infrastructure management. Option D (Elastic Beanstalk) is a PaaS that abstracts infrastructure but still uses servers behind the scenes. Reference: https://docs.aws.amazon.com/lambda/latest/dg/welcome.html",
+      "category": "Compute",
+      "difficulty": "EASY",
+      "tags": ["Lambda", "Serverless", "Compute"],
+      "source": "AWS Lambda Documentation",
+      "reference": "https://docs.aws.amazon.com/lambda/latest/dg/welcome.html"
+    },
+    {
+      "question": "What is the primary benefit of using AWS CloudFormation?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It provides a graphical user interface for managing resources"
+        },
+        {
+          "id": "b",
+          "text": "It allows you to model and provision AWS resources using infrastructure as code"
+        },
+        {
+          "id": "c",
+          "text": "It automatically optimizes costs for all AWS services"
+        },
+        {
+          "id": "d",
+          "text": "It provides real-time monitoring of application performance"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "AWS CloudFormation allows you to model and provision AWS resources using infrastructure as code (IaC). You can define your infrastructure in templates and CloudFormation will provision and configure the resources for you. Option A is incorrect as CloudFormation uses templates, not primarily a GUI. Option C is incorrect as CloudFormation doesn't automatically optimize costs. Option D is incorrect as monitoring is provided by CloudWatch, not CloudFormation. Reference: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html",
+      "category": "Management",
+      "difficulty": "EASY",
+      "tags": ["CloudFormation", "Infrastructure as Code", "Automation"],
+      "source": "AWS CloudFormation Documentation",
+      "reference": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html"
+    },
+    {
+      "question": "A company wants to distribute content globally with low latency. Which AWS service should they use?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Amazon S3"
+        },
+        {
+          "id": "b",
+          "text": "Amazon CloudFront"
+        },
+        {
+          "id": "c",
+          "text": "AWS Direct Connect"
+        },
+        {
+          "id": "d",
+          "text": "Amazon Route 53"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "Amazon CloudFront is a content delivery network (CDN) service that securely delivers data, videos, applications, and APIs to customers globally with low latency and high transfer speeds. Option A (S3) is object storage but doesn't provide CDN capabilities. Option C (Direct Connect) is for dedicated network connections between on-premises and AWS. Option D (Route 53) is a DNS service, not a CDN. Reference: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html",
+      "category": "Networking",
+      "difficulty": "EASY",
+      "tags": ["CloudFront", "CDN", "Content Delivery"],
+      "source": "AWS CloudFront Documentation",
+      "reference": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html"
+    },
+    {
+      "question": "Which AWS service provides a managed relational database that is compatible with MySQL and PostgreSQL?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Amazon DynamoDB"
+        },
+        {
+          "id": "b",
+          "text": "Amazon RDS"
+        },
+        {
+          "id": "c",
+          "text": "Amazon Redshift"
+        },
+        {
+          "id": "d",
+          "text": "Amazon ElastiCache"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "Amazon RDS (Relational Database Service) is a managed service that makes it easy to set up, operate, and scale relational databases in the cloud. It supports multiple database engines including MySQL, PostgreSQL, Oracle, SQL Server, and MariaDB. Option A (DynamoDB) is a NoSQL database. Option C (Redshift) is a data warehouse service. Option D (ElastiCache) is an in-memory caching service. Reference: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html",
+      "category": "Database",
+      "difficulty": "EASY",
+      "tags": ["RDS", "Relational Database", "MySQL", "PostgreSQL"],
+      "source": "AWS RDS Documentation",
+      "reference": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html"
+    },
+    {
+      "question": "What is the AWS shared responsibility model?",
+      "options": [
+        {
+          "id": "a",
+          "text": "AWS is responsible for everything, customers have no responsibilities"
+        },
+        {
+          "id": "b",
+          "text": "Customers are responsible for everything, AWS has no responsibilities"
+        },
+        {
+          "id": "c",
+          "text": "AWS is responsible for security OF the cloud, customers are responsible for security IN the cloud"
+        },
+        {
+          "id": "d",
+          "text": "AWS and customers share equal responsibility for all aspects of security"
+        }
+      ],
+      "correctAnswers": ["c"],
+      "explanation": "The AWS shared responsibility model defines that AWS is responsible for security OF the cloud (infrastructure, hardware, software, networking, and facilities), while customers are responsible for security IN the cloud (customer data, platform applications, identity and access management, operating system, network and firewall configuration). Option A and B are incorrect as both parties have responsibilities. Option D is incorrect as responsibilities are divided, not equally shared across all aspects. Reference: https://aws.amazon.com/compliance/shared-responsibility-model/",
+      "category": "Security",
+      "difficulty": "MEDIUM",
+      "tags": ["Shared Responsibility", "Security", "Compliance"],
+      "source": "AWS Shared Responsibility Model",
+      "reference": "https://aws.amazon.com/compliance/shared-responsibility-model/"
+    },
+    {
+      "question": "Which AWS service should be used to monitor and receive alerts about AWS resource utilization and application performance?",
+      "options": [
+        {
+          "id": "a",
+          "text": "AWS CloudTrail"
+        },
+        {
+          "id": "b",
+          "text": "Amazon CloudWatch"
+        },
+        {
+          "id": "c",
+          "text": "AWS Config"
+        },
+        {
+          "id": "d",
+          "text": "AWS X-Ray"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "Amazon CloudWatch is a monitoring and observability service that provides data and actionable insights for AWS resources and applications. It collects monitoring and operational data in the form of logs, metrics, and events. Option A (CloudTrail) is for logging API calls and user activity. Option C (Config) is for assessing, auditing, and evaluating configurations of AWS resources. Option D (X-Ray) is for analyzing and debugging distributed applications. Reference: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html",
+      "category": "Monitoring",
+      "difficulty": "EASY",
+      "tags": ["CloudWatch", "Monitoring", "Alerts"],
+      "source": "AWS CloudWatch Documentation",
+      "reference": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html"
+    },
+    {
+      "question": "A company needs to ensure their AWS resources comply with internal security policies. Which service can automatically check resource configurations against desired settings?",
+      "options": [
+        {
+          "id": "a",
+          "text": "AWS CloudTrail"
+        },
+        {
+          "id": "b",
+          "text": "Amazon Inspector"
+        },
+        {
+          "id": "c",
+          "text": "AWS Config"
+        },
+        {
+          "id": "d",
+          "text": "AWS Shield"
+        }
+      ],
+      "correctAnswers": ["c"],
+      "explanation": "AWS Config is a service that enables you to assess, audit, and evaluate the configurations of your AWS resources. It continuously monitors and records AWS resource configurations and allows you to automate the evaluation of recorded configurations against desired configurations. Option A (CloudTrail) logs API calls but doesn't evaluate configurations. Option B (Inspector) is for security vulnerability assessments. Option D (Shield) is for DDoS protection. Reference: https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html",
+      "category": "Security",
+      "difficulty": "MEDIUM",
+      "tags": ["Config", "Compliance", "Configuration Management"],
+      "source": "AWS Config Documentation",
+      "reference": "https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html"
+    },
+    {
+      "question": "Which AWS service provides a virtual network that is logically isolated from other virtual networks in the AWS Cloud?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Amazon VPC"
+        },
+        {
+          "id": "b",
+          "text": "AWS Direct Connect"
+        },
+        {
+          "id": "c",
+          "text": "Amazon Route 53"
+        },
+        {
+          "id": "d",
+          "text": "AWS PrivateLink"
+        }
+      ],
+      "correctAnswers": ["a"],
+      "explanation": "Amazon Virtual Private Cloud (VPC) lets you provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment. Option B (Direct Connect) is for dedicated network connections. Option C (Route 53) is a DNS service. Option D (PrivateLink) provides private connectivity between VPCs and services. Reference: https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html",
+      "category": "Networking",
+      "difficulty": "EASY",
+      "tags": ["VPC", "Networking", "Isolation"],
+      "source": "AWS VPC Documentation",
+      "reference": "https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html"
+    },
+    {
+      "question": "What is the primary purpose of AWS Identity and Access Management (IAM)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "To monitor application performance"
+        },
+        {
+          "id": "b",
+          "text": "To manage user access and permissions to AWS resources"
+        },
+        {
+          "id": "c",
+          "text": "To encrypt data at rest"
+        },
+        {
+          "id": "d",
+          "text": "To provide DDoS protection"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "AWS IAM enables you to manage access to AWS services and resources securely. Using IAM, you can create and manage AWS users and groups, and use permissions to allow and deny their access to AWS resources. Option A is the purpose of CloudWatch. Option C is handled by various encryption services like KMS. Option D is provided by AWS Shield. Reference: https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html",
+      "category": "Security",
+      "difficulty": "EASY",
+      "tags": ["IAM", "Access Management", "Security"],
+      "source": "AWS IAM Documentation",
+      "reference": "https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html"
+    },
+    {
+      "question": "Which pricing model allows you to pay a reduced hourly rate for EC2 instances in exchange for a commitment to use a specific amount of compute power for a one or three-year period?",
+      "options": [
+        {
+          "id": "a",
+          "text": "On-Demand Instances"
+        },
+        {
+          "id": "b",
+          "text": "Spot Instances"
+        },
+        {
+          "id": "c",
+          "text": "Reserved Instances"
+        },
+        {
+          "id": "d",
+          "text": "Dedicated Hosts"
+        }
+      ],
+      "correctAnswers": ["c"],
+      "explanation": "Reserved Instances provide a significant discount (up to 75%) compared to On-Demand pricing in exchange for a commitment to use a specific instance configuration for a one or three-year term. Option A (On-Demand) has no commitment and higher rates. Option B (Spot) offers unused capacity at discounted rates but can be interrupted. Option D (Dedicated Hosts) is a physical server dedicated for your use. Reference: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-reserved-instances.html",
+      "category": "Billing",
+      "difficulty": "EASY",
+      "tags": ["Reserved Instances", "Pricing", "Cost Optimization"],
+      "source": "AWS EC2 Pricing Documentation",
+      "reference": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-reserved-instances.html"
+    },
+    {
+      "question": "A company wants to decouple their application components so they can scale independently. Which AWS service should they use for message queuing?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Amazon SNS"
+        },
+        {
+          "id": "b",
+          "text": "Amazon SQS"
+        },
+        {
+          "id": "c",
+          "text": "AWS Step Functions"
+        },
+        {
+          "id": "d",
+          "text": "Amazon EventBridge"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "Amazon Simple Queue Service (SQS) is a fully managed message queuing service that enables you to decouple and scale microservices, distributed systems, and serverless applications. It eliminates the complexity and overhead of managing message-oriented middleware. Option A (SNS) is for pub/sub messaging, not queuing. Option C (Step Functions) is for workflow orchestration. Option D (EventBridge) is for event-driven architectures. Reference: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html",
+      "category": "Application Integration",
+      "difficulty": "MEDIUM",
+      "tags": ["SQS", "Message Queue", "Decoupling"],
+      "source": "AWS SQS Documentation",
+      "reference": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html"
+    },
+    {
+      "question": "Which AWS service provides managed DDoS protection for applications running on AWS?",
+      "options": [
+        {
+          "id": "a",
+          "text": "AWS WAF"
+        },
+        {
+          "id": "b",
+          "text": "AWS Shield"
+        },
+        {
+          "id": "c",
+          "text": "Amazon GuardDuty"
+        },
+        {
+          "id": "d",
+          "text": "AWS Security Hub"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "AWS Shield is a managed DDoS protection service that safeguards applications running on AWS. AWS Shield Standard is automatically enabled for all AWS customers at no additional cost. AWS Shield Advanced provides additional protections. Option A (WAF) is a web application firewall. Option C (GuardDuty) is a threat detection service. Option D (Security Hub) provides a comprehensive view of security alerts. Reference: https://docs.aws.amazon.com/waf/latest/developerguide/shield-chapter.html",
+      "category": "Security",
+      "difficulty": "EASY",
+      "tags": ["Shield", "DDoS Protection", "Security"],
+      "source": "AWS Shield Documentation",
+      "reference": "https://docs.aws.amazon.com/waf/latest/developerguide/shield-chapter.html"
+    },
+    {
+      "question": "What is the maximum size of an object that can be stored in Amazon S3?",
+      "options": [
+        {
+          "id": "a",
+          "text": "5 GB"
+        },
+        {
+          "id": "b",
+          "text": "100 GB"
+        },
+        {
+          "id": "c",
+          "text": "5 TB"
+        },
+        {
+          "id": "d",
+          "text": "Unlimited"
+        }
+      ],
+      "correctAnswers": ["c"],
+      "explanation": "The maximum size of an object that can be stored in Amazon S3 is 5 TB (terabytes). For objects larger than 100 MB, you should use multipart upload. Option A (5 GB) is the maximum size for a single PUT operation. Option B (100 GB) is not a specific S3 limit. Option D (Unlimited) is incorrect as there is a 5 TB limit per object. Reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html",
+      "category": "Storage",
+      "difficulty": "MEDIUM",
+      "tags": ["S3", "Object Storage", "Limits"],
+      "source": "AWS S3 Documentation",
+      "reference": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html"
+    },
+    {
+      "question": "Which AWS service can be used to automate software deployments to EC2 instances, on-premises servers, and Lambda functions?",
+      "options": [
+        {
+          "id": "a",
+          "text": "AWS CodeCommit"
+        },
+        {
+          "id": "b",
+          "text": "AWS CodeBuild"
+        },
+        {
+          "id": "c",
+          "text": "AWS CodeDeploy"
+        },
+        {
+          "id": "d",
+          "text": "AWS CodePipeline"
+        }
+      ],
+      "correctAnswers": ["c"],
+      "explanation": "AWS CodeDeploy is a fully managed deployment service that automates software deployments to a variety of compute services such as Amazon EC2, AWS Fargate, AWS Lambda, and on-premises servers. Option A (CodeCommit) is a source control service. Option B (CodeBuild) is a build service. Option D (CodePipeline) is a continuous delivery service that orchestrates the entire release process. Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html",
+      "category": "Developer Tools",
+      "difficulty": "MEDIUM",
+      "tags": ["CodeDeploy", "Deployment", "Automation"],
+      "source": "AWS CodeDeploy Documentation",
+      "reference": "https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html"
+    },
+    {
+      "question": "A company wants to analyze large amounts of data using SQL queries without managing infrastructure. Which AWS service should they use?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Amazon RDS"
+        },
+        {
+          "id": "b",
+          "text": "Amazon Redshift"
+        },
+        {
+          "id": "c",
+          "text": "Amazon Athena"
+        },
+        {
+          "id": "d",
+          "text": "Amazon EMR"
+        }
+      ],
+      "correctAnswers": ["c"],
+      "explanation": "Amazon Athena is an interactive query service that makes it easy to analyze data in Amazon S3 using standard SQL. Athena is serverless, so there is no infrastructure to manage, and you pay only for the queries you run. Option A (RDS) is a managed relational database but requires infrastructure management. Option B (Redshift) is a data warehouse that requires cluster management. Option D (EMR) is a big data platform that requires cluster management. Reference: https://docs.aws.amazon.com/athena/latest/ug/what-is.html",
+      "category": "Analytics",
+      "difficulty": "MEDIUM",
+      "tags": ["Athena", "SQL", "Serverless", "Analytics"],
+      "source": "AWS Athena Documentation",
+      "reference": "https://docs.aws.amazon.com/athena/latest/ug/what-is.html"
+    },
+    {
+      "question": "Which AWS service provides a managed container orchestration service compatible with Kubernetes?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Amazon ECS"
+        },
+        {
+          "id": "b",
+          "text": "Amazon EKS"
+        },
+        {
+          "id": "c",
+          "text": "AWS Fargate"
+        },
+        {
+          "id": "d",
+          "text": "AWS App Runner"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "Amazon Elastic Kubernetes Service (EKS) is a managed service that makes it easy to run Kubernetes on AWS without needing to install and operate your own Kubernetes control plane. Option A (ECS) is Amazon's proprietary container orchestration service. Option C (Fargate) is a serverless compute engine for containers that works with both ECS and EKS. Option D (App Runner) is a fully managed service for deploying containerized web applications. Reference: https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html",
+      "category": "Containers",
+      "difficulty": "MEDIUM",
+      "tags": ["EKS", "Kubernetes", "Containers"],
+      "source": "AWS EKS Documentation",
+      "reference": "https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html"
+    },
+    {
+      "question": "What is the AWS Well-Architected Framework?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A set of security rules that must be followed"
+        },
+        {
+          "id": "b",
+          "text": "A guide for designing and operating reliable, secure, efficient, and cost-effective systems in the cloud"
+        },
+        {
+          "id": "c",
+          "text": "A certification program for AWS architects"
+        },
+        {
+          "id": "d",
+          "text": "A tool for automatically optimizing AWS costs"
+        }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "The AWS Well-Architected Framework provides guidance for designing and operating reliable, secure, efficient, and cost-effective systems in the cloud. It is based on six pillars: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, and Sustainability. Option A is incorrect as it's not just security rules. Option C is incorrect as it's not a certification program. Option D is incorrect as it's a framework, not an automated tool. Reference: https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html",
+      "category": "Architecture",
+      "difficulty": "EASY",
+      "tags": ["Well-Architected Framework", "Best Practices", "Architecture"],
+      "source": "AWS Well-Architected Framework",
+      "reference": "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
+    }
+  ]
+}

@@ -17,7 +17,12 @@
     "db:generate": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
     "import-questions": "tsx scripts/import-questions.ts",
-    "question-stats": "tsx scripts/import-questions.ts stats"
+    "question-stats": "tsx scripts/import-questions.ts stats",
+    "extract-questions": "tsx scripts/question-extractor.ts",
+    "create-questions": "tsx scripts/create-questions-from-docs.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",
