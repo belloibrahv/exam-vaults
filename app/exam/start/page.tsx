@@ -81,6 +81,10 @@ export default async function StartExamPage({
     redirect('/auth/signin');
   }
 
+  if (session.user.role === 'ADMIN') {
+    redirect('/admin');
+  }
+
   const certificationId = searchParams.certificationId;
 
   if (!certificationId) {
@@ -122,6 +126,33 @@ export default async function StartExamPage({
 
   if (allQuestions.length === 0) {
     throw new Error(`No questions are available for ${certification.name}. Questions are being added soon.`);
+  }
+
+  // Enforce mastery-based learning lock
+  const totalLessonsCount = await prisma.learningLesson.count({
+    where: {
+      module: {
+        certificationId: certificationId,
+      },
+    },
+  });
+
+  if (totalLessonsCount > 0) {
+    const completedLessonsCount = await prisma.userLessonProgress.count({
+      where: {
+        userId: session.user.id,
+        completed: true,
+        lesson: {
+          module: {
+            certificationId: certificationId,
+          },
+        },
+      },
+    });
+
+    if (completedLessonsCount < totalLessonsCount) {
+      redirect(`/learning/${certification.slug}?error=locked`);
+    }
   }
 
   // Check if user can take exam (2-hour cooldown after failed attempt)

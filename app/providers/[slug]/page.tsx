@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Clock, FileText, Award } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import TechvaultsLogo from '@/components/TechvaultsLogo';
+import ExamVaultsLogo from '@/components/ExamVaultsLogo';
 import { getProviderBySlug } from '@/lib/provider-catalog';
 
 // Official cloud provider logos
@@ -41,8 +41,8 @@ export default async function ProviderPage({ params }: { params: { slug: string 
       {/* Header */}
       <header className="border-b border-techvaults-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <TechvaultsLogo size={45} variant="full" />
+          <Link href="/" className="flex items-center hover:opacity-95 transition-opacity">
+            <ExamVaultsLogo size={36} variant="full" />
           </Link>
           <div className="flex gap-3">
             <Link
@@ -193,11 +193,21 @@ export default async function ProviderPage({ params }: { params: { slug: string 
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-techvaults-gray-200 bg-white mt-20">
-        <div className="container mx-auto px-4 py-8 text-center text-techvaults-gray-600">
-          <p className="text-sm">
-            © 2026 Techvaults Limited. All rights reserved. Internal use only.
+      <footer className="border-t border-techvaults-gray-200 bg-white mt-20 py-8">
+        <div className="container mx-auto px-4 max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4 text-techvaults-gray-600">
+          <p className="text-xs">
+            © 2026 ExamVaults. All rights reserved.
           </p>
+          <div className="flex items-center gap-2">
+            <span className="text-xs">Built by</span>
+            <Image
+              src="/images/logo.png"
+              alt="Techvaults"
+              width={90}
+              height={24}
+              className="h-5 w-auto opacity-75 hover:opacity-100 transition-opacity"
+            />
+          </div>
         </div>
       </footer>
     </div>

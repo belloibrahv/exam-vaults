@@ -19,7 +19,6 @@ import {
   XCircle,
   AlertCircle,
 } from 'lucide-react';
-import TechvaultsLogo from '@/components/TechvaultsLogo';
 import { format } from 'date-fns';
 
 interface AdminDashboardProps {

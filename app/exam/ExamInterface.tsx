@@ -10,7 +10,7 @@ import {
   CheckCircle,
   AlertCircle,
 } from 'lucide-react';
-import TechvaultsLogo from '@/components/TechvaultsLogo';
+import ExamVaultsLogo from '@/components/ExamVaultsLogo';
 import { formatTime } from '@/lib/utils';
 
 interface Question {
@@ -140,7 +140,7 @@ export default function ExamInterface({
         <div className="container mx-auto px-3 md:px-4 py-2 md:py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
-              <TechvaultsLogo size={28} className="flex-shrink-0 md:w-8 md:h-8" />
+              <ExamVaultsLogo size={28} variant="full" className="flex-shrink-0" />
               <div className="min-w-0">
                 <h1 className="text-sm md:text-lg font-bold text-techvaults-black truncate">
                   GCDL Practice Exam

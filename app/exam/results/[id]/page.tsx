@@ -11,6 +11,10 @@ export default async function ResultsPage({ params }: { params: { id: string } }
     redirect('/auth/signin');
   }
 
+  if (session.user.role === 'ADMIN') {
+    redirect('/admin');
+  }
+
   const examAttempt = await prisma.examAttempt.findUnique({
     where: { id: params.id },
     include: {

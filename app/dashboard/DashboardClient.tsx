@@ -18,8 +18,10 @@ import {
   Target,
   Zap,
   Shield,
+  Lock,
 } from 'lucide-react';
 import CloudProviderLogo from '@/components/CloudProviderLogo';
+import ExamVaultsLogo from '@/components/ExamVaultsLogo';
 import { formatTime, getScoreColor } from '@/lib/utils';
 import { format } from 'date-fns';
 
@@ -40,6 +42,7 @@ interface DashboardClientProps {
     totalQuestions: number;
     totalCertifications: number;
   };
+  completedLessonsCountMap: Record<string, number>;
 }
 
 export default function DashboardClient({
@@ -48,6 +51,7 @@ export default function DashboardClient({
   userProgress,
   examAttempts,
   stats,
+  completedLessonsCountMap,
 }: DashboardClientProps) {
   const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
 
@@ -61,22 +65,8 @@ export default function DashboardClient({
       {/* Header */}
       <header className="border-b border-techvaults-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-3 md:px-4 py-3 md:py-4 flex items-center justify-between gap-2">
-          <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity min-w-0">
-            <div className="rounded-xl border border-techvaults-gray-200 bg-white shadow-sm px-3 py-2 flex-shrink-0">
-              <Image
-                src="/images/logo.png"
-                alt="Techvaults"
-                width={150}
-                height={40}
-                priority
-                className="h-7 w-auto md:h-8"
-              />
-            </div>
-            <div className="hidden md:block min-w-0">
-              <p className="text-xs font-medium text-techvaults-gray-600 truncate">
-                Multi-Cloud Certification Prep
-              </p>
-            </div>
+          <Link href="/" className="flex items-center hover:opacity-95 transition-opacity">
+            <ExamVaultsLogo size={36} variant="full" />
           </Link>
           <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
             <div className="text-right hidden md:block">
@@ -174,11 +164,12 @@ export default function DashboardClient({
         {/* Certifications by Provider */}
         {displayedProviders.map((provider) => (
           <div key={provider.id} className="mb-6 md:mb-8">
-            <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4 flex-wrap">
-              <CloudProviderLogo provider={provider.slug} size={24} className="md:w-8 md:h-8" />
-              <h3 className="text-xl md:text-2xl font-bold text-techvaults-black">{provider.name}</h3>
-              <span className="text-xs md:text-sm text-techvaults-gray-600">
-                ({provider.certifications.length} certifications)
+            <div className="flex items-center gap-3 mb-4 flex-wrap">
+              <div className="bg-white/90 p-2.5 rounded-xl border border-techvaults-gray-200 shadow-sm flex items-center justify-center">
+                <CloudProviderLogo provider={provider.slug} size={36} className="w-9 h-9" />
+              </div>
+              <span className="text-xs md:text-sm text-techvaults-gray-600 font-bold bg-white/85 px-3.5 py-1.5 rounded-full border border-techvaults-gray-200/60 shadow-sm">
+                {provider.certifications.length} {provider.certifications.length === 1 ? 'Certification' : 'Certifications'}
               </span>
             </div>
 
@@ -198,6 +189,7 @@ export default function DashboardClient({
                     attempts={attempts.length}
                     passed={passed}
                     questionsCount={questionsCount}
+                    completedLessonsCountMap={completedLessonsCountMap}
                   />
                 );
               })}
@@ -221,6 +213,24 @@ export default function DashboardClient({
           </div>
         )}
       </div>
+      {/* Footer */}
+      <footer className="border-t border-techvaults-gray-200 bg-white mt-16 py-8">
+        <div className="container mx-auto px-4 max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4 text-techvaults-gray-600">
+          <p className="text-xs">
+            © 2026 ExamVaults. All rights reserved.
+          </p>
+          <div className="flex items-center gap-2">
+            <span className="text-xs">Built by</span>
+            <Image
+              src="/images/logo.png"
+              alt="Techvaults"
+              width={90}
+              height={24}
+              className="h-5 w-auto opacity-75 hover:opacity-100 transition-opacity"
+            />
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -254,6 +264,7 @@ function CertificationCard({
   attempts,
   passed,
   questionsCount,
+  completedLessonsCountMap,
 }: {
   certification: any;
   provider: any;
@@ -261,6 +272,7 @@ function CertificationCard({
   attempts: number;
   passed: boolean;
   questionsCount: number;
+  completedLessonsCountMap: Record<string, number>;
 }) {
   const levelColors: Record<string, string> = {
     Foundational: 'bg-green-100 text-green-700 border-green-300',
@@ -270,6 +282,11 @@ function CertificationCard({
   };
 
   const levelColor = levelColors[certification.level.name] || 'bg-gray-100 text-gray-700 border-gray-300';
+
+  const totalLessons = certification.learningModules?.reduce((sum: number, m: any) => sum + (m._count?.lessons || 0), 0) || 0;
+  const completedLessons = completedLessonsCountMap[certification.id] || 0;
+  const learningPercent = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+  const isLocked = totalLessons > 0 && completedLessons < totalLessons;
 
   return (
     <div className="bg-white rounded-xl border-2 border-techvaults-gray-200 hover:border-techvaults-red transition-all overflow-hidden group">
@@ -309,18 +326,25 @@ function CertificationCard({
           </div>
         </div>
 
-        {/* Progress Bar */}
-        {progress && (
-          <div className="mb-3 md:mb-4">
+        {/* Learning Progress Bar */}
+        {totalLessons > 0 && (
+          <div className="mb-4">
             <div className="flex items-center justify-between text-xs text-techvaults-gray-600 mb-1">
-              <span>Progress</span>
-              <span>{progress.questionsAttempted} / {questionsCount}</span>
+              <span className="font-semibold flex items-center gap-1">
+                <BookOpen className="w-3.5 h-3.5 text-techvaults-red" />
+                Learning Progress
+              </span>
+              <span className="font-bold text-techvaults-black">
+                {completedLessons}/{totalLessons} ({learningPercent}%)
+              </span>
             </div>
             <div className="w-full bg-techvaults-gray-200 rounded-full h-2">
               <div
-                className="bg-techvaults-red rounded-full h-2 transition-all"
+                className={`rounded-full h-2 transition-all duration-300 ${
+                  learningPercent === 100 ? 'bg-green-600' : 'bg-techvaults-red'
+                }`}
                 style={{
-                  width: `${Math.min(100, (progress.questionsAttempted / questionsCount) * 100)}%`,
+                  width: `${learningPercent}%`,
                 }}
               />
             </div>
@@ -328,13 +352,42 @@ function CertificationCard({
         )}
 
         {/* Action Button */}
-        <Link
-          href={`/exam/start?certificationId=${certification.id}`}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 md:py-3 bg-techvaults-red text-white rounded-lg text-sm md:text-base font-semibold hover:bg-red-700 transition-all group-hover:scale-105 active:scale-95 min-h-[44px]"
-        >
-          <Play className="w-4 h-4" />
-          {questionsCount > 0 ? 'Start Practice' : 'Coming Soon'}
-        </Link>
+        {isLocked ? (
+          <div className="flex flex-col gap-2">
+            <button
+              disabled
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-techvaults-gray-100 text-techvaults-gray-400 rounded-lg text-sm font-semibold border border-techvaults-gray-200 cursor-not-allowed min-h-[44px]"
+            >
+              <Lock className="w-4 h-4 text-techvaults-gray-400" />
+              Practice Exam Locked
+            </button>
+            <Link
+              href={`/learning/${certification.slug}`}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-techvaults-red text-white rounded-lg text-sm font-semibold hover:bg-red-700 active:scale-95 transition-all min-h-[44px]"
+            >
+              <BookOpen className="w-4 h-4" />
+              {completedLessons > 0 ? 'Resume Course' : 'Start Course'}
+            </Link>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2">
+            <Link
+              href={`/exam/start?certificationId=${certification.id}`}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-techvaults-red text-white rounded-lg text-sm md:text-base font-semibold hover:bg-red-700 transition-all group-hover:scale-105 active:scale-95 min-h-[44px]"
+            >
+              <Play className="w-4 h-4" />
+              {questionsCount > 0 ? 'Start Practice' : 'Coming Soon'}
+            </Link>
+            {totalLessons > 0 && (
+              <Link
+                href={`/learning/${certification.slug}`}
+                className="w-full flex items-center justify-center gap-2 px-4 py-1.5 border border-techvaults-gray-300 text-techvaults-gray-600 rounded-lg text-xs font-semibold hover:border-techvaults-red hover:text-techvaults-red transition-all min-h-[32px]"
+              >
+                Review Course Materials
+              </Link>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

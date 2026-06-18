@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Award,
   Clock,
@@ -12,7 +13,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import TechvaultsLogo from '@/components/TechvaultsLogo';
+import ExamVaultsLogo from '@/components/ExamVaultsLogo';
 import { formatTime, getScoreColor, getScoreBgColor } from '@/lib/utils';
 import { format } from 'date-fns';
 
@@ -66,10 +67,12 @@ export default function ResultsClient({
       {/* Header */}
       <header className="border-b border-techvaults-gray-200 bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <TechvaultsLogo size={40} />
-            <div>
-              <h1 className="text-xl font-bold text-techvaults-black">Exam Results</h1>
+          <div className="flex items-center gap-4">
+            <Link href="/dashboard" className="flex items-center hover:opacity-95 transition-opacity">
+              <ExamVaultsLogo size={36} variant="full" />
+            </Link>
+            <div className="hidden sm:block border-l border-techvaults-gray-200 pl-4">
+              <h1 className="text-lg font-bold text-techvaults-black">Exam Results</h1>
               <p className="text-xs text-techvaults-gray-600">
                 {format(new Date(examAttempt.completedAt), 'MMM dd, yyyy • h:mm a')}
               </p>
@@ -294,6 +297,24 @@ export default function ResultsClient({
           )}
         </div>
       </div>
+      {/* Footer */}
+      <footer className="border-t border-techvaults-gray-200 bg-white mt-16 py-8">
+        <div className="container mx-auto px-4 max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4 text-techvaults-gray-600">
+          <p className="text-xs">
+            © 2026 ExamVaults. All rights reserved.
+          </p>
+          <div className="flex items-center gap-2">
+            <span className="text-xs">Built by</span>
+            <Image
+              src="/images/logo.png"
+              alt="Techvaults"
+              width={90}
+              height={24}
+              className="h-5 w-auto opacity-75 hover:opacity-100 transition-opacity"
+            />
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

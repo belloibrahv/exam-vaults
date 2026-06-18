@@ -22,8 +22,9 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   
-  examAttempts  ExamAttempt[]
-  userProgress  UserProgress[]
+  examAttempts   ExamAttempt[]
+  userProgress   UserProgress[]
+  lessonProgress UserLessonProgress[]
   
   @@map("users")
 }
@@ -108,6 +109,7 @@ model Certification {
   questions       Question[]
   examAttempts    ExamAttempt[]
   userProgress    UserProgress[]
+  learningModules LearningModule[]
   
   @@map("certifications")
   @@index([providerId])
@@ -274,3 +276,67 @@ enum ProgressStatus {
   PASSED
   FAILED
 }
+
+// ============================================
+// LEARNING CONTENT & LMS
+// ============================================
+
+model LearningModule {
+  id              String           @id @default(cuid())
+  title           String
+  description     String           @db.Text
+  order           Int              @default(0)
+  
+  certificationId String
+  certification   Certification    @relation(fields: [certificationId], references: [id], onDelete: Cascade)
+  
+  lessons         LearningLesson[]
+  
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  
+  @@map("learning_modules")
+  @@index([certificationId])
+}
+
+model LearningLesson {
+  id              String               @id @default(cuid())
+  title           String
+  slug            String
+  content         String               @db.Text // Markdown text
+  order           Int                  @default(0)
+  estimatedTime   Int                  @default(5) // in minutes
+  
+  moduleId        String
+  module          LearningModule       @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  
+  userProgress    UserLessonProgress[]
+  
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  
+  @@unique([moduleId, slug])
+  @@map("learning_lessons")
+  @@index([moduleId])
+}
+
+model UserLessonProgress {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  lessonId        String
+  lesson          LearningLesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  completed       Boolean         @default(false)
+  completedAt     DateTime?
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  @@unique([userId, lessonId])
+  @@map("user_lesson_progress")
+  @@index([userId])
+  @@index([lessonId])
+}
+

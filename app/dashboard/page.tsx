@@ -11,6 +11,10 @@ export default async function DashboardPage() {
     redirect('/auth/signin');
   }
 
+  if (session.user.role === 'ADMIN') {
+    redirect('/admin');
+  }
+
   // Fetch all providers with their certifications
   const providers = await prisma.provider.findMany({
     include: {
@@ -20,6 +24,15 @@ export default async function DashboardPage() {
           _count: {
             select: {
               questions: true,
+            },
+          },
+          learningModules: {
+            include: {
+              _count: {
+                select: {
+                  lessons: true,
+                },
+              },
             },
           },
         },
@@ -69,6 +82,27 @@ export default async function DashboardPage() {
     take: 10,
   });
 
+  // Fetch user's completed lessons across all certifications
+  const completedLessons = await prisma.userLessonProgress.findMany({
+    where: {
+      userId: session.user.id,
+      completed: true,
+    },
+    include: {
+      lesson: {
+        include: {
+          module: true,
+        },
+      },
+    },
+  });
+
+  const completedLessonsCountMap: Record<string, number> = {};
+  for (const progress of completedLessons) {
+    const certId = progress.lesson.module.certificationId;
+    completedLessonsCountMap[certId] = (completedLessonsCountMap[certId] || 0) + 1;
+  }
+
   // Calculate overall statistics
   const completedAttempts = examAttempts.filter((a) => a.completedAt);
   const passedAttempts = completedAttempts.filter((a) => a.passed);
@@ -86,6 +120,7 @@ export default async function DashboardPage() {
       providers={providers}
       userProgress={userProgress}
       examAttempts={examAttempts}
+      completedLessonsCountMap={completedLessonsCountMap}
       stats={{
         totalAttempts: examAttempts.length,
         completedAttempts: completedAttempts.length,
@@ -97,3 +132,4 @@ export default async function DashboardPage() {
     />
   );
 }
+

@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { ArrowRight, Cloud, Award, TrendingUp, Users, Zap, Shield, Target } from 'lucide-react';
 import Image from 'next/image';
-import TechvaultsLogo from '@/components/TechvaultsLogo';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import ExamVaultsLogo from '@/components/ExamVaultsLogo';
 import SmoothScroll from '@/components/SmoothScroll';
 import { prisma } from '@/lib/prisma';
 
@@ -13,6 +15,8 @@ const PROVIDER_LOGOS = {
 };
 
 export default async function HomePage() {
+  const session = await getServerSession(authOptions);
+
   // Fetch providers with certification counts
   const providers = await prisma.provider.findMany({
     where: { isActive: true },
@@ -33,17 +37,8 @@ export default async function HomePage() {
         {/* Header */}
         <header className="border-b border-techvaults-gray-200/50 bg-white/80 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
           <div className="container mx-auto px-3 md:px-4 lg:px-8 py-3 md:py-4 flex items-center justify-between gap-2">
-            <Link href="/" className="flex items-center gap-2 md:gap-3 hover:opacity-90 transition-opacity">
-              <div className="rounded-xl border border-techvaults-gray-200 bg-white shadow-sm px-3 py-2">
-                <Image
-                  src="/images/logo.png"
-                  alt="Techvaults"
-                  width={165}
-                  height={42}
-                  priority
-                  className="h-8 w-auto md:h-9"
-                />
-              </div>
+            <Link href="/" className="flex items-center hover:opacity-95 transition-opacity">
+              <ExamVaultsLogo size={36} variant="full" />
             </Link>
             <nav className="hidden md:flex items-center gap-6 lg:gap-8">
               <Link href="/providers" className="text-sm font-medium text-techvaults-gray-700 hover:text-techvaults-red transition-colors">
@@ -56,21 +51,32 @@ export default async function HomePage() {
                 Providers
               </Link>
             </nav>
-            <div className="flex gap-2 md:gap-3">
-              <Link
-                href="/auth/signin"
-                className="px-3 md:px-5 py-2 md:py-2.5 text-sm font-semibold text-techvaults-gray-700 hover:text-techvaults-red transition-colors"
-              >
-                <span className="hidden sm:inline">Sign In</span>
-                <span className="sm:hidden">Login</span>
-              </Link>
-              <Link
-                href="/auth/signup"
-                className="px-3 md:px-5 py-2 md:py-2.5 text-sm font-semibold bg-techvaults-red text-white rounded-xl hover:bg-red-700 transition-all hover:shadow-lg hover:shadow-techvaults-red/20 hover:-translate-y-0.5 active:scale-95"
-              >
-                <span className="hidden sm:inline">Get Started</span>
-                <span className="sm:hidden">Start</span>
-              </Link>
+            <div className="flex gap-2 md:gap-3 items-center">
+              {session ? (
+                <Link
+                  href={session.user.role === 'ADMIN' ? '/admin' : '/dashboard'}
+                  className="px-3 md:px-5 py-2 md:py-2.5 text-sm font-semibold bg-techvaults-red text-white rounded-xl hover:bg-red-700 transition-all hover:shadow-lg hover:shadow-techvaults-red/20 hover:-translate-y-0.5 active:scale-95"
+                >
+                  Go to Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/signin"
+                    className="px-3 md:px-5 py-2 md:py-2.5 text-sm font-semibold text-techvaults-gray-700 hover:text-techvaults-red transition-colors"
+                  >
+                    <span className="hidden sm:inline">Sign In</span>
+                    <span className="sm:hidden">Login</span>
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="px-3 md:px-5 py-2 md:py-2.5 text-sm font-semibold bg-techvaults-red text-white rounded-xl hover:bg-red-700 transition-all hover:shadow-lg hover:shadow-techvaults-red/20 hover:-translate-y-0.5 active:scale-95"
+                  >
+                    <span className="hidden sm:inline">Get Started</span>
+                    <span className="sm:hidden">Start</span>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </header>
@@ -126,19 +132,31 @@ export default async function HomePage() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-12 md:mb-16 px-4">
-                <Link
-                  href="/auth/signup"
-                  className="hero-cta group inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-techvaults-red text-white rounded-xl font-semibold hover:bg-red-700 transition-all hover:shadow-2xl hover:shadow-techvaults-red/30 hover:-translate-y-1 active:scale-95 text-base md:text-lg min-h-[48px]"
-                >
-                  Start Practicing
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  href="/providers"
-                  className="hero-cta inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-white text-techvaults-black border-2 border-techvaults-gray-300 rounded-xl font-semibold hover:border-techvaults-red hover:shadow-xl transition-all active:scale-95 text-base md:text-lg min-h-[48px]"
-                >
-                  Browse Certifications
-                </Link>
+                {session ? (
+                  <Link
+                    href={session.user.role === 'ADMIN' ? '/admin' : '/dashboard'}
+                    className="hero-cta group inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-techvaults-red text-white rounded-xl font-semibold hover:bg-red-700 transition-all hover:shadow-2xl hover:shadow-techvaults-red/30 hover:-translate-y-1 active:scale-95 text-base md:text-lg min-h-[48px]"
+                  >
+                    Go to Dashboard
+                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                ) : (
+                  <>
+                    <Link
+                      href="/auth/signup"
+                      className="hero-cta group inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-techvaults-red text-white rounded-xl font-semibold hover:bg-red-700 transition-all hover:shadow-2xl hover:shadow-techvaults-red/30 hover:-translate-y-1 active:scale-95 text-base md:text-lg min-h-[48px]"
+                    >
+                      Start Practicing
+                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                    <Link
+                      href="/providers"
+                      className="hero-cta inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-white text-techvaults-black border-2 border-techvaults-gray-300 rounded-xl font-semibold hover:border-techvaults-red hover:shadow-xl transition-all active:scale-95 text-base md:text-lg min-h-[48px]"
+                    >
+                      Browse Certifications
+                    </Link>
+                  </>
+                )}
               </div>
 
               {/* Stats */}
@@ -273,44 +291,52 @@ export default async function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section className="relative container mx-auto px-4 lg:px-8 py-10 md:py-14 lg:py-16">
-            <div className="max-w-4xl mx-auto bg-gradient-to-br from-techvaults-red via-red-600 to-red-700 rounded-3xl p-12 lg:p-16 text-white shadow-2xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-              <div className="relative z-10">
-                <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
-                  Ready to Get Certified?
-                </h2>
-                <p className="text-xl mb-8 text-red-50 text-center max-w-2xl mx-auto">
-                  Join your fellow Techvaults engineers in preparing for cloud certifications.
-                  Start your journey today.
-                </p>
-                <div className="flex justify-center">
-                  <Link
-                    href="/auth/signup"
-                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-techvaults-red rounded-xl font-bold hover:bg-techvaults-gray-50 transition-all hover:scale-105 hover:shadow-2xl text-lg"
-                  >
-                    Create Your Account
-                    <ArrowRight className="w-5 h-5" />
-                  </Link>
+        {!session && (
+          <section className="relative container mx-auto px-4 lg:px-8 py-10 md:py-14 lg:py-16">
+              <div className="max-w-4xl mx-auto bg-gradient-to-br from-techvaults-red via-red-600 to-red-700 rounded-3xl p-12 lg:p-16 text-white shadow-2xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+                <div className="relative z-10">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
+                    Ready to Get Certified?
+                  </h2>
+                  <p className="text-xl mb-8 text-red-50 text-center max-w-2xl mx-auto">
+                    Join your fellow Techvaults engineers in preparing for cloud certifications.
+                    Start your journey today.
+                  </p>
+                  <div className="flex justify-center">
+                    <Link
+                      href="/auth/signup"
+                      className="inline-flex items-center gap-2 px-8 py-4 bg-white text-techvaults-red rounded-xl font-bold hover:bg-techvaults-gray-50 transition-all hover:scale-105 hover:shadow-2xl text-lg"
+                    >
+                      Create Your Account
+                      <ArrowRight className="w-5 h-5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-        </section>
+          </section>
+        )}
 
         {/* Footer */}
         <footer className="border-t border-techvaults-gray-200 bg-white/80 backdrop-blur-xl relative z-10">
           <div className="container mx-auto px-4 lg:px-8 py-12">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-3">
-                <TechvaultsLogo size={40} variant="icon" />
-                <div>
-                  <div className="font-bold text-techvaults-black">Techvaults</div>
-                  <div className="text-xs text-techvaults-gray-600">Multi-Cloud Certification Prep</div>
-                </div>
+                <ExamVaultsLogo size={36} variant="full" />
               </div>
               <p className="text-sm text-techvaults-gray-600">
-                © 2026 Techvaults Limited. All rights reserved. Internal use only.
+                © 2026 ExamVaults. All rights reserved.
               </p>
+              <div className="flex items-center gap-2 text-techvaults-gray-600">
+                <span className="text-xs">Developed by</span>
+                <Image
+                  src="/images/logo.png"
+                  alt="Techvaults"
+                  width={90}
+                  height={24}
+                  className="h-5 w-auto opacity-75 hover:opacity-100 transition-opacity"
+                />
+              </div>
             </div>
           </div>
         </footer>

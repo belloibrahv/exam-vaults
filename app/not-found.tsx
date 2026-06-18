@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FileQuestion } from 'lucide-react';
-import TechvaultsLogo from '@/components/TechvaultsLogo';
+import ExamVaultsLogo from '@/components/ExamVaultsLogo';
 
 export default function NotFound() {
   return (
@@ -8,7 +8,7 @@ export default function NotFound() {
       <div className="max-w-md w-full text-center">
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-techvaults-gray-200">
           <div className="flex justify-center mb-6">
-            <TechvaultsLogo size={60} variant="icon" />
+            <ExamVaultsLogo size={60} variant="icon" />
           </div>
           
           <div className="flex justify-center mb-6">

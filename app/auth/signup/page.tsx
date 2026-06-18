@@ -3,9 +3,10 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { UserPlus, Mail, Lock, User, AlertCircle } from 'lucide-react';
 import { gsap } from 'gsap';
-import TechvaultsLogo from '@/components/TechvaultsLogo';
+import ExamVaultsLogo from '@/components/ExamVaultsLogo';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -81,7 +82,7 @@ export default function SignUpPage() {
       <div className="w-full max-w-md relative z-10 my-8">
         {/* Logo */}
         <div className="flex justify-center mb-4">
-          <TechvaultsLogo size={60} variant="full" />
+          <ExamVaultsLogo size={50} variant="full" />
         </div>
 
         {/* Header */}
@@ -209,6 +210,17 @@ export default function SignUpPage() {
           <Link href="/" className="text-sm text-techvaults-gray-600 hover:text-techvaults-red transition-colors font-medium">
             ← Back to home
           </Link>
+        </div>
+
+        <div className="mt-8 flex items-center justify-center gap-2 text-techvaults-gray-500">
+          <span className="text-xs">Built by</span>
+          <Image
+            src="/images/logo.png"
+            alt="Techvaults"
+            width={75}
+            height={20}
+            className="h-4 w-auto opacity-60"
+          />
         </div>
       </div>
     </div>

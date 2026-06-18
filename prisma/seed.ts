@@ -149,6 +149,477 @@ async function main() {
     return;
   }
 
+  console.log('📚 Seeding GCDL Learning Modules and Lessons...');
+
+  const modulesData = [
+    {
+      title: 'Module 1: General Cloud Knowledge, Economics & Digital Transformation',
+      description: 'Understand cloud computing fundamentals, strategic business value, organizational change, CapEx vs OpEx, TCO, and cloud-native architecture.',
+      order: 1,
+      lessons: [
+        {
+          title: 'Cloud Computing, Strategic Business Value & Total Cost of Ownership (TCO)',
+          slug: 'intro-to-cloud-computing',
+          order: 1,
+          estimatedTime: 12,
+          content: `
+# Cloud Computing, Strategic Business Value & Total Cost of Ownership (TCO)
+
+## What is Cloud Computing?
+Cloud computing is the on-demand delivery of IT resources (compute power, storage, databases, and networking) over the internet with pay-as-you-go pricing. Instead of buying, owning, and maintaining physical data centers and servers, organizations lease these services from cloud providers like Google Cloud.
+
+### NIST Five Essential Characteristics of Cloud Computing
+1. **On-demand self-service:** Users can provision computing resources (like server time or network storage) automatically as needed, without requiring human interaction with the cloud provider.
+2. **Broad network access:** Capabilities are available over the network and accessed through standard mechanisms (e.g., mobile phones, tablets, laptops, workstations).
+3. **Resource pooling:** The provider’s physical and virtual resources are pooled to serve multiple consumers using a multi-tenant model. Resources are dynamically assigned and reassigned based on demand.
+4. **Rapid elasticity:** Resources can be elastically provisioned and released—automatically scaling out or in—to match real-time workload fluctuations.
+5. **Measured service:** Cloud resource usage is monitored, controlled, and reported. This provides transparency for both the provider and consumer through a metered billing system.
+
+---
+
+## The Strategic Business Value of Cloud
+
+A common misconception is that cloud adoption is a purely technical change. In reality, cloud adoption is a **strategic business driver** that enables:
+- **New Business Models:** Speed to deploy allows organizations to enter new markets and create new revenue streams quickly.
+- **Faster Experimentation & Innovation:** Low cost of failure allows teams to launch, test, and discard ideas rapidly.
+- **Improved Customer Outcomes:** Continuous updates and global deployments mean customer feedback is addressed in days, not quarters.
+- **Organizational Agility:** Moving away from static, quarterly product release cycles to weekly or daily updates.
+
+### Digital Transformation Blockers
+Digital transformation is organizational as much as it is technical. Major blockers include:
+- **People & Process Resistance:** Failure to adapt team structures and workflows.
+- **Lack of Change Management:** Not training employees or failing to build a cloud-first culture.
+- **Outdated Operating Models:** Applying legacy, ticketing-based procurement processes to high-speed cloud environments.
+
+---
+
+## Financial Shift: CapEx vs. OpEx
+
+Cloud adoption shifts IT spending from a Capital Expenditure model to an Operational Expenditure model.
+
+| Financial Model | Definition | Example in IT | Business Implications |
+| :--- | :--- | :--- | :--- |
+| **CapEx (Capital Expenditure)** | Upfront spending on physical assets that are depreciated over time. | Building data centers, buying servers, purchasing cooling systems. | **High barriers to entry:** Requires large cash reserves. Predictable but inflexible. Risks over-provisioning (waste) or under-provisioning (lost business). |
+| **OpEx (Operational Expenditure)** | Ongoing day-to-day business expenses. Fully tax-deductible in the year spent. | Monthly pay-as-you-go bills for Google Cloud services (VMs, storage). | **Low barriers to entry:** Pay only for what you use. Aligns costs directly with customer demand. Requires continuous cost optimization (FinOps). |
+
+### Total Cost of Ownership (TCO)
+Comparing cloud to on-premises requires a holistic evaluation of the **Total Cost of Ownership (TCO)**, which includes:
+- **Direct Costs:** Hardware purchase, software licenses, network bandwidth.
+- **Indirect Costs:** Server administration salaries, physical security guards, real estate lease, power grid connection, backup generators, and server cooling.
+- **Operational Friction:** Time spent waiting for server provisioning (weeks/months on-premises vs. minutes in the cloud) and the cost of idle capacity (servers running at 10% utilization just in case traffic spikes).
+
+### Business Agility, Automation & Self-Service
+Cloud economics also values **agility**. By utilizing **managed services** and **automation**, organizations reduce operational friction and eliminate infrastructure bottlenecks.
+- **Self-Service with Guardrails:** Developers can provision their own infrastructure instantly using a self-service console or APIs. The central IT team configures automated guardrails (policies) rather than manually reviewing tickets. This allows product teams to move fast without compromising compliance or budget.
+          `,
+        },
+        {
+          title: 'Cloud Service Models, Deployment Models & Cloud-Native Design',
+          slug: 'cloud-service-deployment-models',
+          order: 2,
+          estimatedTime: 12,
+          content: `
+# Cloud Service Models, Deployment Models & Cloud-Native Design
+
+To design a modern IT strategy, you must select the appropriate service and deployment models.
+
+## 1. Cloud Service Models (The Responsibility Spectrum)
+
+There are three primary service models, representing a trade-off between control and management overhead:
+
+### Infrastructure as a Service (IaaS)
+The cloud provider manages the physical hardware, virtualization, storage, and networking. You manage the Operating System (OS), middleware, runtime, data, and applications.
+- **GCP Example:** Compute Engine (Virtual Machines).
+- **Control:** Maximum control. You can configure the OS and install custom software.
+- **Use Case:** Migrating legacy applications that require specific OS configurations.
+
+### Platform as a Service (PaaS)
+The cloud provider manages everything up to the runtime. You only manage the application code and data. The server infrastructure is completely abstracted.
+- **GCP Example:** App Engine, Cloud Run.
+- **Control:** Moderate control. No access to the underlying OS.
+- **Use Case:** Web development teams who want to deploy code without worrying about server maintenance or scaling.
+
+### Software as a Service (SaaS)
+The cloud provider manages the entire stack, including the application interface. You simply consume the software.
+- **GCP Example:** Google Workspace (Gmail, Drive, Docs, Meet).
+- **Control:** Minimal control. Limited to application settings.
+- **Use Case:** Core business applications where writing custom software adds no competitive advantage.
+
+---
+
+## 2. Cloud Deployment Models
+
+### Public Cloud
+Infrastructure owned and operated by a third-party cloud provider. Multi-tenancy is standard, meaning physical hardware is shared between multiple customers, though virtual isolation guarantees data security.
+
+### Private Cloud
+Infrastructure dedicated exclusively to one organization. It can be hosted on-premises or by a third party. Provides custom control and high security at the cost of high CapEx.
+
+### Hybrid Cloud
+Integrates public cloud resources with on-premises infrastructure or private clouds. This allows data and workloads to move seamlessly between the environments.
+- **Use Case:** A bank that keeps sensitive core customer databases on-premises for regulatory compliance but runs customer-facing mobile applications on Google Cloud for scalability.
+
+### Multi-Cloud
+The strategic deployment of workloads across multiple public cloud providers (e.g., Google Cloud + AWS + Azure). This approach helps avoid vendor lock-in, increases redundancy, and allows you to select best-of-breed features.
+
+---
+
+## 3. Cloud-Native Design and Portability
+
+To maximize the benefits of cloud computing, applications should be built using **cloud-native** patterns.
+
+### Microservices Architecture
+Unlike a traditional monolithic application where all functions are tightly coupled in a single codebase, a **microservices architecture** divides the application into small, independent services that communicate via APIs.
+- **Adaptability:** Independent services can be updated, scaled, and deployed without redeploying or breaking the entire monolith.
+- **Scalability:** You can scale only the services that experience heavy traffic (e.g., the checkout service) rather than scaling the entire application.
+
+### Portability and Open Standards
+To avoid vendor lock-in, organizations leverage open standards like containerization (Docker) and container orchestration (Kubernetes).
+- **Anthos:** Google Cloud's managed enterprise platform that allows you to run, manage, and secure containerized applications consistently across on-premises data centers, Google Cloud, and other public clouds (like AWS and Azure). It uses open-source technologies (like Kubernetes) to enable hybrid and multi-cloud deployment with zero application modification.
+          `,
+        },
+      ],
+    },
+    {
+      title: 'Module 2: Google Cloud Infrastructure Modernization & Global Footprint',
+      description: 'Master Google Cloud’s resource hierarchy, global zones/regions, compute options, global networking, and Cloud Armor security.',
+      order: 2,
+      lessons: [
+        {
+          title: 'Google Cloud Hierarchy, Global Infrastructure & Data Sovereignty',
+          slug: 'gcp-hierarchy-infrastructure',
+          order: 1,
+          estimatedTime: 12,
+          content: `
+# Google Cloud Hierarchy, Global Infrastructure & Data Sovereignty
+
+## The Google Cloud Resource Hierarchy
+All Google Cloud resources must be organized within a logical hierarchy. This hierarchy dictates how access permissions (IAM) and organization policies are inherited and how billing is structured.
+
+\`\`\`
+          [Organization]           <-- Represents the company (linked to company.com)
+             /      \\
+        [Folder A]  [Folder B]     <-- Groups by department, region, or environment
+           /
+       [Project 1]                 <-- Core unit for billing, APIs, and resource isolation
+         /      \\
+      [VM]     [Bucket]            <-- Resource instances
+\`\`\`
+
+1. **Organization:** The root node. Represents your company. Created automatically when you link Google Workspace or Cloud Identity.
+2. **Folders:** Optional nodes used to group projects. Folders can contain projects or other folders, allowing you to model departments (e.g., "Engineering", "Marketing") or environments (e.g., "Production", "Staging").
+3. **Projects:** The base organizing entity. All resources must belong to a project. Projects are the level at which billing is tracked, APIs are enabled/disabled, and access permissions are typically isolated.
+4. **Resources:** The actual service instances (e.g., a Compute Engine virtual machine, a Cloud Storage bucket, a BigQuery dataset).
+
+### Policy Inheritance
+Permissions (IAM roles) and guardrails (Organization Policies) flow downwards. If you grant a user the "Editor" role at the Folder level, that user automatically inherits the "Editor" role for every project and resource inside that folder. You cannot revoke inherited permissions at lower levels; you can only grant additional permissions.
+
+---
+
+## Global Infrastructure: Regions and Zones
+
+Google Cloud's physical network is spread across the globe to ensure high availability, low latency, and compliance.
+
+### Regions
+Regions are independent geographic locations where Google hosting facilities are located.
+- **Example:** \`us-central1\` (Iowa), \`europe-west1\` (Belgium), \`asia-east1\` (Taiwan).
+- **Latency Reduction:** By deploying your application resources in a region close to your primary customer base, you reduce network travel distance and optimize user response times.
+
+### Zones
+Zones are isolated locations within a region. They represent single physical failure domains (typically one or more separate physical data centers).
+- **Example:** \`us-central1-a\`, \`us-central1-b\`, \`us-central1-c\`.
+- **High Availability:** Designing applications to run redundantly across multiple zones protects against data center outages.
+
+### Multi-Region
+A broad geographic area containing two or more regions. Useful for geo-redundant storage and low-latency global delivery.
+- **Example:** \`us\` (multi-region storing data redundantly across multiple states).
+
+---
+
+## Compliance and Data Sovereignty
+
+Organizations must comply with regional data protection regulations (e.g., GDPR in Europe).
+- **Data Sovereignty:** The legal principle that digital data is subject to the laws and regulations of the country in which it is physically located or stored.
+- **Compliance Control:** Google Cloud allows you to restrict where resources can be created using Organization Policies (e.g., restricting project creators to only deploy resources within EU regions). This ensures customer data never leaves specified borders.
+          `,
+        },
+        {
+          title: 'Compute Services, Global VPC Networking & Perimeter Security',
+          slug: 'core-compute-networking',
+          order: 2,
+          estimatedTime: 12,
+          content: `
+# Compute Services, Global VPC Networking & Perimeter Security
+
+Google Cloud provides modular compute options and a global network backbone.
+
+## 1. Google Cloud Compute Services
+
+Selecting the right compute service depends on how much management you want to delegate:
+
+| Service | Model | Description | Primary Use Case |
+| :--- | :--- | :--- | :--- |
+| **Compute Engine** | IaaS | Highly customizable virtual machines. Full OS control. | Migrating legacy systems, database hosting, custom software. |
+| **Google Kubernetes Engine (GKE)** | Hybrid/Containers | Managed Kubernetes for deploying containerized microservices. | High-scale container applications, microservice architectures. |
+| **App Engine** | PaaS | Serverless web app hosting. Upload code; Google scales the infrastructure. | Web applications, mobile backends, REST APIs. |
+| **Cloud Run** | Serverless | Serverless runtime that runs container images. Scales down to zero when idle. | Event-driven microservices, public web services. |
+| **Cloud Functions** | FaaS | Serverless execution of single-purpose code blocks in response to cloud events. | Ingesting webhook data, responding to database modifications. |
+
+---
+
+## 2. Global VPC Networking
+
+A **Virtual Private Cloud (VPC)** is a secure, isolated private network inside Google Cloud.
+
+### Key Characteristics:
+- **Global Scope:** Unlike other cloud providers whose VPCs are regional, Google Cloud VPCs are global. You can connect virtual machines in Europe and the US to the same VPC without setting up VPNs.
+- **Regional Subnets:** Subnets are regional resources. Each subnet defines a range of private IP addresses within a specific region.
+- **Firewall Rules:** Allow you to control which packets can travel to which virtual machines (ingress/egress rules).
+- **Cloud DNS:** Fully managed domain name system to resolve internal and external names.
+- **Cloud Load Balancing:** Distributes incoming HTTP(S), TCP, or UDP traffic across multiple instances to optimize resource use and guarantee high availability. Google's load balancers are global and run on Google's private global fiber network.
+
+---
+
+## 3. Perimeter Security and Cloud Armor
+
+Web-facing applications are exposed to threats from the public internet.
+
+### What is Cloud Armor?
+Cloud Armor is Google Cloud's distributed **Web Application Firewall (WAF)** and **Distributed Denial of Service (DDoS)** protection service. It works directly with HTTP(S) Load Balancing to protect your applications at the edge of Google's network.
+- **DDoS Protection:** Absorbs high-volume volumetric DDoS attacks, keeping your backend servers from being overwhelmed.
+- **Security Policies:** Blocks common web attacks like SQL Injection (SQLi) and Cross-Site Scripting (XSS) based on OWASP Top 10 rules.
+- **IP Rate Limiting:** Restricts traffic from malicious IP ranges while ensuring legitimate users have uninterrupted access.
+          `,
+        },
+      ],
+    },
+    {
+      title: 'Module 3: Data Analytics, Databases & AI/ML in Google Cloud',
+      description: 'Explore unstructured storage, relational and NoSQL databases, smart analytics pipelines with BigQuery and Looker, and Vertex AI/AutoML services.',
+      order: 3,
+      lessons: [
+        {
+          title: 'Unstructured Storage Classes & Database Services',
+          slug: 'databases-storage-services',
+          order: 1,
+          estimatedTime: 12,
+          content: `
+# Unstructured Storage Classes & Database Services
+
+Choosing the correct storage or database option is critical for cost-efficiency and performance.
+
+## 1. Unstructured Data: Cloud Storage
+
+Cloud Storage is a serverless, highly durable service for storing unstructured data (images, videos, backups, document files). Data is stored inside **buckets** as **objects**.
+
+### Cloud Storage Classes
+To optimize costs, you must select the correct storage class based on access frequency:
+
+| Storage Class | Min Storage Duration | Ideal Use Case | Cost Profile |
+| :--- | :--- | :--- | :--- |
+| **Standard** | None | Frequently accessed data, active website images, hot data. | High storage cost, zero access fees. |
+| **Nearline** | 30 days | Data accessed less than once a month. Monthly backups, report archives. | Lower storage cost, moderate access fees. |
+| **Coldline** | 90 days | Data accessed less than once a quarter. Disaster recovery images. | Very low storage cost, higher access fees. |
+| **Archive** | 365 days | Data accessed less than once a year. Long-term compliance backups. | Lowest storage cost, highest access fees. |
+
+---
+
+## 2. Google Cloud Database Services
+
+Data with structure is stored in databases, categorized into Relational (SQL) and Non-Relational (NoSQL):
+
+### Relational Databases (SQL)
+Relational databases enforce schemas, tables, and relationships. They are ideal for transactional consistency (ACID compliance).
+- **Cloud SQL:** Fully managed MySQL, PostgreSQL, and SQL Server. Google handles replication, backups, and patching. Ideal for standard web apps and CRMs.
+- **Cloud Spanner:** A unique, enterprise-grade SQL database that offers horizontal scalability (global scale) combined with relational schema consistency and ACID transactions. Ideal for global financial ledgers and reservation engines.
+
+### Non-Relational Databases (NoSQL)
+NoSQL databases offer flexible schemas and scale horizontally to handle high throughput.
+- **Firestore:** A serverless, document database that stores JSON-like documents. It automatically synchronizes data across client apps (ideal for mobile and web backends).
+- **Cloud Bigtable:** A high-performance, wide-column NoSQL database designed for massive write throughput with low-latency reads. Ideal for IoT sensor data streams, financial market time-series, and real-time ad-tech analytics.
+          `,
+        },
+        {
+          title: 'Data Pipelines, Data Warehousing (BigQuery), Looker BI & AI/ML',
+          slug: 'data-analytics-ai-ml',
+          order: 2,
+          estimatedTime: 12,
+          content: `
+# Data Pipelines, Data Warehousing (BigQuery), Looker BI & AI/ML
+
+Data must be ingested, processed, analyzed, and visualized to create business value.
+
+## 1. Google Cloud Analytics Pipeline
+
+\`\`\`
+  [Data Sources] ➔ [Pub/Sub] ➔ [Dataflow] ➔ [BigQuery] ➔ [Looker]
+                     (Ingest)    (Process)     (Store/Analyze) (Visualize)
+\`\`\`
+
+- **Pub/Sub:** A serverless, global event ingestion service. It decouples senders and receivers, acting as a buffer for streaming data.
+- **Dataflow:** A serverless processing service that executes stream and batch data pipelines (based on Apache Beam).
+- **BigQuery:** Google Cloud's fully managed, serverless enterprise **data warehouse**. It separates storage and compute, allowing you to run SQL queries over petabytes of data in seconds.
+  - *BigQuery ML:* Enables data analysts to build, train, and run machine learning models directly inside BigQuery using standard SQL queries, eliminating the need to export data.
+- **Looker:** Google Cloud's modern **Business Intelligence (BI)** and data visualization platform. It connects directly with BigQuery, allowing business users to explore data and build interactive dashboards to drive decision-making.
+
+---
+
+## 2. Artificial Intelligence & Machine Learning
+
+Google Cloud provides tools for both machine learning engineers and business developers:
+
+### Vertex AI
+Google Cloud’s unified, end-to-end machine learning platform. It manages the entire ML lifecycle, from data prep and model training to deployment and monitoring, including generative AI foundation models (Gemini).
+
+### AutoML
+A service within Vertex AI that allows developers with limited machine learning expertise to train high-quality custom models. You simply upload your labeled dataset (e.g., images of defects) and AutoML automatically trains and optimizes the model.
+
+### Pre-trained AI APIs
+For developers who want to integrate intelligent features immediately without training any machine learning models:
+- **Cloud Vision API:** Extracts text from images (OCR), detects objects, and performs safety moderation.
+- **Translation API:** Dynamically translates text between languages.
+- **Natural Language API:** Analyzes text to extract entities, sentiment, and categories.
+- **Speech-to-Text & Text-to-Speech:** Transcribes audio files to text and synthesizes lifelike spoken audio from text.
+          `,
+        },
+      ],
+    },
+    {
+      title: 'Module 4: Security, Compliance, Operations & FinOps',
+      description: 'Master the shared responsibility model, Identity Access Management (IAM), encryption controls, FinOps cost optimization, and sustainability.',
+      order: 4,
+      lessons: [
+        {
+          title: 'Security Responsibilities, Cloud IAM & Key Encryption',
+          slug: 'security-access-management',
+          order: 1,
+          estimatedTime: 12,
+          content: `
+# Security Responsibilities, Cloud IAM & Key Encryption
+
+Cloud security is built on trust, clear boundaries, and the **Principle of Least Privilege**.
+
+## 1. The Shared Responsibility Model
+
+Security is a partnership between the Cloud Provider and the Customer:
+
+- **Google (Security OF the Cloud):** Google is responsible for the physical security of data centers (cameras, biometric scanners), underlying server hardware, networking fiber, and the hypervisor (virtualization layer).
+- **Customer (Security IN the Cloud):** The customer is responsible for configuring access permissions (IAM), securing application code, encrypting customer data, patching operating systems on Virtual Machines (IaaS), and configuring network firewalls.
+
+---
+
+## 2. Cloud Identity and Access Management (IAM)
+
+IAM controls **who** (principals) has **what access** (roles) to **which resources**.
+
+### Core Concepts:
+- **Principals:** An identity, such as a Google Account, a Google Group, or a **Service Account** (a non-human identity used by applications or virtual machines to authorize API calls).
+- **Roles:** A collection of permissions.
+  - *Primitive Roles:* Owner, Editor, Viewer (legacy roles with broad, project-wide permissions. Avoid in production).
+  - *Predefined Roles:* Fine-grained roles managed by Google (e.g., \`Storage Object Viewer\` has read access only to Cloud Storage objects).
+  - *Custom Roles:* User-defined roles containing specific permissions.
+- **Principle of Least Privilege:** A security best practice stating that identities should only be granted the minimum permissions necessary to complete their job, minimizing the blast radius of a compromised credential.
+- **Identity-Aware Proxy (IAP):** An access control tool that verifies user identity and context (like device security posture) before granting access to applications and VMs, removing the need for traditional corporate VPNs.
+
+---
+
+## 3. Data Encryption & Key Management
+
+Google Cloud encrypts data by default, both at rest and in transit.
+- **Default Encryption:** Google automatically encrypts data at rest using keys managed by Google.
+- **Customer-Managed Encryption Keys (CMEK):** For advanced compliance, customers can generate, rotate, and control their own encryption keys using **Cloud Key Management Service (KMS)**. This gives the customer full control over who has access to read the encrypted data.
+          `,
+        },
+        {
+          title: 'FinOps, Cost Management & Google Cloud Sustainability',
+          slug: 'finops-cost-management',
+          order: 2,
+          estimatedTime: 11,
+          content: `
+# FinOps, Cost Management & Google Cloud Sustainability
+
+Cloud financial management (FinOps) aligns spending with business value.
+
+## 1. Cost Optimization & Discount Models
+
+Google Cloud pricing is structured around a pay-as-you-go model with no upfront fees. To optimize costs, organizations utilize:
+
+- **Sustained Use Discounts (SUD):** Automatic discounts applied when you run Compute Engine virtual machines for a significant portion (more than 25%) of a billing month. No commitment required.
+- **Committed Use Discounts (CUD):** Deep discounts (up to 70%) in exchange for committing to purchase a specific amount of compute resources or database capacity for a 1-year or 3-year period. Ideal for predictable, stable workloads.
+- **Spot / Preemptible VMs:** Excess compute capacity sold at a steep discount (up to 91%). The trade-off is that Google can reclaim (terminate) these virtual machines with a 30-second notice if it needs the capacity. Ideal for fault-tolerant, batch-processing workloads.
+
+---
+
+## 2. Cost Control and Management Tools
+
+- **Google Cloud Pricing Calculator:** A web tool used to estimate the cost of architecture footprints before deploying them.
+- **Billing Reports:** Visualization dashboards used to analyze, filter, and forecast cloud spend by service, project, or label.
+- **Budgets and Billing Alerts:** Budgets allow you to set monthly spending targets. Billing Alerts notify administrators via email when actual or forecasted spending exceeds specified thresholds (e.g., 50%, 90% of budget). *Important: Budgets and Alerts do not automatically shut down resources; they only notify.*
+- **Resource Quotas:** Administrative limits on resource creation (e.g., limiting a project to a maximum of 5 virtual machines). This protects against accidental cost spikes or runaway billing during security incidents.
+- **Labels:** Key-value metadata tags (e.g., \`department:marketing\`, \`environment:production\`) attached to resources to group and categorize expenses in billing reports.
+
+---
+
+## 3. Google Cloud's Commitment to Sustainability
+
+Google Cloud operates the cleanest cloud in the industry, which directly supports customer sustainability goals:
+- **Carbon-Neutral Data Centers:** Google data centers are highly energy-efficient and operate with net-zero carbon emissions.
+- **Renewable Energy Match:** Google matches 100% of its global annual electricity consumption with renewable energy purchases.
+- **24/7 Carbon-Free Energy Goal:** Google aims to operate all its data centers on carbon-free energy 24 hours a day, 7 days a week, by the year 2030.
+- **Sustainability Reporting:** Google Cloud provides carbon footprint dashboards to allow organizations to track and report the carbon impact of their cloud workloads.
+          `,
+        },
+      ],
+    },
+  ];
+
+  for (const modData of modulesData) {
+    const mod = await prisma.learningModule.upsert({
+      where: {
+        id: `mod-${modData.order}-${gcdlCert.id}`,
+      },
+      update: {
+        title: modData.title,
+        description: modData.description,
+        order: modData.order,
+      },
+      create: {
+        id: `mod-${modData.order}-${gcdlCert.id}`,
+        title: modData.title,
+        description: modData.description,
+        order: modData.order,
+        certificationId: gcdlCert.id,
+      },
+    });
+
+    for (const lesData of modData.lessons) {
+      await prisma.learningLesson.upsert({
+        where: {
+          moduleId_slug: {
+            moduleId: mod.id,
+            slug: lesData.slug,
+          },
+        },
+        update: {
+          title: lesData.title,
+          content: lesData.content,
+          order: lesData.order,
+          estimatedTime: lesData.estimatedTime,
+        },
+        create: {
+          title: lesData.title,
+          slug: lesData.slug,
+          content: lesData.content,
+          order: lesData.order,
+          estimatedTime: lesData.estimatedTime,
+          moduleId: mod.id,
+        },
+      });
+    }
+  }
+
+  console.log('✅ GCDL Learning Modules and Lessons seeded successfully');
+
   // Map domains by name for easy access
   const domainMap = {
     DIGITAL_TRANSFORMATION: gcdlCert.domains.find(d => d.name.includes('Digital Transformation'))?.id,

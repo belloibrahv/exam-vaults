@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import Image from 'next/image';
-import TechvaultsLogo from './TechvaultsLogo';
+import ExamVaultsLogo from './ExamVaultsLogo';
 
 export default function AnimatedLogoBanner() {
   const bannerRef = useRef<HTMLDivElement>(null);
@@ -48,9 +48,9 @@ export default function AnimatedLogoBanner() {
 
   return (
     <div ref={bannerRef} className="flex items-center justify-center gap-8 py-8">
-      {/* Techvaults Logo */}
+      {/* ExamVaults Logo */}
       <div className="logo-item opacity-30">
-        <TechvaultsLogo size={50} variant="icon" />
+        <ExamVaultsLogo size={50} variant="icon" />
       </div>
 
       {/* AWS Logo */}
@@ -83,9 +83,9 @@ export default function AnimatedLogoBanner() {
         />
       </div>
 
-      {/* Techvaults Logo (repeat for symmetry) */}
+      {/* ExamVaults Logo (repeat for symmetry) */}
       <div className="logo-item opacity-30">
-        <TechvaultsLogo size={50} variant="icon" />
+        <ExamVaultsLogo size={50} variant="icon" />
       </div>
     </div>
   );
