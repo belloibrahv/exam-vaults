@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
-import { gsap } from 'gsap';
 import ExamVaultsLogo from '@/components/ExamVaultsLogo';
 
 export default function SignInPage() {
@@ -33,20 +32,26 @@ export default function SignInPage() {
       if (result?.error) {
         setError('Invalid email or password');
         // Shake animation on error
-        if (formRef.current) {
-          gsap.timeline()
-            .to(formRef.current, { x: -10, duration: 0.1 })
-            .to(formRef.current, { x: 10, duration: 0.1 })
-            .to(formRef.current, { x: -10, duration: 0.1 })
-            .to(formRef.current, { x: 10, duration: 0.1 })
-            .to(formRef.current, { x: 0, duration: 0.1 });
+        try {
+          const gsap = (await import('gsap')).gsap;
+          if (formRef.current) {
+            gsap.timeline()
+              .to(formRef.current, { x: -10, duration: 0.1 })
+              .to(formRef.current, { x: 10, duration: 0.1 })
+              .to(formRef.current, { x: -10, duration: 0.1 })
+              .to(formRef.current, { x: 10, duration: 0.1 })
+              .to(formRef.current, { x: 0, duration: 0.1 });
+          }
+        } catch {
+          // Animation not critical, skip if GSAP fails
         }
       } else {
         // Success - redirect immediately without fade animation
         router.push('/dashboard');
         router.refresh();
       }
-    } catch (error) {
+    } catch (err) {
+      console.error('[SignIn] Login failed:', err);
       setError('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
