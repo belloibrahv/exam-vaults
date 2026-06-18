@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { format } from 'date-fns';
 import {
   ClipboardList,
@@ -308,6 +309,25 @@ export default function ExamsManagement({ examAttempts }: ExamsManagementProps) 
           )}
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="border-t border-techvaults-gray-200 bg-white mt-16 py-8">
+        <div className="container mx-auto px-4 max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4 text-techvaults-gray-600">
+          <p className="text-xs">
+            © 2026 ExamVaults. All rights reserved.
+          </p>
+          <div className="flex items-center gap-2">
+            <span className="text-xs">Built by</span>
+            <Image
+              src="/images/logo.png"
+              alt="Techvaults"
+              width={90}
+              height={24}
+              className="h-5 w-auto opacity-75 hover:opacity-100 transition-opacity"
+            />
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

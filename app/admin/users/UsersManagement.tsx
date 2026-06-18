@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { format } from 'date-fns';
 import {
   Users,
@@ -40,6 +41,51 @@ export default function UsersManagement({ users }: UsersManagementProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState<'ALL' | 'STUDENT' | 'ADMIN'>('ALL');
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newName, setNewName] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newRole, setNewRole] = useState<'STUDENT' | 'ADMIN'>('STUDENT');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleAddUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: newName,
+          email: newEmail,
+          password: newPassword,
+          role: newRole,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create user');
+      }
+
+      setShowAddModal(false);
+      setNewName('');
+      setNewEmail('');
+      setNewPassword('');
+      setNewRole('STUDENT');
+      window.location.reload();
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Something went wrong');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
@@ -116,7 +162,10 @@ export default function UsersManagement({ users }: UsersManagementProps) {
                 </p>
               </div>
             </div>
-            <button className="px-4 py-2 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-all flex items-center gap-2 text-sm">
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="px-4 py-2 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-all flex items-center gap-2 text-sm min-h-[40px] active:scale-95"
+            >
               <UserPlus className="w-4 h-4" />
               <span className="hidden sm:inline">Add User</span>
             </button>
@@ -275,6 +324,127 @@ export default function UsersManagement({ users }: UsersManagementProps) {
           )}
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="border-t border-techvaults-gray-200 bg-white mt-16 py-8">
+        <div className="container mx-auto px-4 max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4 text-techvaults-gray-600">
+          <p className="text-xs">
+            © 2026 ExamVaults. All rights reserved.
+          </p>
+          <div className="flex items-center gap-2">
+            <span className="text-xs">Built by</span>
+            <Image
+              src="/images/logo.png"
+              alt="Techvaults"
+              width={90}
+              height={24}
+              className="h-5 w-auto opacity-75 hover:opacity-100 transition-opacity"
+            />
+          </div>
+        </div>
+      </footer>
+
+      {/* Add User Modal */}
+      {showAddModal && (
+        <div
+          className="fixed inset-0 bg-black/55 flex items-center justify-center p-4 z-50 backdrop-blur-sm animate-fade-in"
+          onClick={() => setShowAddModal(false)}
+        >
+          <div
+            className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-techvaults-gray-200 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-2xl font-bold text-techvaults-black mb-1">
+              Add New User
+            </h3>
+            <p className="text-sm text-techvaults-gray-600 mb-6">
+              Create a new user account with a specified role.
+            </p>
+
+            <form onSubmit={handleAddUser} className="space-y-4">
+              {errorMessage && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                  {errorMessage}
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  placeholder="e.g. Jane Doe"
+                  className="w-full px-4 py-2.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all text-sm bg-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  placeholder="jane.doe@techvaults.com"
+                  className="w-full px-4 py-2.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all text-sm bg-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  minLength={6}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full px-4 py-2.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all text-sm bg-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
+                  Role
+                </label>
+                <select
+                  value={newRole}
+                  onChange={(e) => setNewRole(e.target.value as 'STUDENT' | 'ADMIN')}
+                  className="w-full px-4 py-2.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all text-sm bg-white"
+                >
+                  <option value="STUDENT">Student (Practice Exams & LMS)</option>
+                  <option value="ADMIN">Administrator (System Management)</option>
+                </select>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className="flex-1 px-4 py-3 border-2 border-techvaults-gray-300 text-techvaults-gray-700 rounded-xl font-semibold hover:bg-techvaults-gray-50 active:scale-95 transition-all text-sm min-h-[44px]"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex-1 px-4 py-3 bg-techvaults-red text-white rounded-xl font-semibold hover:bg-red-700 active:scale-95 transition-all text-sm min-h-[44px] disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Creating...' : 'Create User'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

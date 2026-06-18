@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   FileQuestion,
   Search,
@@ -76,6 +77,117 @@ export default function QuestionsManagement({
   const [providerFilter, setProviderFilter] = useState<string>('ALL');
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
 
+  const [showAddEditModal, setShowAddEditModal] = useState(false);
+  const [editingQuestionId, setEditingQuestionId] = useState<string | null>(null);
+  
+  const [questionText, setQuestionText] = useState('');
+  const [optA, setOptA] = useState('');
+  const [optB, setOptB] = useState('');
+  const [optC, setOptC] = useState('');
+  const [optD, setOptD] = useState('');
+  
+  const [correctA, setCorrectA] = useState(false);
+  const [correctB, setCorrectB] = useState(false);
+  const [correctC, setCorrectC] = useState(false);
+  const [correctD, setCorrectD] = useState(false);
+
+  const [explanation, setExplanation] = useState('');
+  const [difficultyVal, setDifficultyVal] = useState<'EASY' | 'MEDIUM' | 'HARD'>('MEDIUM');
+  const [typeVal, setTypeVal] = useState<'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'SCENARIO_BASED'>('SINGLE_CHOICE');
+  const [selCertId, setSelCertId] = useState(certifications[0]?.id || '');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const openEditModal = (q: any) => {
+    setEditingQuestionId(q.id);
+    setQuestionText(q.question);
+    
+    const opts = Array.isArray(q.options) ? q.options : [];
+    const a = opts.find((o: any) => o.id === 'a' || o.id === 'A')?.text || '';
+    const b = opts.find((o: any) => o.id === 'b' || o.id === 'B')?.text || '';
+    const c = opts.find((o: any) => o.id === 'c' || o.id === 'C')?.text || '';
+    const d = opts.find((o: any) => o.id === 'd' || o.id === 'D')?.text || '';
+    setOptA(a);
+    setOptB(b);
+    setOptC(c);
+    setOptD(d);
+
+    const correct = Array.isArray(q.correctAnswers) ? q.correctAnswers : [];
+    const isCorrect = (id: string) => correct.some((c: any) => String(c).toLowerCase() === id.toLowerCase());
+    setCorrectA(isCorrect('a'));
+    setCorrectB(isCorrect('b'));
+    setCorrectC(isCorrect('c'));
+    setCorrectD(isCorrect('d'));
+
+    setExplanation(q.explanation || '');
+    setDifficultyVal(q.difficulty || 'MEDIUM');
+    setTypeVal(q.questionType || 'SINGLE_CHOICE');
+    setSelCertId(q.certificationId);
+    setErrorMessage('');
+    setShowAddEditModal(true);
+  };
+
+  const handleAddEditQuestion = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+
+    if (!correctA && !correctB && !correctC && !correctD) {
+      setErrorMessage('Please select at least one correct answer option.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    const optionsArray = [
+      { id: 'a', text: optA },
+      { id: 'b', text: optB },
+      { id: 'c', text: optC },
+      { id: 'd', text: optD },
+    ].filter(o => o.text.trim() !== '');
+
+    const correctAnswersArray: string[] = [];
+    if (correctA) correctAnswersArray.push('a');
+    if (correctB) correctAnswersArray.push('b');
+    if (correctC) correctAnswersArray.push('c');
+    if (correctD) correctAnswersArray.push('d');
+
+    try {
+      const url = editingQuestionId
+        ? `/api/admin/questions/${editingQuestionId}`
+        : '/api/admin/questions';
+      
+      const method = editingQuestionId ? 'PATCH' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: questionText,
+          options: optionsArray,
+          correctAnswers: correctAnswersArray,
+          explanation,
+          certificationId: selCertId,
+          difficulty: difficultyVal,
+          questionType: typeVal,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to save question');
+      }
+
+      setShowAddEditModal(false);
+      window.location.reload();
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Something went wrong');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const filteredQuestions = questions.filter((question) => {
     const matchesSearch = question.question
       .toLowerCase()
@@ -143,13 +255,30 @@ export default function QuestionsManagement({
                 <Upload className="w-4 h-4" />
                 <span className="hidden sm:inline">Import</span>
               </Link>
-              <Link
-                href="/admin/questions/new"
-                className="px-3 md:px-4 py-2 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-all flex items-center gap-2 text-sm"
+              <button
+                onClick={() => {
+                  setEditingQuestionId(null);
+                  setQuestionText('');
+                  setOptA('');
+                  setOptB('');
+                  setOptC('');
+                  setOptD('');
+                  setCorrectA(false);
+                  setCorrectB(false);
+                  setCorrectC(false);
+                  setCorrectD(false);
+                  setExplanation('');
+                  setDifficultyVal('MEDIUM');
+                  setTypeVal('SINGLE_CHOICE');
+                  setSelCertId(certifications[0]?.id || '');
+                  setErrorMessage('');
+                  setShowAddEditModal(true);
+                }}
+                className="px-3 md:px-4 py-2 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-all flex items-center gap-2 text-sm min-h-[40px] active:scale-95"
               >
                 <Plus className="w-4 h-4" />
                 <span className="hidden sm:inline">Add Question</span>
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -272,13 +401,13 @@ export default function QuestionsManagement({
                     >
                       <Eye className="w-4 h-4 text-blue-600" />
                     </button>
-                    <Link
-                      href={`/admin/questions/${question.id}/edit`}
+                    <button
+                      onClick={() => openEditModal(question)}
                       className="p-2 hover:bg-green-50 rounded-lg transition-colors"
                       title="Edit question"
                     >
                       <Edit className="w-4 h-4 text-green-600" />
-                    </Link>
+                    </button>
                     <button
                       onClick={() => handleDeleteQuestion(question.id)}
                       className="p-2 hover:bg-red-50 rounded-lg transition-colors"
@@ -381,6 +510,231 @@ export default function QuestionsManagement({
                 Close
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <footer className="border-t border-techvaults-gray-200 bg-white mt-16 py-8">
+        <div className="container mx-auto px-4 max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4 text-techvaults-gray-600">
+          <p className="text-xs">
+            © 2026 ExamVaults. All rights reserved.
+          </p>
+          <div className="flex items-center gap-2">
+            <span className="text-xs">Built by</span>
+            <Image
+              src="/images/logo.png"
+              alt="Techvaults"
+              width={90}
+              height={24}
+              className="h-5 w-auto opacity-75 hover:opacity-100 transition-opacity"
+            />
+          </div>
+        </div>
+      </footer>
+
+      {/* Add / Edit Question Modal */}
+      {showAddEditModal && (
+        <div
+          className="fixed inset-0 bg-black/55 flex items-center justify-center p-4 z-50 backdrop-blur-sm animate-fade-in"
+          onClick={() => setShowAddEditModal(false)}
+        >
+          <div
+            className="bg-white rounded-3xl p-6 md:p-8 max-w-2xl w-full shadow-2xl border border-techvaults-gray-200 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-2xl font-bold text-techvaults-black mb-1">
+              {editingQuestionId ? 'Edit Question' : 'Add New Question'}
+            </h3>
+            <p className="text-sm text-techvaults-gray-600 mb-6">
+              {editingQuestionId
+                ? 'Modify this question details in the exam prep bank.'
+                : 'Create a new certification exam practice question.'}
+            </p>
+
+            <form onSubmit={handleAddEditQuestion} className="space-y-4">
+              {errorMessage && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                  {errorMessage}
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
+                  Certification
+                </label>
+                <select
+                  value={selCertId}
+                  onChange={(e) => setSelCertId(e.target.value)}
+                  className="w-full px-4 py-2.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all text-sm bg-white"
+                >
+                  {certifications.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      [{c.provider.name}] {c.code} - {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
+                    Difficulty
+                  </label>
+                  <select
+                    value={difficultyVal}
+                    onChange={(e) => setDifficultyVal(e.target.value as any)}
+                    className="w-full px-4 py-2.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all text-sm bg-white"
+                  >
+                    <option value="EASY">Easy</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HARD">Hard</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
+                    Question Type
+                  </label>
+                  <select
+                    value={typeVal}
+                    onChange={(e) => setTypeVal(e.target.value as any)}
+                    className="w-full px-4 py-2.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all text-sm bg-white"
+                  >
+                    <option value="SINGLE_CHOICE">Single Choice</option>
+                    <option value="MULTIPLE_CHOICE">Multiple Choice</option>
+                    <option value="SCENARIO_BASED">Scenario Based</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
+                  Question Text
+                </label>
+                <textarea
+                  required
+                  rows={3}
+                  value={questionText}
+                  onChange={(e) => setQuestionText(e.target.value)}
+                  placeholder="Enter the question query text..."
+                  className="w-full px-4 py-2.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all text-sm bg-white"
+                />
+              </div>
+
+              {/* Options Section */}
+              <div className="space-y-3">
+                <label className="block text-sm font-semibold text-techvaults-gray-700">
+                  Options & Correct Answers (Select the correct options)
+                </label>
+
+                {/* Option A */}
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={correctA}
+                    onChange={(e) => setCorrectA(e.target.checked)}
+                    className="w-5 h-5 text-techvaults-red focus:ring-techvaults-red/25 border-techvaults-gray-300 rounded"
+                  />
+                  <span className="text-sm font-bold text-techvaults-gray-600">A</span>
+                  <input
+                    type="text"
+                    required
+                    value={optA}
+                    onChange={(e) => setOptA(e.target.value)}
+                    placeholder="Option A text"
+                    className="flex-1 px-4 py-2 border-2 border-techvaults-gray-300 rounded-xl focus:border-techvaults-red outline-none text-sm bg-white"
+                  />
+                </div>
+
+                {/* Option B */}
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={correctB}
+                    onChange={(e) => setCorrectB(e.target.checked)}
+                    className="w-5 h-5 text-techvaults-red focus:ring-techvaults-red/25 border-techvaults-gray-300 rounded"
+                  />
+                  <span className="text-sm font-bold text-techvaults-gray-600">B</span>
+                  <input
+                    type="text"
+                    required
+                    value={optB}
+                    onChange={(e) => setOptB(e.target.value)}
+                    placeholder="Option B text"
+                    className="flex-1 px-4 py-2 border-2 border-techvaults-gray-300 rounded-xl focus:border-techvaults-red outline-none text-sm bg-white"
+                  />
+                </div>
+
+                {/* Option C */}
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={correctC}
+                    onChange={(e) => setCorrectC(e.target.checked)}
+                    className="w-5 h-5 text-techvaults-red focus:ring-techvaults-red/25 border-techvaults-gray-300 rounded"
+                  />
+                  <span className="text-sm font-bold text-techvaults-gray-600">C</span>
+                  <input
+                    type="text"
+                    required
+                    value={optC}
+                    onChange={(e) => setOptC(e.target.value)}
+                    placeholder="Option C text"
+                    className="flex-1 px-4 py-2 border-2 border-techvaults-gray-300 rounded-xl focus:border-techvaults-red outline-none text-sm bg-white"
+                  />
+                </div>
+
+                {/* Option D */}
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={correctD}
+                    onChange={(e) => setCorrectD(e.target.checked)}
+                    className="w-5 h-5 text-techvaults-red focus:ring-techvaults-red/25 border-techvaults-gray-300 rounded"
+                  />
+                  <span className="text-sm font-bold text-techvaults-gray-600">D</span>
+                  <input
+                    type="text"
+                    required
+                    value={optD}
+                    onChange={(e) => setOptD(e.target.value)}
+                    placeholder="Option D text"
+                    className="flex-1 px-4 py-2 border-2 border-techvaults-gray-300 rounded-xl focus:border-techvaults-red outline-none text-sm bg-white"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-techvaults-gray-700 mb-1.5">
+                  Explanation
+                </label>
+                <textarea
+                  required
+                  rows={3}
+                  value={explanation}
+                  onChange={(e) => setExplanation(e.target.value)}
+                  placeholder="Explain why the selected options are correct..."
+                  className="w-full px-4 py-2.5 border-2 border-techvaults-gray-300 rounded-xl focus:ring-2 focus:ring-techvaults-red/20 focus:border-techvaults-red outline-none transition-all text-sm bg-white"
+                />
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowAddEditModal(false)}
+                  className="flex-1 px-4 py-3 border-2 border-techvaults-gray-300 text-techvaults-gray-700 rounded-xl font-semibold hover:bg-techvaults-gray-50 active:scale-95 transition-all text-sm min-h-[44px]"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex-1 px-4 py-3 bg-techvaults-red text-white rounded-xl font-semibold hover:bg-red-700 active:scale-95 transition-all text-sm min-h-[44px] disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Saving...' : editingQuestionId ? 'Save Changes' : 'Create Question'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

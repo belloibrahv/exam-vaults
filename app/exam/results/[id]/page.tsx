@@ -11,10 +11,6 @@ export default async function ResultsPage({ params }: { params: { id: string } }
     redirect('/auth/signin');
   }
 
-  if (session.user.role === 'ADMIN') {
-    redirect('/admin');
-  }
-
   const examAttempt = await prisma.examAttempt.findUnique({
     where: { id: params.id },
     include: {
@@ -26,7 +22,11 @@ export default async function ResultsPage({ params }: { params: { id: string } }
     },
   });
 
-  if (!examAttempt || examAttempt.userId !== session.user.id) {
+  if (!examAttempt) {
+    redirect('/dashboard');
+  }
+
+  if (examAttempt.userId !== session.user.id && session.user.role !== 'ADMIN') {
     redirect('/dashboard');
   }
 
@@ -50,6 +50,7 @@ export default async function ResultsPage({ params }: { params: { id: string } }
 
   return (
     <ResultsClient
+      userRole={session.user.role}
       examAttempt={{
         id: examAttempt.id,
         score: examAttempt.score || 0,

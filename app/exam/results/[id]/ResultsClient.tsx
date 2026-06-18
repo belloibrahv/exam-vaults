@@ -41,12 +41,14 @@ interface ResultsClientProps {
     };
   }>;
   categoryStats: Record<string, { correct: number; total: number }>;
+  userRole?: string;
 }
 
 export default function ResultsClient({
   examAttempt,
   answers,
   categoryStats,
+  userRole,
 }: ResultsClientProps) {
   const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set());
 
@@ -68,7 +70,7 @@ export default function ResultsClient({
       <header className="border-b border-techvaults-gray-200 bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="flex items-center hover:opacity-95 transition-opacity">
+            <Link href={userRole === 'ADMIN' ? '/admin' : '/dashboard'} className="flex items-center hover:opacity-95 transition-opacity">
               <ExamVaultsLogo size={36} variant="full" />
             </Link>
             <div className="hidden sm:block border-l border-techvaults-gray-200 pl-4">
@@ -79,11 +81,11 @@ export default function ResultsClient({
             </div>
           </div>
           <Link
-            href="/dashboard"
+            href={userRole === 'ADMIN' ? '/admin' : '/dashboard'}
             className="flex items-center gap-2 px-4 py-2 text-techvaults-gray-700 hover:text-techvaults-red transition-colors"
           >
             <Home className="w-5 h-5" />
-            Dashboard
+            {userRole === 'ADMIN' ? 'Admin Panel' : 'Dashboard'}
           </Link>
         </div>
       </header>
@@ -281,13 +283,13 @@ export default function ResultsClient({
         {/* Action Buttons */}
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href="/dashboard"
+            href={userRole === 'ADMIN' ? '/admin' : '/dashboard'}
             className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-techvaults-black border-2 border-techvaults-gray-300 rounded-lg font-semibold hover:border-techvaults-red transition-all"
           >
             <Home className="w-5 h-5" />
-            Back to Dashboard
+            {userRole === 'ADMIN' ? 'Back to Admin Panel' : 'Back to Dashboard'}
           </Link>
-          {!examAttempt.passed && (
+          {userRole !== 'ADMIN' && !examAttempt.passed && (
             <Link
               href="/exam/start"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-techvaults-red text-white rounded-lg font-semibold hover:bg-red-700 transition-all"
