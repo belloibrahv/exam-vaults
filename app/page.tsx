@@ -17,19 +17,24 @@ const PROVIDER_LOGOS = {
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
 
-  // Fetch providers with certification counts
-  const providers = await prisma.provider.findMany({
-    where: { isActive: true },
-    include: {
-      certifications: {
-        where: { isActive: true },
-        select: { id: true },
-      },
-    },
-    orderBy: { order: 'asc' },
-  });
+  let providers: any[] = [];
+  let totalCertifications = 0;
 
-  const totalCertifications = providers.reduce((sum, p) => sum + p.certifications.length, 0);
+  try {
+    providers = await prisma.provider.findMany({
+      where: { isActive: true },
+      include: {
+        certifications: {
+          where: { isActive: true },
+          select: { id: true },
+        },
+      },
+      orderBy: { order: 'asc' },
+    });
+    totalCertifications = providers.reduce((sum, p) => sum + p.certifications.length, 0);
+  } catch (error) {
+    console.error('[HomePage] Failed to fetch providers:', error);
+  }
 
   return (
     <SmoothScroll>
