@@ -30,7 +30,15 @@ export default function SignInPage() {
       });
 
       if (result?.error) {
-        setError('Invalid email or password');
+        // Provide more specific error messages
+        if (result.error.includes('credentials')) {
+          setError('Invalid email or password. Please check your credentials and try again.');
+        } else if (result.error.includes('network') || result.error.includes('fetch')) {
+          setError('Connection error. Please check your internet connection and try again.');
+        } else {
+          setError('Sign-in failed. Please try again or contact support if the issue persists.');
+        }
+        
         // Shake animation on error
         try {
           const gsap = (await import('gsap')).gsap;
@@ -52,7 +60,13 @@ export default function SignInPage() {
       }
     } catch (err) {
       console.error('[SignIn] Login failed:', err);
-      setError('Something went wrong. Please try again.');
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+      
+      if (errorMessage.includes('network') || errorMessage.includes('fetch') || errorMessage.includes('connection')) {
+        setError('Unable to connect to the server. Please check your internet connection.');
+      } else {
+        setError('Something went wrong during sign-in. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

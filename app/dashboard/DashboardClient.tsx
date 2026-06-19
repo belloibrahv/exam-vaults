@@ -43,6 +43,8 @@ interface DashboardClientProps {
     totalCertifications: number;
   };
   completedLessonsCountMap: Record<string, number>;
+  hasErrors?: boolean;
+  errorDetails?: string | null;
 }
 
 export default function DashboardClient({
@@ -52,6 +54,8 @@ export default function DashboardClient({
   examAttempts,
   stats,
   completedLessonsCountMap,
+  hasErrors = false,
+  errorDetails,
 }: DashboardClientProps) {
   const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
 
@@ -95,6 +99,33 @@ export default function DashboardClient({
       </header>
 
       <div className="container mx-auto px-3 md:px-4 py-6 md:py-8">
+        {/* Error Notification */}
+        {hasErrors && (
+          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <div className="flex items-start gap-3">
+              <div className="w-5 h-5 text-amber-600 mt-0.5">
+                <svg viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-amber-800">
+                  Some data may be incomplete
+                </p>
+                <p className="text-sm text-amber-700 mt-1">
+                  {errorDetails || 'We encountered issues loading some information. The dashboard may not show all data.'}
+                </p>
+              </div>
+              <button 
+                onClick={() => window.location.reload()}
+                className="flex-shrink-0 text-sm font-medium text-amber-800 hover:text-amber-900 underline"
+              >
+                Refresh
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Welcome Section */}
         <div className="mb-6 md:mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-techvaults-black mb-2">

@@ -16,3 +16,40 @@ export const prisma =
   });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
+// Add connection health check function
+export async function checkDatabaseConnection(): Promise<boolean> {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    return true;
+  } catch (error) {
+    console.error('[Database] Connection check failed:', error);
+    return false;
+  }
+}
+
+// Add graceful disconnect function
+export async function disconnectDatabase(): Promise<void> {
+  try {
+    await prisma.$disconnect();
+  } catch (error) {
+    console.error('[Database] Disconnect failed:', error);
+  }
+}
+
+// Handle process cleanup
+if (typeof window === 'undefined') {
+  process.on('beforeExit', async () => {
+    await disconnectDatabase();
+  });
+
+  process.on('SIGINT', async () => {
+    await disconnectDatabase();
+    process.exit(0);
+  });
+
+  process.on('SIGTERM', async () => {
+    await disconnectDatabase();
+    process.exit(0);
+  });
+}
