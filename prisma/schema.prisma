@@ -25,6 +25,9 @@ model User {
   examAttempts   ExamAttempt[]
   userProgress   UserProgress[]
   lessonProgress UserLessonProgress[]
+  knowledgeCheckAnswers UserKnowledgeCheckAnswer[]
+  notes          UserNote[]
+  bookmarks      UserBookmark[]
   
   @@map("users")
 }
@@ -311,6 +314,9 @@ model LearningLesson {
   module          LearningModule       @relation(fields: [moduleId], references: [id], onDelete: Cascade)
   
   userProgress    UserLessonProgress[]
+  knowledgeChecks KnowledgeCheck[]
+  notes           UserNote[]
+  bookmarks       UserBookmark[]
   
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
@@ -336,6 +342,91 @@ model UserLessonProgress {
   
   @@unique([userId, lessonId])
   @@map("user_lesson_progress")
+  @@index([userId])
+  @@index([lessonId])
+}
+
+// ============================================
+// ENHANCED LEARNING FEATURES
+// ============================================
+
+model KnowledgeCheck {
+  id              String                    @id @default(cuid())
+  lessonId        String
+  lesson          LearningLesson            @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  question        String                    @db.Text
+  options         Json                      // Array of options
+  correctAnswer   String                    // Correct option ID
+  explanation     String?                   @db.Text
+  order           Int                       @default(0)
+  
+  userAnswers     UserKnowledgeCheckAnswer[]
+  
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+  
+  @@map("knowledge_checks")
+  @@index([lessonId])
+}
+
+model UserKnowledgeCheckAnswer {
+  id              String           @id @default(cuid())
+  userId          String
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  knowledgeCheckId String
+  knowledgeCheck   KnowledgeCheck   @relation(fields: [knowledgeCheckId], references: [id], onDelete: Cascade)
+  
+  selectedAnswer  String
+  isCorrect       Boolean
+  
+  createdAt       DateTime         @default(now())
+  
+  @@unique([userId, knowledgeCheckId])
+  @@map("user_knowledge_check_answers")
+  @@index([userId])
+  @@index([knowledgeCheckId])
+}
+
+model UserNote {
+  id              String         @id @default(cuid())
+  userId          String
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  lessonId        String
+  lesson          LearningLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  content         String         @db.Text
+  highlight       String?        @db.Text // Optional highlighted text from lesson
+  position        Int?           // Position in lesson content (optional)
+  color           String         @default("yellow") // highlight color
+  
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  
+  @@map("user_notes")
+  @@index([userId])
+  @@index([lessonId])
+  @@index([userId, lessonId])
+}
+
+model UserBookmark {
+  id              String         @id @default(cuid())
+  userId          String
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  lessonId        String
+  lesson          LearningLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  title           String         // Custom title for bookmark
+  description     String?        @db.Text // Optional description
+  
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  
+  @@unique([userId, lessonId])
+  @@map("user_bookmarks")
   @@index([userId])
   @@index([lessonId])
 }

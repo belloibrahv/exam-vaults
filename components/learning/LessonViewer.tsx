@@ -13,13 +13,18 @@ import {
   BookOpen,
   Trophy,
   Target,
-  Home
+  Home,
+  StickyNote,
+  Bookmark,
+  Search
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import CloudProviderLogo from '@/components/CloudProviderLogo';
+import NotesPanel from '@/components/learning/NotesPanel';
+import KnowledgeCheck from '@/components/learning/KnowledgeCheck';
 
 interface LessonViewerProps {
   certification: any;
@@ -49,7 +54,55 @@ export default function LessonViewer({
     currentLesson.userProgress.length > 0 && currentLesson.userProgress[0].completed
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [notesOpen, setNotesOpen] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkLoading, setBookmarkLoading] = useState(false);
   const router = useRouter();
+
+  // Check bookmark status
+  const checkBookmarkStatus = async () => {
+    try {
+      const response = await fetch(`/api/learning/bookmarks?lessonId=${currentLesson.id}`);
+      if (response.ok) {
+        const bookmarks = await response.json();
+        setIsBookmarked(bookmarks.length > 0);
+      }
+    } catch (error) {
+      console.error('Error checking bookmark status:', error);
+    }
+  };
+
+  // Toggle bookmark
+  const toggleBookmark = async () => {
+    setBookmarkLoading(true);
+    try {
+      if (isBookmarked) {
+        const response = await fetch(`/api/learning/bookmarks?lessonId=${currentLesson.id}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          setIsBookmarked(false);
+        }
+      } else {
+        const response = await fetch('/api/learning/bookmarks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lessonId: currentLesson.id,
+            title: currentLesson.title,
+            description: `Lesson from ${currentModule.title}`,
+          }),
+        });
+        if (response.ok) {
+          setIsBookmarked(true);
+        }
+      }
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    } finally {
+      setBookmarkLoading(false);
+    }
+  };
 
   // Mark lesson as completed
   const markAsCompleted = async () => {
@@ -91,6 +144,7 @@ export default function LessonViewer({
   // Auto-close sidebar on mobile when route changes
   useEffect(() => {
     setSidebarOpen(false);
+    checkBookmarkStatus();
   }, [currentLesson.id]);
 
   // Calculate progress for each module
@@ -270,6 +324,34 @@ export default function LessonViewer({
                 Lesson {currentIndex + 1} of {totalLessons}
               </div>
               
+              {/* Action Buttons */}
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setNotesOpen(true)}
+                  className="p-2 text-gray-600 hover:text-yellow-600 rounded-lg hover:bg-yellow-50"
+                  title="Take Notes"
+                >
+                  <StickyNote className="w-5 h-5" />
+                </button>
+                
+                <button
+                  onClick={toggleBookmark}
+                  disabled={bookmarkLoading}
+                  className={`p-2 rounded-lg transition-colors ${
+                    isBookmarked 
+                      ? 'text-blue-600 bg-blue-50 hover:bg-blue-100' 
+                      : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                  }`}
+                  title={isBookmarked ? 'Remove Bookmark' : 'Bookmark Lesson'}
+                >
+                  {bookmarkLoading ? (
+                    <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} />
+                  )}
+                </button>
+              </div>
+
               {!isCompleted && (
                 <button
                   onClick={markAsCompleted}
@@ -322,7 +404,7 @@ export default function LessonViewer({
             </div>
 
             {/* Lesson Content */}
-            <div className="prose prose-lg max-w-none mb-12">
+            <div className="prose prose-lg max-w-none mb-8">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
@@ -346,6 +428,9 @@ export default function LessonViewer({
                 {currentLesson.content}
               </ReactMarkdown>
             </div>
+
+            {/* Knowledge Check */}
+            <KnowledgeCheck lessonId={currentLesson.id} />
 
             {/* Navigation */}
             <div className="border-t border-gray-200 pt-8">
@@ -384,6 +469,14 @@ export default function LessonViewer({
           </div>
         </main>
       </div>
+
+      {/* Notes Panel */}
+      <NotesPanel 
+        lessonId={currentLesson.id}
+        lessonTitle={currentLesson.title}
+        isOpen={notesOpen}
+        onClose={() => setNotesOpen(false)}
+      />
     </div>
   );
 }
