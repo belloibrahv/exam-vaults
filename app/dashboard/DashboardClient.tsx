@@ -73,6 +73,14 @@ export default function DashboardClient({
             <ExamVaultsLogo size={36} variant="full" />
           </Link>
           <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+            <Link
+              href="/learning"
+              className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition-all flex items-center gap-2"
+              title="Learning Center"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span className="hidden sm:inline">Learning</span>
+            </Link>
             <div className="text-right hidden md:block">
               <p className="text-sm font-semibold text-techvaults-black truncate max-w-[200px]">{user.name}</p>
               <p className="text-xs text-techvaults-gray-600 truncate max-w-[200px]">{user.email}</p>
