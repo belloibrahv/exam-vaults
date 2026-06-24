@@ -28,6 +28,16 @@ model User {
   knowledgeCheckAnswers UserKnowledgeCheckAnswer[]
   notes          UserNote[]
   bookmarks      UserBookmark[]
+  studySessions  StudySession[]
+  achievements   UserAchievement[]
+  dailyGoals     DailyGoal[]
+  
+  // Gamification fields
+  totalXP        Int       @default(0)
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
+  lastActiveDate DateTime?
+  level          Int       @default(1)
   
   @@map("users")
 }
@@ -429,5 +439,113 @@ model UserBookmark {
   @@map("user_bookmarks")
   @@index([userId])
   @@index([lessonId])
+}
+
+// ============================================
+// GAMIFICATION & ANALYTICS
+// ============================================
+
+model Achievement {
+  id              String             @id @default(cuid())
+  name            String             @unique
+  description     String             @db.Text
+  icon            String             // Icon name or URL
+  category        AchievementCategory
+  condition       Json               // Conditions to unlock (e.g., {type: "streak", value: 7})
+  xpReward        Int                @default(0)
+  rarity          AchievementRarity  @default(COMMON)
+  isActive        Boolean            @default(true)
+  
+  userAchievements UserAchievement[]
+  
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  
+  @@map("achievements")
+}
+
+model UserAchievement {
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  achievementId   String
+  achievement     Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  
+  unlockedAt      DateTime    @default(now())
+  
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+  @@index([userId])
+  @@index([achievementId])
+}
+
+model DailyGoal {
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  date            DateTime    // Date for this goal (YYYY-MM-DD)
+  goalType        GoalType
+  targetValue     Int         // Target (e.g., 3 lessons, 30 minutes)
+  currentValue    Int         @default(0)
+  completed       Boolean     @default(false)
+  xpEarned        Int         @default(0)
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  @@unique([userId, date, goalType])
+  @@map("daily_goals")
+  @@index([userId])
+  @@index([date])
+}
+
+model StudySession {
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startTime       DateTime    @default(now())
+  endTime         DateTime?
+  duration        Int?        // in seconds
+  
+  // What was studied
+  certificationsStudied Json?  // Array of certification IDs
+  lessonsCompleted      Int   @default(0)
+  quizzesCompleted     Int   @default(0)
+  notesCreated         Int   @default(0)
+  
+  // Performance metrics
+  averageQuizScore     Float? @default(0)
+  xpEarned            Int    @default(0)
+  
+  createdAt           DateTime @default(now())
+  
+  @@map("study_sessions")
+  @@index([userId])
+  @@index([startTime])
+}
+
+enum AchievementCategory {
+  STREAK
+  LEARNING
+  QUIZ
+  MILESTONE
+  SPECIAL
+}
+
+enum AchievementRarity {
+  COMMON
+  RARE
+  EPIC
+  LEGENDARY
+}
+
+enum GoalType {
+  LESSONS_COMPLETED
+  STUDY_TIME_MINUTES
+  QUIZZES_COMPLETED
+  NOTES_CREATED
 }
 

@@ -25,6 +25,7 @@ import remarkGfm from 'remark-gfm';
 import CloudProviderLogo from '@/components/CloudProviderLogo';
 import NotesPanel from '@/components/learning/NotesPanel';
 import KnowledgeCheck from '@/components/learning/KnowledgeCheck';
+import XPNotification, { useXPNotification } from '@/components/gamification/XPNotification';
 
 interface LessonViewerProps {
   certification: any;
@@ -58,6 +59,7 @@ export default function LessonViewer({
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkLoading, setBookmarkLoading] = useState(false);
   const router = useRouter();
+  const { notification, showNotification, hideNotification } = useXPNotification();
 
   // Check bookmark status
   const checkBookmarkStatus = async () => {
@@ -123,6 +125,8 @@ export default function LessonViewer({
 
       if (response.ok) {
         setIsCompleted(true);
+        // Show XP notification for lesson completion
+        showNotification(50, 'Lesson completed!');
       }
     } catch (error) {
       console.error('Failed to mark lesson as completed:', error);
@@ -134,10 +138,10 @@ export default function LessonViewer({
   // Navigate to next lesson
   const goToNextLesson = () => {
     if (nextLesson) {
-      router.push(`/learning/${certification.slug}/lessons/${nextLesson.slug}`);
+      router.push(`/dashboard/learning/${certification.slug}/lessons/${nextLesson.slug}`);
     } else {
       // Completed all lessons, go back to certification overview
-      router.push(`/learning/${certification.slug}?tab=progress`);
+      router.push(`/dashboard/learning/${certification.slug}?tab=progress`);
     }
   };
 
@@ -221,7 +225,7 @@ export default function LessonViewer({
                   return (
                     <Link
                       key={lesson.id}
-                      href={`/learning/${certification.slug}/lessons/${lesson.slug}`}
+                      href={`/dashboard/learning/${certification.slug}/lessons/${lesson.slug}`}
                       className={`block px-3 py-2 rounded-lg text-sm transition-colors ${
                         isCurrent
                           ? 'bg-techvaults-red text-white'
@@ -254,7 +258,7 @@ export default function LessonViewer({
       {/* Sidebar Footer */}
       <div className="p-4 border-t border-gray-200 space-y-2">
         <Link
-          href={`/learning/${certification.slug}`}
+          href={`/dashboard/learning/${certification.slug}`}
           className="flex items-center w-full px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg"
         >
           <Home className="w-4 h-4 mr-2" />
@@ -272,7 +276,7 @@ export default function LessonViewer({
   );
 
   return (
-    <div className="min-h-screen bg-white flex">
+    <div className="bg-white flex">
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -293,14 +297,15 @@ export default function LessonViewer({
           x: sidebarOpen ? 0 : '-100%'
         }}
         className="fixed lg:relative lg:translate-x-0 inset-y-0 left-0 z-50 lg:z-0 lg:flex"
+        style={{ height: '100vh', top: '0' }}
       >
         <Sidebar />
       </motion.aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 h-screen">
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 px-4 lg:px-8 py-4">
+        <header className="bg-white border-b border-gray-200 px-4 lg:px-8 py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button
@@ -311,7 +316,7 @@ export default function LessonViewer({
               </button>
               
               <Link 
-                href="/learning" 
+                href="/dashboard/learning" 
                 className="hidden sm:flex items-center text-gray-600 hover:text-techvaults-red"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -383,7 +388,7 @@ export default function LessonViewer({
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto bg-gray-50">
           <div className="max-w-4xl mx-auto px-4 lg:px-8 py-8">
             {/* Lesson Header */}
             <div className="mb-8">
@@ -404,7 +409,7 @@ export default function LessonViewer({
             </div>
 
             {/* Lesson Content */}
-            <div className="prose prose-lg max-w-none mb-8">
+            <div className="prose prose-lg max-w-none mb-8 bg-white rounded-lg p-8 shadow-sm">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
@@ -430,14 +435,16 @@ export default function LessonViewer({
             </div>
 
             {/* Knowledge Check */}
-            <KnowledgeCheck lessonId={currentLesson.id} />
+            <div className="bg-white rounded-lg p-8 shadow-sm mb-8">
+              <KnowledgeCheck lessonId={currentLesson.id} />
+            </div>
 
             {/* Navigation */}
-            <div className="border-t border-gray-200 pt-8">
+            <div className="bg-white rounded-lg p-8 shadow-sm border-t border-gray-200">
               <div className="flex items-center justify-between">
                 {previousLesson ? (
                   <Link
-                    href={`/learning/${certification.slug}/lessons/${previousLesson.slug}`}
+                    href={`/dashboard/learning/${certification.slug}/lessons/${previousLesson.slug}`}
                     className="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
                   >
                     <ChevronLeft className="w-4 h-4 mr-2" />
@@ -457,7 +464,7 @@ export default function LessonViewer({
                   </button>
                 ) : (
                   <Link
-                    href={`/learning/${certification.slug}?tab=progress`}
+                    href={`/dashboard/learning/${certification.slug}?tab=progress`}
                     className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                   >
                     <Trophy className="w-4 h-4 mr-2" />
@@ -476,6 +483,14 @@ export default function LessonViewer({
         lessonTitle={currentLesson.title}
         isOpen={notesOpen}
         onClose={() => setNotesOpen(false)}
+      />
+      
+      {/* XP Notification */}
+      <XPNotification
+        xp={notification.xp}
+        message={notification.message}
+        show={notification.show}
+        onHide={hideNotification}
       />
     </div>
   );

@@ -196,7 +196,7 @@ export default function CertificationOverview({ certification, userId }: Certifi
 
         {/* Action Buttons */}
         <div className="space-y-3">
-          <Link href={`/learning/${certification.slug}/lessons`}>
+          <Link href={`/dashboard/learning/${certification.slug}/lessons`}>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -280,7 +280,7 @@ export default function CertificationOverview({ certification, userId }: Certifi
                   return (
                     <Link
                       key={lesson.id}
-                      href={`/learning/${certification.slug}/lessons/${lesson.slug}`}
+                      href={`/dashboard/learning/${certification.slug}/lessons/${lesson.slug}`}
                       className="block p-3 rounded-lg hover:bg-gray-50 transition-colors"
                     >
                       <div className="flex items-center justify-between">
@@ -375,7 +375,7 @@ export default function CertificationOverview({ certification, userId }: Certifi
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/learning" className="inline-flex items-center text-techvaults-red hover:text-red-700 mb-4">
+          <Link href="/dashboard/learning" className="inline-flex items-center text-techvaults-red hover:text-red-700 mb-4">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Learning Center
           </Link>

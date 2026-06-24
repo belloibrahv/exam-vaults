@@ -7,7 +7,6 @@ import Image from 'next/image';
 import {
   BookOpen,
   Clock,
-  Award,
   TrendingUp,
   LogOut,
   Play,
@@ -19,9 +18,12 @@ import {
   Zap,
   Shield,
   Lock,
+  Trophy
 } from 'lucide-react';
 import CloudProviderLogo from '@/components/CloudProviderLogo';
 import ExamVaultsLogo from '@/components/ExamVaultsLogo';
+import GamificationDashboard from '@/components/gamification/GamificationDashboard';
+import MiniGamificationStatus from '@/components/gamification/MiniGamificationStatus';
 import { formatTime, getScoreColor } from '@/lib/utils';
 import { format } from 'date-fns';
 
@@ -58,6 +60,7 @@ export default function DashboardClient({
   errorDetails,
 }: DashboardClientProps) {
   const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
+  const [showGamification, setShowGamification] = useState(false);
 
   // Filter certifications by selected provider
   const displayedProviders = selectedProvider
@@ -72,15 +75,31 @@ export default function DashboardClient({
           <Link href="/" className="flex items-center hover:opacity-95 transition-opacity">
             <ExamVaultsLogo size={36} variant="full" />
           </Link>
+          
+          {/* Mini Gamification Status */}
+          <div className="hidden lg:block">
+            <MiniGamificationStatus />
+          </div>
+
           <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
             <Link
-              href="/learning"
+              href="/dashboard/learning"
               className="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition-all flex items-center gap-2"
               title="Learning Center"
             >
               <BookOpen className="w-4 h-4" />
               <span className="hidden sm:inline">Learning</span>
             </Link>
+            
+            <button
+              onClick={() => setShowGamification(true)}
+              className="px-3 py-2 bg-purple-600 text-white rounded-lg text-sm font-semibold hover:bg-purple-700 transition-all flex items-center gap-2"
+              title="Progress & Achievements"
+            >
+              <Trophy className="w-4 h-4" />
+              <span className="hidden sm:inline">Progress</span>
+            </button>
+            
             <div className="text-right hidden md:block">
               <p className="text-sm font-semibold text-techvaults-black truncate max-w-[200px]">{user.name}</p>
               <p className="text-xs text-techvaults-gray-600 truncate max-w-[200px]">{user.email}</p>
@@ -223,8 +242,6 @@ export default function DashboardClient({
                   <CertificationCard
                     key={cert.id}
                     certification={cert}
-                    provider={provider}
-                    progress={progress}
                     attempts={attempts.length}
                     passed={passed}
                     questionsCount={questionsCount}
@@ -270,6 +287,12 @@ export default function DashboardClient({
           </div>
         </div>
       </footer>
+      
+      {/* Gamification Dashboard */}
+      <GamificationDashboard 
+        isOpen={showGamification}
+        onClose={() => setShowGamification(false)}
+      />
     </div>
   );
 }
@@ -298,16 +321,12 @@ function StatCard({
 
 function CertificationCard({
   certification,
-  provider,
-  progress,
   attempts,
   passed,
   questionsCount,
   completedLessonsCountMap,
 }: {
   certification: any;
-  provider: any;
-  progress: any;
   attempts: number;
   passed: boolean;
   questionsCount: number;
@@ -401,7 +420,7 @@ function CertificationCard({
               Practice Exam Locked
             </button>
             <Link
-              href={`/learning/${certification.slug}`}
+              href={`/dashboard/learning/${certification.slug}`}
               className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-techvaults-red text-white rounded-lg text-sm font-semibold hover:bg-red-700 active:scale-95 transition-all min-h-[44px]"
             >
               <BookOpen className="w-4 h-4" />
@@ -419,7 +438,7 @@ function CertificationCard({
             </Link>
             {totalLessons > 0 && (
               <Link
-                href={`/learning/${certification.slug}`}
+                href={`/dashboard/learning/${certification.slug}`}
                 className="w-full flex items-center justify-center gap-2 px-4 py-1.5 border border-techvaults-gray-300 text-techvaults-gray-600 rounded-lg text-xs font-semibold hover:border-techvaults-red hover:text-techvaults-red transition-all min-h-[32px]"
               >
                 Review Course Materials

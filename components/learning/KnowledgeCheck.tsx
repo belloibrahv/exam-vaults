@@ -9,6 +9,7 @@ import {
   Lightbulb,
   RefreshCw,
 } from 'lucide-react';
+import { useXPNotification } from '@/components/gamification/XPNotification';
 
 interface KnowledgeCheckData {
   id: string;
@@ -35,6 +36,7 @@ export default function KnowledgeCheck({ lessonId }: KnowledgeCheckProps) {
   const [showResult, setShowResult] = useState(false);
   const [submittedAnswer, setSubmittedAnswer] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showNotification } = useXPNotification();
 
   const fetchKnowledgeChecks = async () => {
     try {
@@ -83,6 +85,11 @@ export default function KnowledgeCheck({ lessonId }: KnowledgeCheckProps) {
         const result = await response.json();
         setSubmittedAnswer(result);
         setShowResult(true);
+        
+        // Show XP notification for correct answers
+        if (result.isCorrect) {
+          showNotification(10, 'Correct answer! +10 XP');
+        }
         
         // Update local state
         setKnowledgeChecks(prev => prev.map(check => 

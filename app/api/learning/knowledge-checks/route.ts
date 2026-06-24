@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { GamificationService, XP_VALUES } from '@/lib/gamification';
+import { GoalType } from '@prisma/client';
 
 const submitAnswerSchema = z.object({
   knowledgeCheckId: z.string(),
@@ -80,6 +82,18 @@ export async function POST(request: NextRequest) {
         isCorrect,
       },
     });
+
+    // Gamification updates for correct answers
+    if (isCorrect) {
+      await GamificationService.awardXP(
+        session.user.id,
+        XP_VALUES.QUIZ_CORRECT_ANSWER,
+        'Correct quiz answer'
+      );
+
+      // Update daily goals
+      await GamificationService.updateDailyGoals(session.user.id, GoalType.QUIZZES_COMPLETED, 1);
+    }
 
     return NextResponse.json({
       success: true,

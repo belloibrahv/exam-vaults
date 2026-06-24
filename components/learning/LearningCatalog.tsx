@@ -215,7 +215,7 @@ export default function LearningCatalog({ certifications }: LearningCatalogProps
 
               {/* Card Actions */}
               <div className="px-6 py-4">
-                <Link href={`/learning/${cert.slug}`}>
+                <Link href={`/dashboard/learning/${cert.slug}`}>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}

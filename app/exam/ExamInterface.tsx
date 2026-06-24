@@ -27,12 +27,14 @@ interface ExamInterfaceProps {
   examAttemptId: string;
   questions: Question[];
   userId: string;
+  certificationName: string;
 }
 
 export default function ExamInterface({
   examAttemptId,
   questions,
   userId,
+  certificationName,
 }: ExamInterfaceProps) {
   const router = useRouter();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -143,7 +145,7 @@ export default function ExamInterface({
               <ExamVaultsLogo size={28} variant="full" className="flex-shrink-0" />
               <div className="min-w-0">
                 <h1 className="text-sm md:text-lg font-bold text-techvaults-black truncate">
-                  GCDL Practice Exam
+                  {certificationName} Practice Exam
                 </h1>
                 <p className="text-xs text-techvaults-gray-600">
                   {currentQuestionIndex + 1}/{questions.length}

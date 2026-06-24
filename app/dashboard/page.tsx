@@ -126,13 +126,38 @@ export default async function DashboardPage() {
     const totalQuestions = totalQuestionsResult.status === 'fulfilled' ? totalQuestionsResult.value : 0;
 
     // Check if any critical queries failed
-    const failedResults = [providersResult, userProgressResult, examAttemptsResult, completedLessonsResult, totalQuestionsResult]
-      .filter(result => result.status === 'rejected');
+    const failedResults = [];
+    const errorDetails = [];
+    
+    if (providersResult.status === 'rejected') {
+      failedResults.push('providers');
+      errorDetails.push(`Providers: ${providersResult.reason?.message || providersResult.reason}`);
+    }
+    if (userProgressResult.status === 'rejected') {
+      failedResults.push('user progress');
+      errorDetails.push(`User Progress: ${userProgressResult.reason?.message || userProgressResult.reason}`);
+    }
+    if (examAttemptsResult.status === 'rejected') {
+      failedResults.push('exam attempts');
+      errorDetails.push(`Exam Attempts: ${examAttemptsResult.reason?.message || examAttemptsResult.reason}`);
+    }
+    if (completedLessonsResult.status === 'rejected') {
+      failedResults.push('completed lessons');
+      errorDetails.push(`Completed Lessons: ${completedLessonsResult.reason?.message || completedLessonsResult.reason}`);
+    }
+    if (totalQuestionsResult.status === 'rejected') {
+      failedResults.push('questions count');
+      errorDetails.push(`Questions Count: ${totalQuestionsResult.reason?.message || totalQuestionsResult.reason}`);
+    }
 
-    if (failedResults.length > 0) {
+    // Only show error if critical data (providers) failed or if most queries failed
+    if (providersResult.status === 'rejected' || failedResults.length >= 3) {
       dashboardData.hasErrors = true;
-      dashboardData.errorDetails = `${failedResults.length} data source(s) unavailable`;
-      console.warn('[Dashboard] Partial loading errors:', failedResults.map(r => r.status === 'rejected' ? r.reason : null));
+      dashboardData.errorDetails = `${failedResults.length} data source(s) unavailable: ${failedResults.join(', ')}`;
+      
+      // Log detailed error information for debugging
+      console.warn('[Dashboard] Partial loading errors:');
+      errorDetails.forEach(error => console.warn(`  - ${error}`));
     }
 
     const completedLessonsCountMap: Record<string, number> = {};

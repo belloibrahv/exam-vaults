@@ -200,6 +200,7 @@ export default async function StartExamPage({
       examAttemptId={examAttempt.id}
       questions={selectedQuestions}
       userId={session.user.id}
+      certificationName={certification.name}
     />
   );
 }
