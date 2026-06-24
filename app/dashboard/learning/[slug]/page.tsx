@@ -62,8 +62,10 @@ export default async function DashboardCertificationPage({ params }: DashboardCe
   }
 
   return (
-    <DashboardLayout user={session.user} currentPage={`${certification.name} - Learning`}>
-      <CertificationOverview certification={certification} userId={session.user.id} />
+    <DashboardLayout user={session.user} currentPage={`${certification.name} - Learning`} fullWidth>
+      <div className="min-h-screen bg-gray-50">
+        <CertificationOverview certification={certification} userId={session.user.id} />
+      </div>
     </DashboardLayout>
   );
 }

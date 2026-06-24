@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client';
 import { hash } from 'bcryptjs';
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
+import { seedAWSCloudPractitioner } from './seed-aws-cloud-practitioner.js';
+import { seedGCPCloudDigitalLeader } from './seed-gcp-cloud-digital-leader.js';
 
 const prisma = new PrismaClient();
 
@@ -1429,6 +1431,16 @@ Google Cloud operates the cleanest cloud in the industry, which directly support
   
   console.log(`✅ Created ${createdCount} GCDL questions`);
   console.log(`✅ Created ${questions.length} questions`);
+
+  // Add real exam content for AWS and other certifications
+  console.log('\n📚 Seeding comprehensive exam content...');
+  try {
+    await seedAWSCloudPractitioner();
+    await seedGCPCloudDigitalLeader();
+    console.log('✅ Real exam content seeded successfully');
+  } catch (error) {
+    console.warn('⚠️ Some exam content seeding failed:', error);
+  }
 
   console.log('🎉 Seeding completed successfully!');
   console.log('\n� Question Bank Summary:');

@@ -46,18 +46,20 @@ export default async function DashboardLearningPage() {
   });
 
   return (
-    <DashboardLayout user={session.user} currentPage="Learning Center">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Learning Center
-          </h1>
-          <p className="text-lg text-gray-600">
-            Master cloud certifications with interactive learning paths designed for TechVaults engineers.
-          </p>
-        </div>
+    <DashboardLayout user={session.user} currentPage="Learning Center" fullWidth>
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Learning Center
+            </h1>
+            <p className="text-lg text-gray-600">
+              Master cloud certifications with interactive learning paths designed for TechVaults engineers.
+            </p>
+          </div>
 
-        <LearningCatalog certifications={certifications} />
+          <LearningCatalog certifications={certifications} />
+        </div>
       </div>
     </DashboardLayout>
   );
