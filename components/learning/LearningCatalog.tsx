@@ -10,7 +10,10 @@ import {
   Trophy,
   Star,
   Filter,
-  Search
+  Search,
+  Brain,
+  Layers,
+  Sparkles
 } from 'lucide-react';
 import Link from 'next/link';
 import CloudProviderLogo from '@/components/CloudProviderLogo';
@@ -129,6 +132,79 @@ export default function LearningCatalog({ certifications }: LearningCatalogProps
 
       {/* Certification Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-200"
+        >
+          <div className="p-6 pb-4">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-950 text-white">
+                  <Brain className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 text-lg">
+                    Cloud Foundations
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Concept mastery track
+                  </p>
+                </div>
+              </div>
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 text-techvaults-red">
+                <Sparkles className="w-3 h-3 mr-1" />
+                New
+              </span>
+            </div>
+
+            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+              Learn the background knowledge behind cloud exams with deep explanations, source-backed definitions,
+              concept visuals, and quizzes that grow as mastery improves.
+            </p>
+
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div className="rounded-lg bg-gray-50 p-3">
+                <div className="text-lg font-semibold text-gray-900">3</div>
+                <div className="text-xs text-gray-600">topics</div>
+              </div>
+              <div className="rounded-lg bg-gray-50 p-3">
+                <div className="text-lg font-semibold text-gray-900">10+</div>
+                <div className="text-xs text-gray-600">quiz start</div>
+              </div>
+              <div className="rounded-lg bg-gray-50 p-3">
+                <div className="text-lg font-semibold text-gray-900">4</div>
+                <div className="text-xs text-gray-600">levels</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
+            <div className="flex items-center justify-between text-sm text-gray-600">
+              <span className="flex items-center">
+                <Layers className="w-4 h-4 mr-1" />
+                Provider-neutral
+              </span>
+              <span className="flex items-center">
+                <BookOpen className="w-4 h-4 mr-1" />
+                Cited lessons
+              </span>
+            </div>
+          </div>
+
+          <div className="px-6 py-4">
+            <Link href="/dashboard/learning/cloud-foundations">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-techvaults-red text-white py-2.5 rounded-lg font-medium hover:bg-red-700 transition-colors"
+              >
+                Start Foundations
+              </motion.button>
+            </Link>
+          </div>
+        </motion.div>
+
         {filteredCertifications.map((cert, index) => {
           const progress = calculateProgress(cert);
           const totalLessons = cert.learningModules.reduce((acc: number, module: any) => 
